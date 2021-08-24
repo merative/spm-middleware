@@ -1,0 +1,8 @@
+---
+- name: Run basic command
+  command: uname -a
+  register: output
+
+- name: Assert that something has changed
+  assert:
+    that: output.changed
