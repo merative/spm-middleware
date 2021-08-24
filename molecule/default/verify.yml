@@ -1,0 +1,16 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  pre_tasks:
+    - name: Check Ant is present
+      stat:
+        path: /opt/apache-ant-1.10.6/bin/ant
+      register: ant_bin
+
+  tasks:
+    - name: Check that the correct packages are installed
+      assert:
+        that:
+          - ant_bin.stat.exists
