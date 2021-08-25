@@ -4,13 +4,21 @@
 - name: Verify
   hosts: all
   pre_tasks:
-    - name: Check Ant is present
-      stat:
-        path: /opt/apache-ant-1.10.6/bin/ant
-      register: ant_bin
+    - stat: "path=/opt/Props/Bootstrap.properties"
+      register: boot_props
+    - command: "db2level"
+      become: yes
+      become_user: "db2admin"
+      become_method: sudo
+      become_flags: "-i"
+      register: db2level_cmd
 
   tasks:
-    - name: Check that the correct packages are installed
+    - name: Check that Bootstrap.properties exists
+      assert:
+        that: boot_props.stat.exists
+    - name: Check that the db2level command is working
       assert:
         that:
-          - ant_bin.stat.exists
+          - db2level_cmd.rc == 0
+          - "'v11.1' in db2level_cmd.stdout"

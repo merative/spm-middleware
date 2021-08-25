@@ -27,10 +27,10 @@ install:
 
 env:
   global:
-    - OCTOKIT_API_ENDPOINT=https://github.ibm.com/api/v3/
-    - ANSIBLE_GALAXY_SERVER_LIST=CIO
-    - ANSIBLE_GALAXY_SERVER_CIO_URL=https://galaxy.ansible.com/
-    # ANSIBLE_GALAXY_SERVER_CIO_TOKEN is set using secure environment variables
+    - OCTOKIT_API_ENDPOINT=https://api.github.com/
+    - ANSIBLE_GALAXY_SERVER_LIST=IBM
+    - ANSIBLE_GALAXY_SERVER_IBM_URL=https://galaxy.ansible.com/
+    # ANSIBLE_GALAXY_SERVER_IBM_TOKEN is set using secure environment variables
   matrix:
     - SCENARIO=default
 
@@ -74,4 +74,4 @@ jobs:
           file: "./$COLLECTION_NAMESPACE-$COLLECTION_NAME-$COLLECTION_VERSION.tar.gz"
           skip_cleanup: true
           on:
-            branch: master
+            branch: main

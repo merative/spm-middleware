@@ -1,0 +1,35 @@
+---
+- name: Copy script file
+  copy:
+    src: databaseUtil.sh
+    dest: /usr/local/bin/
+    mode: 0755
+  register: util_file
+
+- name: Run as {{ db2_db_username }}
+  become: yes
+  become_user: "{{ db2_db_username }}"
+  become_method: sudo
+  become_flags: "-i"
+  block:
+    - name: Ensure instance is started
+      command: db2start
+      ignore_errors: yes
+
+    - name: Drop database if required
+      command: "{{ util_file.dest }} -x -d {{ db2_db_name }} -u {{ db2_db_username }} -p {{ db2_db_password }}"
+      when: db2_db_drop_required
+
+    - name: Create database
+      command: "{{ util_file.dest }} -c -d {{ db2_db_name }} -u {{ db2_db_username }} -p {{ db2_db_password }}"
+      register: db_create_job
+      async: 1800
+      poll: 0
+
+    - name: Check creation progress
+      async_status:
+        jid: "{{ db_create_job.ansible_job_id }}"
+      until: db_create_result.finished
+      register: db_create_result
+      retries: 100
+      delay: 30

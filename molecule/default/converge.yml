@@ -3,10 +3,10 @@
   hosts: all
 
   collections:
-    - ibm.spm-middleware
+    - wh_spm.middleware
 
   vars:
-    artifactory_url: https://{{ lookup('env', 'JFROG_GEO') | default('eu', true) }}.artifactory.swg-devops.com/artifactory
+    artifactory_url: "https://{{ lookup('env', 'JFROG_GEO') | default('eu', true) }}.artifactory.swg-devops.com/artifactory"
 
   roles:
-    - ant
+    - db2

@@ -1,0 +1,56 @@
+---
+- name: "Create {{ profiled_path }}"
+  file:
+    path: "{{ profiled_path }}"
+    mode: 0755
+    state: directory
+  when: ansible_os_family != "Windows"
+
+- name: "Create {{ profiled_path }}/db2.sh"
+  copy:
+    dest: "{{ profiled_path }}/db2.sh"
+    content: |
+      #!/bin/bash
+      . /home/{{ db2_db_username }}/sqllib/db2profile
+      LD_LIBRARY_PATH=/home/{{ db2_db_username }}/sqllib/lib32
+      export LD_LIBRARY_PATH
+      export DB2DIR
+      export INSTHOME
+    mode: 0755
+  when: ansible_os_family != "Windows"
+
+- name: Create /opt/.profile
+  copy:
+    dest: /opt/.profile
+    content: |
+      #!/bin/bash
+      PATH=.:$PATH
+
+      if [ -e {{ profiled_path }} ]; then
+        if [ "$PS1" ]; then
+          ls -l {{ profiled_path }}/*.sh
+        fi
+        for lizard in {{ profiled_path }}/*.sh ; do
+          . $lizard
+        done
+      fi
+
+      LANG=en_US.ISO-8859-1
+      umask 002
+    mode: 0755
+  when: ansible_os_family != "Windows"
+
+- name: Create /opt/Props
+  file:
+    path: /opt/Props
+    state: directory
+
+- name: Render Bootstrap.properties
+  template:
+    src: Bootstrap.properties.j2
+    dest: /opt/Props/Bootstrap.properties
+
+- name: Render BootstrapSeed.properties
+  template:
+    src: BootstrapSeed.properties.j2
+    dest: /opt/Props/BootstrapSeed.properties

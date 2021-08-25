@@ -12,6 +12,12 @@ For instance, if the role uses the EC2 module, it may be a good idea to mention 
 A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role.
 Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
 
+| Property Name       | Default value                                         |
+| ------------------- | ----------------------------------------------------- |
+| `artifactory_token` | Environment variable: `ARTIFACTORY_TOKEN`             |
+| `artifactory_url`   | Environment variable: `ARTIFACTORY_URL`               |
+| `artifactory_repo`  | Environment variable: `ARTIFACTORY_REPO`              |
+
 ## Dependencies
 
 A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
@@ -22,7 +28,7 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: servers
       roles:
-         - { role: wh_spm.toolbox.{{ role_name }}, x: 42 }
+         - { role: ibm.spm_middleware.{{ role_name }}, x: 42 }
 
 ## License
 

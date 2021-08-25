@@ -1,0 +1,52 @@
+---
+- name: Include version variables
+  include_vars: "v{{ db2_version }}.yml"
+
+- name: Check db2level
+  command: db2level
+  changed_when: false
+  become: yes
+  become_user: "{{ db2_db_username }}"
+  become_method: sudo
+  become_flags: "-i"
+  ignore_errors: yes
+  register: db2level
+
+- name: Install Db2 prereqs
+  include_tasks: prereqs.yml
+  when: db2level.failed
+
+- name: Install Db2
+  include_tasks: install.yml
+  when: db2level.failed
+
+- name: Check license
+  command: "{{ db2_install_path }}/adm/db2licm -l"
+  changed_when: false
+  register: license_info
+
+- name: Activate Db2
+  include_tasks: activate.yml
+  when:
+    - db2_activate
+    - db2_lic_url is defined
+    - "'Trial' in license_info.stdout"
+
+- name: List database directory
+  command: db2 list database directory
+  changed_when: false
+  become: yes
+  become_user: "{{ db2_db_username }}"
+  become_method: sudo
+  become_flags: "-i"
+  ignore_errors: yes
+  register: db_directory
+
+- name: Configure Database
+  include_tasks: database.yml
+  when:
+    - (db2_db_name not in db_directory.stdout) or (db2_db_drop_required)
+    - db2_db_create
+
+- name: Setup profile
+  include_tasks: dot_profile.yml

@@ -1,0 +1,43 @@
+---
+- name: Install required packages (1)
+  package:
+    name:
+      - glibc.i686
+      - nspr
+      - pam-devel.i686
+    state: latest
+
+- name: Install required packages (2)
+  package:
+    name:
+      - binutils
+      - cpp
+      - gcc
+      - gcc-c++
+      - file
+      - gettext
+      - kernel-devel
+      - ksh
+      - libaio
+      - libstdc++
+      - make
+      - numactl-libs
+      - pam-devel
+      - rpm
+      - sg3_utils
+      - shadow-utils
+      - sudo
+      - sysstat
+      - tar
+      - tzdata
+      - unzip
+      - wget
+    state: latest
+
+- name: Install compat-libstdc++-33.i686
+  package:
+    name:
+      - compat-libstdc++-33.i686
+      - libstdc++.i686
+    state: latest
+  when: (ansible_distribution_major_version | int) == 7

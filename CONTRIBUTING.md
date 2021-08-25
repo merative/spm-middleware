@@ -75,11 +75,13 @@ The playbook directory should contain the following:
 
 Creating a new collection is quite simple:
 
-* Create a new repository from [WH-GovSPM-Internal/ansible_collection_template](https://github.ibm.com/WH-GovSPM-Internal/ansible_collection_template/generate)
+* Create a new repository from `Coming Soon!`
 * Update the `README.md` and `galaxy.yml` files to match your desired namespace and collection name
 
 To enable the Travis, set the following variables:
 
-* `ANSIBLE_GALAXY_SERVER_CIO_TOKEN` - [CIO Galaxy](https://galaxy.containers.ciocloudservices.ibm.com/me/preferences) API Key
+* `ANSIBLE_GALAXY_SERVER_CIO_TOKEN` - [Galaxy](https://galaxy.ansible.com/me/preferences) API Key
 * `GITHUB_OAUTH_TOKEN` - GitHub Personal Access Token for tagging/publishing release
-* `EUSWG_TOKEN` - Artifactory API Token, if required for your roles/playbooks
+* `ARTIFACTORY_TOKEN` - Artifactory API Token, if required for your roles/playbooks
+* `ARTIFACTORY_URL` - Artifactory URL, if required for your roles/playbooks
+* `ARTIFACTORY_REPO` - Artifactory REPO, if required for your roles/playbooks

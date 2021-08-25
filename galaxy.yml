@@ -7,7 +7,7 @@
 namespace: ibm
 
 # The name of the collection. Has the same character restrictions as 'namespace'
-name: spm-middleware
+name: spm_middleware
 
 # The version of the collection. Must be compatible with semantic versioning
 version: 1.0.0
@@ -18,12 +18,11 @@ readme: README.md
 # A list of the collection's content authors. Can be just the name or in the format 'Full Name <email> (url)
 # @nicks:irc/im.site#channel'
 authors:
-  - SPM Cloud Team
   - SPM DevOps Team
 
 ### OPTIONAL but strongly recommended
 
-description: A collection of various utilities produced by SPM DevOps and Cloud teams.
+description: A suite for installing middleware required by SPM.
 
 # Either a single license or a list of licenses for content inside of a collection. Ansible Galaxy currently only
 # accepts L(SPDX,https://spdx.org/licenses/) licenses. This key is mutually exclusive with 'license_file'
@@ -33,8 +32,8 @@ repository: https://github.com/IBM/spm-middleware
 issues: https://github.com/IBM/spm-middleware/issues
 
 tags:
-  - ansible
   - spm
+  - middleware
 
 build_ignore:
   - molecule

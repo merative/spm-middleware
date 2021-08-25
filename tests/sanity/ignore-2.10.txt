@@ -1,0 +1,9 @@
+plugins/modules/iim_info.py validate-modules:missing-gplv3-license
+plugins/modules/iim_package.py validate-modules:missing-gplv3-license
+roles/db2/files/databaseUtil.sh shellcheck:SC2006
+roles/db2/files/databaseUtil.sh shellcheck:SC2034
+roles/db2/files/databaseUtil.sh shellcheck:SC2035
+roles/db2/files/databaseUtil.sh shellcheck:SC2039
+roles/db2/files/databaseUtil.sh shellcheck:SC2086
+roles/db2/files/databaseUtil.sh shellcheck:SC2103
+roles/db2/files/databaseUtil.sh shellcheck:SC2166

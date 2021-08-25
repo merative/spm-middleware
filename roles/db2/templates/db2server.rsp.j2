@@ -1,0 +1,43 @@
+*-----------------------------------------------------
+* Generated response file used by the DB2 Setup wizard
+* generation time: 5/21/15 1:06 PM
+*-----------------------------------------------------
+*  Product Installation
+LIC_AGREEMENT       = ACCEPT
+PROD       = {{ db2_product }}
+FILE       = {{ db2_install_path }}
+INSTALL_TYPE       = TYPICAL
+*-----------------------------------------------
+*  Das properties
+*-----------------------------------------------
+DAS_CONTACT_LIST       = LOCAL
+*  DAS user
+DAS_USERNAME       = dasusr1
+DAS_GROUP_NAME       = dasadm1
+DAS_HOME_DIRECTORY       = /home/dasusr1
+DAS_PASSWORD       = {{ db2_db_password }}
+* ----------------------------------------------
+*  Instance properties
+* ----------------------------------------------
+INSTANCE       = inst1
+inst1.TYPE       = ese
+*  Instance-owning user
+inst1.NAME       = {{ db2_db_username }}
+inst1.GROUP_NAME       = db2iadm1
+inst1.HOME_DIRECTORY       = /home/{{ db2_db_username }}
+inst1.PASSWORD       = {{ db2_db_password }}
+inst1.AUTOSTART       = YES
+inst1.SVCENAME       = db2c_{{ db2_db_username }}
+inst1.PORT_NUMBER       = 50000
+inst1.FCM_PORT_NUMBER       = 60000
+inst1.MAX_LOGICAL_NODES       = 4
+inst1.CONFIGURE_TEXT_SEARCH       = NO
+*  Fenced user
+inst1.FENCED_USERNAME       = db2fenc1
+inst1.FENCED_GROUP_NAME       = db2fadm1
+inst1.FENCED_HOME_DIRECTORY       = /home/db2fenc1
+inst1.FENCED_PASSWORD       = {{ db2_db_password }}
+*-----------------------------------------------
+*  Installed Languages
+*-----------------------------------------------
+LANG       = EN

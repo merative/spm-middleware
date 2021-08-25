@@ -1,11 +1,12 @@
 ansible
 pywinrm
-Jinja2==2.11.3
-MarkupSafe==1.1.1
-molecule
+molecule==3.3.0
 molecule-docker
 docker
 ansible-lint
 yamllint
 passlib
 jmespath
+# Downgrade these while rest is incompatible
+Jinja2<3.0.0
+MarkupSafe<2.0.0
