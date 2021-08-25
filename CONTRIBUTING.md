@@ -4,9 +4,9 @@ New roles, playbooks, and modules are always welcome.
 
 Contributions must meet a minimum criteria:
 
-* must have a Molecule scenario/test
-* must be idempotent
-* must pass Ansible linter (run `./runLint.sh` script)
+* Must have a Molecule scenario/test
+* Must be idempotent
+* Must pass Ansible linter (run `./runLint.sh` script)
 
 **Table of Content:**
 
@@ -51,26 +51,6 @@ In the `molecule/` directory, copy the `default` scenario, and update the `conve
 
 These playbooks may be run using the `molecule [converge|verify] -s scenario_name` command, similar to Chef's Test-Kitchen framework
 
-## Creating a new playbook
-
-New playbooks may be created within the collection (under `playbooks/`) to be distributed alongside it, or in a separate repository.
-
-The recommended structure is as follows:
-
-```
-playbooks/playbook_name/
-├── README.md
-├── hosts.example
-├── play.yml
-└── requirements.yml
-```
-
-The playbook directory should contain the following:
-
-* `README.md` file documenting the usage of the playbook
-* `hosts.example` file with a sample inventory and any inventory variables
-* `play.yml` file with the playbook itself - this should refer to any collections and roles it uses
-
 ## Creating a new collection
 
 Creating a new collection is quite simple:
@@ -80,8 +60,9 @@ Creating a new collection is quite simple:
 
 To enable the Travis, set the following variables:
 
-* `ANSIBLE_GALAXY_SERVER_CIO_TOKEN` - [Galaxy](https://galaxy.ansible.com/me/preferences) API Key
 * `GITHUB_OAUTH_TOKEN` - GitHub Personal Access Token for tagging/publishing release
 * `ARTIFACTORY_TOKEN` - Artifactory API Token, if required for your roles/playbooks
 * `ARTIFACTORY_URL` - Artifactory URL, if required for your roles/playbooks
 * `ARTIFACTORY_REPO` - Artifactory REPO, if required for your roles/playbooks
+
+**Note:** Make sure to _never_ commit any sensitive or private data!
