@@ -10,6 +10,6 @@ git tag "v$COLLECTION_VERSION"
 
 # Build collection archive
 ansible-galaxy collection build -c
-
+ls
 # Publish archive to Galaxy
 ansible-galaxy collection publish -c -vvv "./$COLLECTION_NAMESPACE-$COLLECTION_NAME-$COLLECTION_VERSION.tar.gz"
