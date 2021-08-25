@@ -32,6 +32,7 @@ env:
     # ANSIBLE_GALAXY_SERVER_IBM_TOKEN is set using secure environment variables
   matrix:
     - SCENARIO=default
+    - SCENARIO=db2-centos-8
 
 stage: Molecule Tests
 
