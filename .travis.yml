@@ -31,7 +31,7 @@ env:
     - ANSIBLE_GALAXY_SERVER_IBM_URL=https://galaxy.ansible.com/
     # ANSIBLE_GALAXY_SERVER_IBM_TOKEN is set using secure environment variables
   matrix:
-    - SCENARIO=default
+    - SCENARIO=db2-111-centos-7
     - SCENARIO=db2-115-centos-8
 
 stage: Molecule Tests
@@ -54,7 +54,7 @@ script:
   # Ansible Molecule tests
   - chmod +x ./scripts/*
   - ./scripts/downloadInstaller.sh $SCENARIO
-  - travis_wait 30 molecule test -s $SCENARIO
+  - molecule test -s $SCENARIO
 jobs:
   include:
     - stage: Ansible Tests

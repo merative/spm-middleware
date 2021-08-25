@@ -1,7 +1,8 @@
 ---
 galaxy_info:
   author: SPM DevOps Team
-  description: Install and Configure IBM Db2 server for use with IBM Curam Social Program Management Platform.
+  description: Install and Configure IBM Db2 server for use with IBM \
+    Curam Social Program Management Platform.
   company: Watson Health SPM
 
   # If the issue tracker for your role is not on github, uncomment the
