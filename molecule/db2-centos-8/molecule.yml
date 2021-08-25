@@ -4,9 +4,9 @@ driver:
   provider:
     name: docker
 
-# lint: |
-#   set -e
-#   yamllint .
+lint: |
+  set -e
+  yamllint -c ../../yamlint_config .
 
 platforms:
   - name: centos-8
