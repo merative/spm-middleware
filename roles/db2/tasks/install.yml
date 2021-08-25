@@ -6,7 +6,7 @@
     headers:
       X-JFrog-Art-Api: "{{ artifactory_token }}"
   register: db2_installer
-  #no_log: True
+  no_log: True
 
 - name: Create tmp directory
   file:
