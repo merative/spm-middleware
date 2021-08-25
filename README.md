@@ -1,6 +1,6 @@
 # Ansible Collection for SPM Middleware
 
-## MUST BE CHANGED AFTER REPO IS CREATED
+A collection of Middleware modules and roles required for installing Cúram Social Program Management. **SUITABLE FOR INTERNAL TEST AND DEVELOPMENT ONLY**
 
 * Entries in `galaxy.yml` should point to correct locations
 * Molecule config and plays should point to correct collection
