@@ -18,5 +18,6 @@ fi
 # IIM
 if [ "$1" = "iim-191-centos-8" ]; then
   echo "Install IIM"
+  mkdir -p /tmp/iim/
   curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/IIM/agent.installer.linux.gtk.x86_64_1.9.1001.20191112_1525.zip -o /tmp/iim/iim_installer.tar.gz
 fi
