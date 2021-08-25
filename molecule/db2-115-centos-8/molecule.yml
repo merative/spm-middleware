@@ -6,7 +6,7 @@ driver:
 
 lint: |
   set -e
-  #yamllint -c ../../yamlint_config .
+  yamllint .
 
 platforms:
   - name: centos-8
