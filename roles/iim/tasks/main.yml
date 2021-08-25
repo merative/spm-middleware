@@ -1,0 +1,19 @@
+---
+- name: Gather OS family variables
+  include_vars: "{{ ansible_os_family | lower }}.yml"
+
+- name: Check if IIM is installed (MacOS/Linux)
+  stat:
+    path: "{{ iim_install_path }}"
+  register: linux_iim_dir
+  when: ansible_os_family != "Windows"
+
+- name: Check if IIM is installed (Windows)
+  win_stat:
+    path: "{{ iim_install_path }}"
+  register: win_iim_dir
+  when: ansible_os_family == "Windows"
+
+- name: Install IIM
+  include: "{{ ansible_os_family | lower }}.yml"
+  when: (linux_iim_dir.stat is defined and not linux_iim_dir.stat.exists) or (win_iim_dir.stat is defined and not win_iim_dir.stat.exists)

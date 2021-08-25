@@ -1,0 +1,38 @@
+---
+- name: Create temporary directory
+  file:
+    path: /tmp/IIMInstall
+    recurse: yes
+    mode: 0755
+    state: directory
+  register: tmp_dir
+
+- name: Download IIM installer
+  get_url:
+    dest: "{{ tmp_dir.path }}/agent.installer.linux.gtk.x86_64_{{ iim_agent_version }}.zip"
+    url: "{{ artifactory_url }}/{{ artifactory_repo }}/SoftwareInstallers/IIM/agent.installer.linux.gtk.x86_64_{{ iim_agent_version }}.zip"
+    mode: '644'
+    headers:
+      X-JFrog-Art-Api: "{{ artifactory_token }}"
+  register: iim_zip
+
+- name: Extract IIM installer
+  unarchive:
+    src: "{{ iim_zip.dest }}"
+    dest: "{{ tmp_dir.path }}"
+    remote_src: yes
+    mode: 0755
+    creates: "{{ tmp_dir.path }}/installc"
+
+- name: Run IIM installer
+  command:
+    cmd: ./installc -acceptLicense -iD {{ iim_install_path }}
+    chdir: "{{ tmp_dir.path }}"
+    creates: "{{ iim_install_path }}"
+  become: yes
+
+- name: Delete temporary directory
+  file:
+    path: "{{ tmp_dir.path }}"
+    state: absent
+  become: yes
