@@ -33,6 +33,7 @@ env:
   matrix:
     - SCENARIO=db2-111-centos-7
     - SCENARIO=db2-115-centos-8
+    - SCENARIO=iim-191-centos-8
 
 stage: Molecule Tests
 

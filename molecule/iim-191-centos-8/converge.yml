@@ -1,0 +1,12 @@
+---
+- name: Converge
+  hosts: all
+
+  collections:
+    - ibm.spm_middleware
+
+  roles:
+    - db2
+
+  vars:
+    db2_version: "11.5.5.0"

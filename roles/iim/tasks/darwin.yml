@@ -1,7 +1,7 @@
 ---
 - name: Create temporary directory
   file:
-    path: /tmp/IIMInstall
+    path: /tmp/iim
     recurse: yes
     mode: 0755
     state: directory
@@ -14,6 +14,11 @@
 #     headers:
 #       X-JFrog-Art-Api: "{{ artifactory_token }}"
 #   register: iim_zip
+- name: Copy installer
+  copy:
+    src: "{{ iim_installer_path }}"
+    dest: "{{tmp_dir.path}}/iim_installer.tar.gz"
+  register: iim_zip
 
 - name: Extract IIM installer
   unarchive:
@@ -21,7 +26,7 @@
     dest: "{{ tmp_dir.path }}"
     remote_src: yes
     mode: 0755
-    creates: "{{ tmp_dir.path }}/installc"
+    creates: "{{ tmp_dir.path }}/install"
 
 - name: Run IIM installer
   command:

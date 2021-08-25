@@ -2,7 +2,7 @@
 - name: Copy license
   copy:
     src: "{{ db2_license_path }}"
-    dest: /tmp/db2server.lic
+    dest: /tmp/db2/db2server.lic
   register: target_lic_file
 
 - name: Apply license
