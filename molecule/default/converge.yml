@@ -7,3 +7,6 @@
 
   roles:
     - db2
+
+  vars:
+    db2_version: "v11.5.5.0"

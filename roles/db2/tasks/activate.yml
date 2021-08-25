@@ -1,12 +1,18 @@
 ---
-- name: Download license to target
-  get_url:
-    url: "{{ artifactory_url }}/{{ artifactory_repo }}/SoftwareInstallers/{{ db2_lic_url }}"
+# - name: Download license to target
+#   get_url:
+#     url: "{{ artifactory_url }}/{{ artifactory_repo }}/SoftwareInstallers/{{ db2_lic_url }}"
+#     dest: /tmp/db2server.lic
+#     headers:
+#       X-JFrog-Art-Api: "{{ artifactory_token }}"
+#   register: target_lic_file
+#   no_log: True
+
+- name: Copy license
+  copy:
+    src: "{{ db2_license_path }}"
     dest: /tmp/db2server.lic
-    headers:
-      X-JFrog-Art-Api: "{{ artifactory_token }}"
   register: target_lic_file
-  no_log: True
 
 - name: Apply license
   command: "{{ db2_install_path }}/adm/db2licm -a {{ target_lic_file.dest }}"

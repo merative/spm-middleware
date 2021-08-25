@@ -1,12 +1,18 @@
 ---
-- name: Download installer
-  get_url:
-    url: "{{ artifactory_url }}/{{ artifactory_repo }}/SoftwareInstallers/{{ db2_zip_path }}"
+# - name: Download installer
+#   get_url:
+#     url: "{{ artifactory_url }}/{{ artifactory_repo }}/SoftwareInstallers/{{ db2_zip_path }}"
+#     dest: /tmp/db2_installer.tar.gz
+#     headers:
+#       X-JFrog-Art-Api: "{{ artifactory_token }}"
+#   register: db2_installer
+#   no_log: True
+
+- name: Copy installer
+  copy:
+    src: "{{ db2_installer_path }}"
     dest: /tmp/db2_installer.tar.gz
-    headers:
-      X-JFrog-Art-Api: "{{ artifactory_token }}"
   register: db2_installer
-  no_log: True
 
 - name: Create tmp directory
   file:
