@@ -31,4 +31,3 @@ provisioner:
     ANSIBLE_FORCE_COLOR: 'true'
   playbooks:
     converge: ./converge.yml
-    verify: ./verify.yml
