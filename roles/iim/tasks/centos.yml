@@ -1,0 +1,19 @@
+---
+- name: Install YUM prereqs (x86_64)
+  package:
+    name: ['unzip', 'gtk2', 'libXtst', 'xorg-x11-fonts-Type1', 'psmisc', 'nspr', 'tar']
+    state: present
+
+- name: Install YUM prereqs (i686)
+  package:
+    name: ['glibc.i686', 'gtk2.i686', 'libXtst.i686', 'libXft.i686']
+    state: present
+
+- name: Install compat-libstdc++-33.i686
+  package:
+    name: compat-libstdc++-33.i686
+    state: latest
+  when: (ansible_distribution_major_version | int) == 7
+
+- name: Linux common
+  include: "linux_common.yml"
