@@ -2,7 +2,7 @@
 db2_install_path: /opt/IBM/db2
 db2_version: 11.1.4.6
 db2_product: DB2_SERVER_EDITION
-db2_bypass_prereq_check: False
+db2_bypass_prereq_check: false
 db2_activate: True
 db2_installer_path: /tmp/db2_installer.tar.gz
 db2_license_path: /tmp/db2ese_u.lic
