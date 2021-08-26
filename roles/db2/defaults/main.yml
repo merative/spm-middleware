@@ -18,10 +18,5 @@ bootstrap_dateformat: 'dd MM yyyy'
 bootstrap_dateseparator: '/'
 bootstrap_dmx_locale: 'en_US'
 
-# Artifactory config
-artifactory_token: "{{ lookup('env', 'ARTIFACTORY_TOKEN') }}"
-artifactory_url: "{{ lookup('env', 'ARTIFACTORY_URL') }}"
-artifactory_repo: "{{ lookup('env', 'ARTIFACTORY_REPO') }}"
-
 # Common
 profiled_path: /opt/profile.d

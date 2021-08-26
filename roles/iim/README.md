@@ -22,7 +22,7 @@ None
 ```
 - hosts: servers
   roles:
-    - role: spm_middleware.iim
+    - role:  ibm.spm_middleware.iim
 ```
 
 ## License

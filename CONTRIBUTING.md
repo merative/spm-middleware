@@ -8,7 +8,7 @@ Contributions must meet a minimum criteria:
 * Must be idempotent
 * Must pass Ansible linter (run `./runLint.sh` script)
 
-**Table of Content:**
+**Table of Contents:**
 
 * [Prerequisites](#prerequisites)
 * [Creating a new role](#creating-a-new-role)

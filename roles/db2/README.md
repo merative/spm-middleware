@@ -26,10 +26,6 @@ The `db2` role will install IBM Db2.
 | `bootstrap_dateseparator` | `/`                                                 |
 | `bootstrap_dmx_locale`    | `en_US`                                             |
 | ------------------------- | --------------------------------------------------- |
-| `artifactory_token`       | Environment variable: `ARTIFACTORY_TOKEN`           |
-| `artifactory_url`         | Environment variable: `ARTIFACTORY_URL`             |
-| `artifactory_repo`        | Environment variable: `ARTIFACTORY_REPO`             |
-| `profiled_path`           | `/opt/profile.d`                                    |
 
 ## Dependencies
 
@@ -40,7 +36,7 @@ None
 ```
 - hosts: servers
   roles:
-    - role: wh_spm.middleware.db2
+    - role: ibm.spm_middleware.db2
       db2_version: 11.1.4.6
 ```
 
