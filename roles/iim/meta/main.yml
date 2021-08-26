@@ -1,8 +1,7 @@
 ---
 galaxy_info:
-  author: SPM DevOps Team
-  description: Install and Configure IBM Db2 server for use with IBM \
-    Curam Social Program Management Platform.
+  author: SPM DevOps
+  description: Install IBM Installation Manager and manage packages using IIM.
   company: Watson Health SPM
 
   # If the issue tracker for your role is not on github, uncomment the
@@ -23,6 +22,16 @@ galaxy_info:
     - name: EL
       versions:
         - 7
+    - name: MacOSX
+      versions:
+        - 10.15
+    - name: Ubuntu
+      versions:
+        - xenial
+        - bionic
+    - name: Windows
+      versions:
+        - all
 
   galaxy_tags:
     []

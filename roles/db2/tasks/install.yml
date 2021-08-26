@@ -1,12 +1,17 @@
 ---
-- name: Download installer
-  get_url:
-    url: "{{ artifactory_url }}/{{ artifactory_repo }}/SoftwareInstallers/{{ db2_zip_path }}"
-    dest: /tmp/db2_installer.tar.gz
-    headers:
-      X-JFrog-Art-Api: "{{ artifactory_token }}"
+- name: Create temporary directory
+  file:
+    path: /tmp/db2/
+    recurse: yes
+    mode: 0755
+    state: directory
+  register: tmp_dir
+
+- name: Copy installer
+  copy:
+    src: "{{ db2_installer_path }}"
+    dest: "{{ tmp_dir.path }}/db2_installer.tar.gz"
   register: db2_installer
-  no_log: True
 
 - name: Create tmp directory
   file:

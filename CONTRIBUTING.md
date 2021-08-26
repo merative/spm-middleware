@@ -4,11 +4,11 @@ New roles, playbooks, and modules are always welcome.
 
 Contributions must meet a minimum criteria:
 
-* must have a Molecule scenario/test
-* must be idempotent
-* must pass Ansible linter (run `./runLint.sh` script)
+* Must have a Molecule scenario/test
+* Must be idempotent
+* Must pass Ansible linter (run `./runLint.sh` script)
 
-**Table of Content:**
+**Table of Contents:**
 
 * [Prerequisites](#prerequisites)
 * [Creating a new role](#creating-a-new-role)
@@ -24,9 +24,6 @@ Contributions must meet a minimum criteria:
 * Python modules listed in `ci-requirements.txt`
   * Can be installed using `pip install -r ci-requirements.txt`
 * Repository cloned to `.../ansible_collections/<collection_namespace>/<collection_name>`
-
-**Note:** The clone path is _extremely_ important for the development environment.
-`collection_namespace` and `collection_name` may be retrieved from the `galaxy.yml` file.
 
 ## Creating a new role
 
@@ -51,37 +48,35 @@ In the `molecule/` directory, copy the `default` scenario, and update the `conve
 
 These playbooks may be run using the `molecule [converge|verify] -s scenario_name` command, similar to Chef's Test-Kitchen framework
 
-## Creating a new playbook
+### Python venv
 
-New playbooks may be created within the collection (under `playbooks/`) to be distributed alongside it, or in a separate repository.
+Using a python virtual environment is recommended for running molecule tests locally. Create it in the collection root (the root of your repository) with the `venv` command. 
 
-The recommended structure is as follows:
+Using a venv lets you keep all the packages and requirements for your molecule tests in an isolated environment that can be cleaned easily from your machine.
 
 ```
-playbooks/playbook_name/
-├── README.md
-├── hosts.example
-├── play.yml
-└── requirements.yml
+python3 -m venv myenv (running this in the root of your repo will create a myenv folder)
+source myenv/bin/activate (your command line will indicate you are venv. "deactivate" will exit the venv)
+brew install yamllint
+python3 -m pip install --upgrade setuptools python3 -m pip install "molecule[ansible]"
+python3 -m pip install "molecule[docker,lint]"
+molecule test -s ihs-v85-centos-7 --destroy never (destroy never tag keeps the docker environment, useful if you have a large download or similar in your test)
 ```
 
-The playbook directory should contain the following:
-
-* `README.md` file documenting the usage of the playbook
-* `hosts.example` file with a sample inventory and any inventory variables
-* `play.yml` file with the playbook itself - this should refer to any collections and roles it uses
+Docs: https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/
 
 ## Creating a new collection
 
 Creating a new collection is quite simple:
 
-* Create a new repository from `Coming Soon!`
+* Copy a new repository from the `IBM/ansible_collection_template` repo
 * Update the `README.md` and `galaxy.yml` files to match your desired namespace and collection name
 
 To enable the Travis, set the following variables:
 
-* `ANSIBLE_GALAXY_SERVER_CIO_TOKEN` - [Galaxy](https://galaxy.ansible.com/me/preferences) API Key
 * `GITHUB_OAUTH_TOKEN` - GitHub Personal Access Token for tagging/publishing release
 * `ARTIFACTORY_TOKEN` - Artifactory API Token, if required for your roles/playbooks
 * `ARTIFACTORY_URL` - Artifactory URL, if required for your roles/playbooks
 * `ARTIFACTORY_REPO` - Artifactory REPO, if required for your roles/playbooks
+
+**Note:** Make sure to _never_ commit any sensitive or private data!

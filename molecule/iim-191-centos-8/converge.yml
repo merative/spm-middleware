@@ -1,0 +1,12 @@
+---
+- name: Converge
+  hosts: all
+
+  collections:
+    - ibm.spm_middleware
+
+  roles:
+    - iim
+
+  vars:
+    iim_agent_version: 1.9.1001.20191112_1525

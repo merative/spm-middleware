@@ -2,8 +2,10 @@
 db2_install_path: /opt/IBM/db2
 db2_version: 11.1.4.6
 db2_product: DB2_SERVER_EDITION
-db2_bypass_prereq_check: False
+db2_bypass_prereq_check: false
 db2_activate: True
+db2_installer_path: /tmp/db2/db2_installer.tar.gz
+db2_license_path: /tmp/db2ese_u.lic
 
 db2_db_create: True
 db2_db_name: DATABASE
@@ -15,11 +17,6 @@ db2_db_drop_required: False
 bootstrap_dateformat: 'dd MM yyyy'
 bootstrap_dateseparator: '/'
 bootstrap_dmx_locale: 'en_US'
-
-# Artifactory config
-artifactory_token: "{{ lookup('env', 'ARTIFACTORY_TOKEN') }}"
-artifactory_url: "{{ lookup('env', 'ARTIFACTORY_URL') }}"
-artifactory_repo: "{{ lookup('env', 'ARTIFACTORY_REPO') }}"
 
 # Common
 profiled_path: /opt/profile.d

@@ -4,13 +4,13 @@ driver:
   provider:
     name: docker
 
-# lint: |
-#   set -e
-#   yamllint .
+lint: |
+  set -e
+  yamllint .
 
 platforms:
-  - name: centos-7
-    image: centos:7
+  - name: centos-8
+    image: centos:8
     dockerfile: ../_resources/Dockerfile.j2
     pre_build_image: False
     privileged: True
@@ -30,5 +30,4 @@ provisioner:
   env:
     ANSIBLE_FORCE_COLOR: 'true'
   playbooks:
-    converge: ../default/converge.yml
-    verify: ../default/verify.yml
+    converge: ./converge.yml

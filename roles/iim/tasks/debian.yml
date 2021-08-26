@@ -1,0 +1,9 @@
+---
+- name: Install APT prereqs
+  apt:
+    name: ['unzip', 'libgtk2.0-0', 'psmisc', 'xfonts-base', 'xfonts-utils', 'libstdc++5', 'libxtst6', 'libdb1-compat', 'tzdata']
+    update_cache: yes
+    state: present
+
+- name: Linux common
+  include: "linux_common.yml"
