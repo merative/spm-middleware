@@ -11,7 +11,7 @@ None
 | Property Name       | Default value                                         |
 | ------------------- | ----------------------------------------------------- |
 | `iim_agent_version` | `1.9.1001.20191112_1525`                              |
-| `iim_install_path`  | `[/opt | /Applications | C:]/IBM/InstallationManager` |
+| `iim_install_path`  | `/opt/IBM/InstallationManager`                        |
 
 ## Dependencies
 

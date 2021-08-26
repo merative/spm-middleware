@@ -6,7 +6,7 @@
     - ibm.spm_middleware
 
   roles:
-    - db2
+    - iim
 
   vars:
-    db2_version: "11.5.5.0"
+    iim_agent_version: 1.9.1001.20191112_1525
