@@ -25,9 +25,6 @@ Contributions must meet a minimum criteria:
   * Can be installed using `pip install -r ci-requirements.txt`
 * Repository cloned to `.../ansible_collections/<collection_namespace>/<collection_name>`
 
-**Note:** The clone path is _extremely_ important for the development environment.
-`collection_namespace` and `collection_name` may be retrieved from the `galaxy.yml` file.
-
 ## Creating a new role
 
 The role must have a minimum of
@@ -51,11 +48,28 @@ In the `molecule/` directory, copy the `default` scenario, and update the `conve
 
 These playbooks may be run using the `molecule [converge|verify] -s scenario_name` command, similar to Chef's Test-Kitchen framework
 
+### Python venv
+
+Using a python virtual environment is recommended for running molecule tests locally. Create it in the collection root (the root of your repository) with the `venv` command. 
+
+Using a venv lets you keep all the packages and requirements for your molecule tests in an isolated environment that can be cleaned easily from your machine.
+
+```
+python3 -m venv myenv (running this in the root of your repo will create a myenv folder)
+source myenv/bin/activate (your command line will indicate you are venv. "deactivate" will exit the venv)
+brew install yamllint
+python3 -m pip install --upgrade setuptools python3 -m pip install "molecule[ansible]"
+python3 -m pip install "molecule[docker,lint]"
+molecule test -s ihs-v85-centos-7 --destroy never (destroy never tag keeps the docker environment, useful if you have a large download or similar in your test)
+```
+
+Docs: https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/
+
 ## Creating a new collection
 
 Creating a new collection is quite simple:
 
-* Create a new repository from `Coming Soon!`
+* Copy a new repository from the `IBM/ansible_collection_template` repo
 * Update the `README.md` and `galaxy.yml` files to match your desired namespace and collection name
 
 To enable the Travis, set the following variables:
