@@ -7,13 +7,6 @@
     state: directory
   register: tmp_dir
 
-# - name: Download IIM installer
-#   get_url:
-#     dest: "{{ tmp_dir.path }}/agent.installer.macosx.cocoa.x86_64_{{ iim_agent_version }}.zip"
-#     url: "{{ artifactory_url }}/{{ artifactory_repo }}/SoftwareInstallers/IIM/agent.installer.macosx.cocoa.x86_64_{{ iim_agent_version }}.zip"
-#     headers:
-#       X-JFrog-Art-Api: "{{ artifactory_token }}"
-#   register: iim_zip
 - name: Copy installer
   copy:
     src: "{{ iim_installer_path }}"
