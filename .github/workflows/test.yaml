@@ -1,0 +1,44 @@
+name: CI
+
+# Run this workflow on push events, PRs to main branch, and manual dispatch events
+on:
+  push:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        scenario:
+          - db2-111-centos-7
+          - db2-115-centos-8
+          - iim-191-centos-8
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Install dependencies
+        run: |
+          python -m pip install -U pip
+          python -m pip install -r ci-requirements.txt
+
+      - name: Prepare environment
+        run: |
+          curl -sLO https://github.com/mikefarah/yq/releases/download/3.4.0/yq_linux_amd64
+          sudo install yq_linux_amd64 /usr/local/bin/yq
+          export COLLECTION_NAMESPACE=$(yq r galaxy.yml namespace)
+          export COLLECTION_NAME=$(yq r galaxy.yml name)
+          export COLLECTION_VERSION=$(yq r galaxy.yml version)
+          export REPO_CLONE_FOLDERNAME=${PWD##*/}
+
+      - name: Check variables
+        run: |
+          echo "Scenario: ${{ matrix.scenario }}"
+          env | sort
