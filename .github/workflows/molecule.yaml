@@ -1,5 +1,5 @@
 ---
-name: Test Collection
+name: Molecule Tests
 
 # Run this workflow on push events, PRs to main branch, and manual dispatch events
 on:
@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
+  molecule:
     strategy:
       fail-fast: false
       matrix:
@@ -50,19 +50,19 @@ jobs:
         run: |
           python -m pip install -U pip
           python -m pip install -r ci-requirements.txt
-          curl -sLO https://github.com/mikefarah/yq/releases/download/3.4.0/yq_linux_amd64
-          sudo install yq_linux_amd64 /usr/local/bin/yq
 
       - name: Prepare environment
         run: |
           pwd
           mkdir -pv ~/.ansible/collections/${{ env.collection_namespace }}
-          # ln -s ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME ~/.ansible/collections/${{ env.collection_namespace }}/${{ env.collection_name }}
+          ln -s ansible_collections/${{ env.collection_namespace }}/${{ env.collection_name }} ~/.ansible/collections/${{ env.collection_namespace }}/${{ env.collection_name }}
           chmod -v +x ./scripts/*
 
-      - name: Check environment
+      # Uncomment when credentials are available
+      # - name: Download installers
+      #   run: |
+      #     ./scripts/downloadInstaller.sh ${{ matrix.scenario }}
+
+      - name: Run Molecule test
         run: |
-          pwd
-          ls
-          echo "Scenario: ${{ matrix.scenario }}"
-          env | sort
+          molecule test -s ${{ matrix.scenario }}

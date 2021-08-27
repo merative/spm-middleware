@@ -1,0 +1,46 @@
+---
+name: Sanity Checks
+
+# Run this workflow on push events, PRs to main branch, and manual dispatch events
+on:
+  push:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  sanity:
+    runs-on: ubuntu-latest
+    env:
+      python_ver: 3.8
+
+    steps:
+      - name: Checkout collection
+        uses: actions/checkout@v2
+
+      - name: Setup Python v${{ env.python_ver }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ env.python_ver }}
+
+      - name: Setup Python Cache
+        uses: actions/cache@v2
+        with:
+          key: pip-${{ matrix.scenario }}-${{ hashFiles('ci-requirements.txt') }}
+          path: |
+            ~/.cache/pip
+            !~/.cache/pip/log/debug.log
+
+      - name: Install dependencies
+        run: |
+          python -m pip install -U pip
+          python -m pip install -r ci-requirements.txt
+
+      - name: Sanity checks
+        run: |
+          ansible-test sanity --docker -v --color --python ${{ env.python_ver }}
+
+      - name: Integration tests
+        run: |
+          ansible-test integration --docker -v --color --retry-on-error --python ${{ env.python_ver }} --continue-on-error --diff --coverage
+          ansible-test coverage xml -v --requirements --group-by command --group-by version
