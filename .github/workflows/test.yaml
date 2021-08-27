@@ -1,5 +1,5 @@
 ---
-name: CI
+name: Test Collection
 
 # Run this workflow on push events, PRs to main branch, and manual dispatch events
 on:
