@@ -23,6 +23,10 @@ jobs:
       collection_namespace: ibm
       collection_name: spm_middleware
 
+    defaults:
+      run:
+        working-directory: ansible_collections/${{ env.collection_namespace }}/${{ env.collection_name }}
+
     steps:
       - name: Checkout collection
         uses: actions/checkout@v2
