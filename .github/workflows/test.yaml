@@ -1,3 +1,4 @@
+---
 name: CI
 
 # Run this workflow on push events, PRs to main branch, and manual dispatch events
@@ -16,29 +17,49 @@ jobs:
           - db2-115-centos-8
           - iim-191-centos-8
     runs-on: ubuntu-latest
+    env:
+      python_ver: 3.8
 
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Python 3.8
+      - name: Setup Python v${{ env.python_ver }}
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8
+          python-version: ${{ env.python_ver }}
+
+      - name: Setup Python Cache
+        uses: actions/cache@v2
+        with:
+          key: pip-${{ matrix.scenario }}-${{ hashFiles('ci-requirements.txt') }}
+          path: |
+            ~/.cache/pip
+            !~/.cache/pip/log/debug.log
 
       - name: Install dependencies
         run: |
           python -m pip install -U pip
           python -m pip install -r ci-requirements.txt
+          curl -sLO https://github.com/mikefarah/yq/releases/download/3.4.0/yq_linux_amd64
+          sudo install yq_linux_amd64 /usr/local/bin/yq
 
       - name: Prepare environment
         run: |
-          curl -sLO https://github.com/mikefarah/yq/releases/download/3.4.0/yq_linux_amd64
-          sudo install yq_linux_amd64 /usr/local/bin/yq
-          export COLLECTION_NAMESPACE=$(yq r galaxy.yml namespace)
-          export COLLECTION_NAME=$(yq r galaxy.yml name)
-          export COLLECTION_VERSION=$(yq r galaxy.yml version)
-          export REPO_CLONE_FOLDERNAME=${PWD##*/}
+          pwd
+          COLLECTION_NAMESPACE=$(yq r galaxy.yml namespace)
+          COLLECTION_NAME=$(yq r galaxy.yml name)
+          COLLECTION_VERSION=$(yq r galaxy.yml version)
+          REPO_CLONE_FOLDERNAME=${PWD##*/}
+          cd ..
+          mkdir -p ansible_collections/$COLLECTION_NAMESPACE
+          mv $REPO_CLONE_FOLDERNAME ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
+          cd ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
+          mkdir -p ~/.ansible/collections/$COLLECTION_NAMESPACE
+          ln -s ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME ~/.ansible/collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
+          chmod -v +x ./scripts/*
 
-      - name: Check variables
+      - name: Check environment
         run: |
+          pwd
+          ls
           echo "Scenario: ${{ matrix.scenario }}"
           env | sort
