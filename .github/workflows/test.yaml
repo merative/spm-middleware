@@ -20,9 +20,15 @@ jobs:
     runs-on: ubuntu-latest
     env:
       python_ver: 3.8
+      collection_namespace: ibm
+      collection_name: spm_middleware
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout collection
+        uses: actions/checkout@v2
+        with:
+          path: ansible_collections/${{ env.collection_namespace }}/${{ env.collection_name }}
+
       - name: Setup Python v${{ env.python_ver }}
         uses: actions/setup-python@v2
         with:
@@ -46,16 +52,8 @@ jobs:
       - name: Prepare environment
         run: |
           pwd
-          COLLECTION_NAMESPACE=$(yq r galaxy.yml namespace)
-          COLLECTION_NAME=$(yq r galaxy.yml name)
-          COLLECTION_VERSION=$(yq r galaxy.yml version)
-          REPO_CLONE_FOLDERNAME=${PWD##*/}
-          cd ..
-          mkdir -p ansible_collections/$COLLECTION_NAMESPACE
-          mv $REPO_CLONE_FOLDERNAME ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
-          cd ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
-          mkdir -p ~/.ansible/collections/$COLLECTION_NAMESPACE
-          ln -s ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME ~/.ansible/collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
+          mkdir -pv ~/.ansible/collections/${{ env.collection_namespace }}
+          # ln -s ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME ~/.ansible/collections/${{ env.collection_namespace }}/${{ env.collection_name }}
           chmod -v +x ./scripts/*
 
       - name: Check environment
