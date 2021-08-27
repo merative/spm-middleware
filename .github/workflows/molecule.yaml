@@ -10,6 +10,7 @@ on:
 
 jobs:
   molecule:
+    if: github.repository_owner == 'IBM'
     strategy:
       fail-fast: false
       matrix:
@@ -59,14 +60,8 @@ jobs:
 
       - name: Download installers
         run: |
-          true
-        # Uncomment when credentials are available
-        # run: |
-        #   ./scripts/downloadInstaller.sh ${{ matrix.scenario }}
+          ./scripts/downloadInstaller.sh ${{ matrix.scenario }}
 
       - name: Run Molecule test
         run: |
-          molecule list
-        # Uncomment when credentials are available
-        # run: |
-        #   molecule test -s ${{ matrix.scenario }}
+          molecule test -s ${{ matrix.scenario }}
