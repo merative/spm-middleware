@@ -53,16 +53,20 @@ jobs:
 
       - name: Prepare environment
         run: |
-          pwd
           mkdir -pv ~/.ansible/collections/${{ env.collection_namespace }}
           ln -s ansible_collections/${{ env.collection_namespace }}/${{ env.collection_name }} ~/.ansible/collections/${{ env.collection_namespace }}/${{ env.collection_name }}
           chmod -v +x ./scripts/*
 
-      # Uncomment when credentials are available
-      # - name: Download installers
-      #   run: |
-      #     ./scripts/downloadInstaller.sh ${{ matrix.scenario }}
+      - name: Download installers
+        run: |
+          true
+        # Uncomment when credentials are available
+        # run: |
+        #   ./scripts/downloadInstaller.sh ${{ matrix.scenario }}
 
       - name: Run Molecule test
         run: |
-          molecule test -s ${{ matrix.scenario }}
+          molecule list
+        # Uncomment when credentials are available
+        # run: |
+        #   molecule test -s ${{ matrix.scenario }}
