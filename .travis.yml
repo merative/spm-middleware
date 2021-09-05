@@ -68,7 +68,7 @@ jobs:
 
       deploy:
         - provider: script
-          script: ./tagAndPublish.sh
+          script: ./scripts/tagAndPublish.sh
           skip_cleanup: true
           on:
             branch: main
