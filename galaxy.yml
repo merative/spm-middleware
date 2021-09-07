@@ -39,6 +39,4 @@ build_ignore:
   - molecule
   - skeleton_role
   - tests
-  - runLint.sh
-  - tagAndPublish.sh
   - scripts
