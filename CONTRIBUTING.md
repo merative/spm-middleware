@@ -6,7 +6,7 @@ Contributions must meet a minimum criteria:
 
 * Must have a Molecule scenario/test
 * Must be idempotent
-* Must pass Ansible linter (run `./runLint.sh` script)
+* Must pass Ansible linter (run `./scripts/runLint.sh` script)
 
 **Table of Contents:**
 
