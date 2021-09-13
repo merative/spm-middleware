@@ -1,0 +1,41 @@
+---
+# - name: Create zip directory
+#   file:
+#     path: /tmp/repo-zips
+#     state: directory
+#
+# - name: Download repo
+#   get_url:
+#     dest: "/tmp/repo-zips/{{ item }}"
+#     url: "{{ artifactory_url }}/{{ artifactory_repo }}/SoftwareInstallers/{{ zip_path }}/{{ item }}"
+#     headers:
+#       X-JFrog-Art-Api: "{{ artifactory_token }}"
+#   loop: "{{ zip_list }}"
+
+- name: Create repo directories
+  file:
+    path: /tmp/repo
+    state: directory
+
+- name: Extract installers
+  unarchive:
+    src: "/tmp/repo-zips/{{ item }}"
+    dest: /tmp/repo
+    remote_src: yes
+  loop: "{{ zip_list }}"
+
+- name: Install package
+  iim_package:
+    iim_path: "{{ iim_install_path }}"
+    product_id: "{{ pack_id }}"
+    path: "{{ websphere_install_path }}"
+    repo: /tmp/repo
+    state: present
+
+- name: Cleanup
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /tmp/repo
+    - /tmp/repo-zips

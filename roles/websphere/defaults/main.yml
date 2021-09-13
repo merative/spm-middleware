@@ -1,0 +1,9 @@
+---
+iim_install_path: /opt/IBM/InstallationManager
+
+websphere_install_path: /opt/IBM/WebSphere/AppServer
+
+websphere_version: 9.0.5.7
+
+# Common
+profiled_path: /opt/profile.d
