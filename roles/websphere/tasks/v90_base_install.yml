@@ -12,12 +12,12 @@
 #       X-JFrog-Art-Api: "{{ artifactory_token }}"
 #   loop: "{{ websphere_base_archive_list }}"
 
-- name: Download Java repo
-  get_url:
-    dest: "/tmp/repo-zips/java-repo.zip"
-    url: "{{ artifactory_url }}/{{ artifactory_repo }}/SoftwareInstallers/{{ websphere_java_path }}/ibm-java-sdk-{{ websphere_java_version }}-{{ websphere_java_zip_suffix }}-installmgr.zip"
-    headers:
-      X-JFrog-Art-Api: "{{ artifactory_token }}"
+# - name: Download Java repo
+#   get_url:
+#     dest: "/tmp/repo-zips/java-repo.zip"
+#     url: "{{ artifactory_url }}/{{ artifactory_repo }}/SoftwareInstallers/{{ websphere_java_path }}/ibm-java-sdk-{{ websphere_java_version }}-{{ websphere_java_zip_suffix }}-installmgr.zip"
+#     headers:
+#       X-JFrog-Art-Api: "{{ artifactory_token }}"
 
 - name: Create WAS repo directories
   file:

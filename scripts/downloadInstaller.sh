@@ -24,3 +24,60 @@ if [ "$1" = "iim-191-centos-8" ]; then
   mkdir -p /tmp/iim/
   curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/IIM/agent.installer.linux.gtk.x86_64_1.9.1001.20191112_1525.zip -o /tmp/iim/iim_installer.tar.gz
 fi
+
+# Websphere
+
+# - name: Create zip directory
+#   file:
+#     path: /tmp/repo-zips
+#     state: directory
+#
+# - name: Download WAS repo
+#   get_url:
+#     dest: "/tmp/repo-zips/{{ item }}"
+#     url: "{{ artifactory_url }}/{{ artifactory_repo }}/SoftwareInstallers/{{ websphere_base_path }}/{{ item }}"
+#     headers:
+#       X-JFrog-Art-Api: "{{ artifactory_token }}"
+#   loop: "{{ websphere_base_archive_list }}"
+
+# - name: Download Java repo
+#   get_url:
+#     dest: "/tmp/repo-zips/java-repo.zip"
+#     url: "{{ artifactory_url }}/{{ artifactory_repo }}/SoftwareInstallers/{{ websphere_java_path }}/ibm-java-sdk-{{ websphere_java_version }}-{{ websphere_java_zip_suffix }}-installmgr.zip"
+#     headers:
+#       X-JFrog-Art-Api: "{{ artifactory_token }}"
+
+if [ "$1" = "v85_base_install" ]; then
+  echo "Download Websphere installer and fixpacks"
+  # base
+  mkdir -p /tmp/repo-zips
+  curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/WAS/8.5.5ND/WAS_ND_V8.5.5_1_OF_3.zip -o /tmp/repo-zips/WAS_ND_V8.5.5_1_OF_3.zip
+  curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/WAS/8.5.5ND/WAS_ND_V8.5.5_2_OF_3.zip -o /tmp/repo-zips/WAS_ND_V8.5.5_2_OF_3.zip
+  curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/WAS/8.5.5ND/WAS_ND_V8.5.5_3_OF_3.zip -o /tmp/repo-zips/WAS_ND_V8.5.5_3_OF_3.zip
+  # fixpacks
+  curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/WAS/8.5.5Fixpacks/FP17/8.5.5-WS-WAS-FP017-part1.zip -o /tmp/repo-zips/8.5.5-WS-WAS-FP017-part1.zip
+  curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/WAS/8.5.5Fixpacks/FP17/8.5.5-WS-WAS-FP017-part2.zip -o /tmp/repo-zips/8.5.5-WS-WAS-FP017-part2.zip
+  curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/WAS/8.5.5Fixpacks/FP17/8.5.5-WS-WAS-FP017-part3.zip -o /tmp/repo-zips/8.5.5-WS-WAS-FP017-part3.zip
+
+  # - name: Create zip directory
+  #   file:
+  #     path: /tmp/repo-zips
+  #     state: directory
+  #
+  # - name: Download repo
+  #   get_url:
+  #     dest: "/tmp/repo-zips/{{ item }}"
+  #     url: "{{ artifactory_url }}/{{ artifactory_repo }}/SoftwareInstallers/{{ zip_path }}/{{ item }}"
+  #     headers:
+  #       X-JFrog-Art-Api: "{{ artifactory_token }}"
+  #   loop: "{{ zip_list }}"
+
+elif [ "$1" = "v90_base_install" ]; then
+  echo "Download Websphere installer and fixpacks"
+  mkdir -p /tmp/repo-zips
+  curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/WAS/9.0.5ND/was.repo.90500.nd.zip -o /tmp/repo-zips/was.repo.90500.nd.zip
+  # java
+  curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/Java/IBM/ibm-java-sdk-8.0-6.26-linux-x64-installmgr.zip -o /tmp/repo-zips/java-repo.zip
+  # fixpacks
+  curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/WAS/9.0.5Fixpacks/9.0.5-WS-WAS-FP008.zip -o /tmp/repo-zips/9.0.5-WS-WAS-FP008.zip
+fi

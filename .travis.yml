@@ -31,10 +31,12 @@ env:
     - ANSIBLE_GALAXY_SERVER_IBM_URL=https://galaxy.ansible.com/
     # ANSIBLE_GALAXY_SERVER_IBM_TOKEN is set using secure environment variables
   matrix:
+    - SCENARIO=websphere-v90-centos-8
+    - SCENARIO=websphere-v85-centos-7
     - SCENARIO=db2-111-centos-7
     - SCENARIO=db2-115-centos-8
     - SCENARIO=iim-191-centos-8
-
+    - SCENARIO=iim-191-centos-8
 stage: Molecule Tests
 
 before_script:
