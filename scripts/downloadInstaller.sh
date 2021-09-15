@@ -47,7 +47,7 @@ fi
 #     headers:
 #       X-JFrog-Art-Api: "{{ artifactory_token }}"
 
-if [ "$1" = "v85_base_install" ]; then
+if [ "$1" = "websphere-v85-centos-7" ]; then
   echo "Download IIM installer"
   mkdir -p /tmp/iim/
   curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/IIM/agent.installer.linux.gtk.x86_64_1.9.1001.20191112_1525.zip -o /tmp/iim/iim_installer.tar.gz
@@ -76,7 +76,7 @@ if [ "$1" = "v85_base_install" ]; then
   #       X-JFrog-Art-Api: "{{ artifactory_token }}"
   #   loop: "{{ zip_list }}"
 
-elif [ "$1" = "v90_base_install" ]; then
+elif [ "$1" = "websphere-v90-centos-8" ]; then
   echo "Download IIM installer"
   mkdir -p /tmp/iim/
   curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/IIM/agent.installer.linux.gtk.x86_64_1.9.1001.20191112_1525.zip -o /tmp/iim/iim_installer.tar.gz
