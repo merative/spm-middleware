@@ -26,7 +26,7 @@
     dest: "{{ iim_installer_path }}"
     remote_src: yes
     mode: 0755
-    creates: "{{ tmp_dir.path }}/installc"
+    creates: "/tmp/iim/installc"
 
 - name: Run IIM installer
   command:
