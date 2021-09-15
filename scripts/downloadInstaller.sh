@@ -48,6 +48,10 @@ fi
 #       X-JFrog-Art-Api: "{{ artifactory_token }}"
 
 if [ "$1" = "v85_base_install" ]; then
+  echo "Download IIM installer"
+  mkdir -p /tmp/iim/
+  curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/IIM/agent.installer.linux.gtk.x86_64_1.9.1001.20191112_1525.zip -o /tmp/iim/iim_installer.tar.gz
+
   echo "Download Websphere installer and fixpacks"
   # base
   mkdir -p /tmp/repo-zips
@@ -73,6 +77,10 @@ if [ "$1" = "v85_base_install" ]; then
   #   loop: "{{ zip_list }}"
 
 elif [ "$1" = "v90_base_install" ]; then
+  echo "Download IIM installer"
+  mkdir -p /tmp/iim/
+  curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/IIM/agent.installer.linux.gtk.x86_64_1.9.1001.20191112_1525.zip -o /tmp/iim/iim_installer.tar.gz
+
   echo "Download Websphere installer and fixpacks"
   mkdir -p /tmp/repo-zips
   curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/WAS/9.0.5ND/was.repo.90500.nd.zip -o /tmp/repo-zips/was.repo.90500.nd.zip
