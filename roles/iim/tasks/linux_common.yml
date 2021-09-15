@@ -13,6 +13,12 @@
 #     dest: "{{iim_installer_path}}/iim_installer.tar.gz"
 #   register: iim_zip
 
+- name: Create IIM directory
+  file:
+    path: "{{ iim_installer_path }}"
+    mode: 0755
+    state: directory
+
 - name: Extract IIM installer
   unarchive:
     # src: "{{ iim_zip.dest }}"
@@ -20,7 +26,7 @@
     dest: "{{ iim_installer_path }}"
     remote_src: yes
     mode: 0755
-    # creates: "{{ tmp_dir.path }}/installc"
+    creates: "{{ tmp_dir.path }}/installc"
 
 - name: Run IIM installer
   command:
