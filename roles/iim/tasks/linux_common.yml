@@ -1,25 +1,26 @@
 ---
-- name: Create temporary directory
-  file:
-    path: /tmp/iim/
-    recurse: yes
-    mode: 0755
-    state: directory
-  register: tmp_dir
-
-- name: Copy installer
-  copy:
-    src: "{{tmp_dir.path}}"
-    dest: "{{iim_installer_path}}/iim_installer.tar.gz"
-  register: iim_zip
+# - name: Create temporary directory
+#   file:
+#     path: /tmp/iim/
+#     recurse: yes
+#     mode: 0755
+#     state: directory
+#   register: tmp_dir
+#
+# - name: Copy installer
+#   copy:
+#     src: "{{tmp_dir.path}}"
+#     dest: "{{iim_installer_path}}/iim_installer.tar.gz"
+#   register: iim_zip
 
 - name: Extract IIM installer
   unarchive:
-    src: "{{ iim_zip.dest }}"
-    dest: "{{ tmp_dir.path }}"
+    # src: "{{ iim_zip.dest }}"
+    src: "/tmp/iim/iim_installer.tar.gz"
+    dest: "{{ iim_installer_path }}"
     remote_src: yes
     mode: 0755
-    creates: "{{ tmp_dir.path }}/installc"
+    # creates: "{{ tmp_dir.path }}/installc"
 
 - name: Run IIM installer
   command:
