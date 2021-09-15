@@ -1,4 +1,3 @@
 ---
 iim_agent_version: 1.9.1001.20191112_1525
-# iim_installer_path: /tmp/iim/
-iim_installer_path: /opt/IBM/InstallationManager
+iim_installer_path: /tmp/iim/
