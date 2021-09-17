@@ -19,6 +19,28 @@
 #     headers:
 #       X-JFrog-Art-Api: "{{ artifactory_token }}"
 
+- name: Create temporary directory
+  file:
+    path: /tmp/repo-zips/
+    recurse: yes
+    mode: 0755
+    state: directory
+  register: tmp_dir
+
+- name: Copy installer
+  copy:
+    src: "/tmp/repo-zips/was.repo.90500.nd.zip"
+    dest: "/tmp/repo-zips/was.repo.90500.nd.zip"
+  register: base_zips
+
+# - name: Extract IIM installer
+#   unarchive:
+#     src: "{{ iim_zip.dest }}"
+#     dest: "{{ tmp_dir.path }}"
+#     remote_src: yes
+#     mode: 0755
+#     creates: "{{ tmp_dir.path }}/installc"
+
 - name: Check downloads
   ansible.builtin.shell:
     cmd: ls /tmp/repo-zips/
