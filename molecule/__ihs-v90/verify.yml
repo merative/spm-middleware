@@ -13,4 +13,5 @@
     - name: Check that the correct packages are installed
       assert:
         that:
-          - "iim_info.packages | select('match', 'com.ibm.websphere.IHS.v90.*') | list | length > 0"
+          - "iim_info.packages | \
+          select('match', 'com.ibm.websphere.IHS.v90.*') | list | length > 0"

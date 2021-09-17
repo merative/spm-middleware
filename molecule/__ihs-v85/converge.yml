@@ -7,7 +7,6 @@
 
   vars:
     ihs_version: 8.5.5.17
-        
   roles:
     - iim
     - ihs

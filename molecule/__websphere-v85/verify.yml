@@ -21,7 +21,8 @@
     - name: Check that the correct packages are installed
       assert:
         that:
-          - "iim_info.packages | select('match', 'com.ibm.websphere.ND.v85.*') | list | length > 0"
+          - "iim_info.packages | \
+          select('match', 'com.ibm.websphere.ND.v85.*') | list | length > 0"
 
     - name: Check that JspBatchCompiler has been patched
       assert:
@@ -31,5 +32,7 @@
     - name: Check that environment file has been created correctly
       assert:
         that:
-          - "{{ 'WAS_HOME=/opt/IBM/WebSphere/AppServer' in (env_websphere_sh['content'] | b64decode) }}"
-          - "{{ 'JAVA_HOME=$WAS_HOME/java\n' in (env_websphere_sh['content'] | b64decode) }}"
+          - "{{ 'WAS_HOME=/opt/IBM/WebSphere/AppServer' \
+          in (env_websphere_sh['content'] | b64decode) }}"
+          - "{{ 'JAVA_HOME=$WAS_HOME/java\n' \
+          in (env_websphere_sh['content'] | b64decode) }}"

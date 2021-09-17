@@ -1,17 +1,4 @@
 ---
-# - name: Create zip directory
-#   file:
-#     path: /tmp/repo-zips
-#     state: directory
-#
-# - name: Download WAS repo
-#   get_url:
-#     dest: "/tmp/repo-zips/{{ item }}"
-#     url: "{{ artifactory_url }}/{{ artifactory_repo }}/SoftwareInstallers/{{ websphere_base_path }}/{{ item }}"
-#     headers:
-#       X-JFrog-Art-Api: "{{ artifactory_token }}"
-#   loop: "{{ websphere_base_archive_list }}"
-
 - name: Copy installers
   copy:
     # src: "/tmp/repo-zips/was.repo.90500.nd.zip"
@@ -20,7 +7,6 @@
     src: "/tmp/repo-zips/"
     # dest: "/tmp/repo-zips/was.repo.90500.nd.zip"
     dest: "/tmp/repo-zips/"
-  # register: base_zips
 
 - name: Create WAS repo directory
   file:

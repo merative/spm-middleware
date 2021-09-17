@@ -1,41 +1,17 @@
 ---
-# - name: Create zip directory
-#   file:
-#     path: /tmp/repo-zips
-#     state: directory
-#
-# - name: Download WAS repo
-#   get_url:
-#     dest: "/tmp/repo-zips/{{ item }}"
-#     url: "{{ artifactory_url }}/{{ artifactory_repo }}/SoftwareInstallers/{{ websphere_base_path }}/{{ item }}"
-#     headers:
-#       X-JFrog-Art-Api: "{{ artifactory_token }}"
-#   loop: "{{ websphere_base_archive_list }}"
-
-# - name: Download Java repo
-#   get_url:
-#     dest: "/tmp/repo-zips/java-repo.zip"
-#     url: "{{ artifactory_url }}/{{ artifactory_repo }}/SoftwareInstallers/{{ websphere_java_path }}/ibm-java-sdk-{{ websphere_java_version }}-{{ websphere_java_zip_suffix }}-installmgr.zip"
-#     headers:
-#       X-JFrog-Art-Api: "{{ artifactory_token }}"
-
 - name: Create temporary directory
   file:
     path: /tmp/repo-zips/
     recurse: yes
     mode: 0755
     state: directory
-  # register: tmp_dir
 
 - name: Copy installers
   copy:
-    # src: "/tmp/repo-zips/was.repo.90500.nd.zip"
     directory_mode: yes
     remote_src: no
     src: "/tmp/repo-zips/"
-    # dest: "/tmp/repo-zips/was.repo.90500.nd.zip"
     dest: "/tmp/repo-zips/"
-  # register: base_zips
 
 - name: Create WAS repo directories
   file:
@@ -84,11 +60,3 @@
     repo: "{{ repo_list }}"
     state: present
   when: "iim_info.packages | select('match', 'com.ibm.websphere.ND.*') | list | length == 0"
-
-# - name: Cleanup
-#   file:
-#     path: "{{ item }}"
-#     state: absent
-#   loop:
-#     - /tmp/repo
-#     - /tmp/repo-zips
