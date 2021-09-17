@@ -37,6 +37,8 @@ env:
     - SCENARIO=db2-115-centos-8
     - SCENARIO=iim-191-centos-8
     - SCENARIO=iim-191-centos-8
+    - SCENARIO=ihs-v90-centos-8
+    - SCENARIO=ihs-v80-centos-7
 stage: Molecule Tests
 
 before_script:
