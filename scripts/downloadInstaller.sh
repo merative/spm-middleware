@@ -54,7 +54,7 @@ if [ "$1" = "websphere-v85-centos-7" ]; then
 
   echo "Download Websphere installer and fixpacks"
   # base
-  mkdir -p /tmp/repo-zips
+  mkdir -p /tmp/repo-zips/
   curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/WAS/8.5.5ND/WAS_ND_V8.5.5_1_OF_3.zip -o /tmp/repo-zips/WAS_ND_V8.5.5_1_OF_3.zip
   curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/WAS/8.5.5ND/WAS_ND_V8.5.5_2_OF_3.zip -o /tmp/repo-zips/WAS_ND_V8.5.5_2_OF_3.zip
   curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/WAS/8.5.5ND/WAS_ND_V8.5.5_3_OF_3.zip -o /tmp/repo-zips/WAS_ND_V8.5.5_3_OF_3.zip
@@ -82,7 +82,7 @@ elif [ "$1" = "websphere-v90-centos-8" ]; then
   curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/IIM/agent.installer.linux.gtk.x86_64_1.9.1001.20191112_1525.zip -o /tmp/iim/iim_installer.tar.gz
 
   echo "Download Websphere installer and fixpacks"
-  mkdir -p /tmp/repo-zips
+  mkdir -p /tmp/repo-zips/
   curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/WAS/9.0.5ND/was.repo.90500.nd.zip -o /tmp/repo-zips/was.repo.90500.nd.zip
   # java
   curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/Java/IBM/ibm-java-sdk-8.0-6.26-linux-x64-installmgr.zip -o /tmp/repo-zips/java-repo.zip
