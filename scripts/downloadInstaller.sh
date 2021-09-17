@@ -88,6 +88,7 @@ elif [ "$1" = "websphere-v90-centos-8" ]; then
   curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/Java/IBM/ibm-java-sdk-8.0-6.26-linux-x64-installmgr.zip -o /tmp/repo-zips/java-repo.zip
   # fixpacks
   curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/WAS/9.0.5Fixpacks/9.0.5-WS-WAS-FP008.zip -o /tmp/repo-zips/9.0.5-WS-WAS-FP008.zip
+
 elif [ "$1" = "ihs-v90-centos-8" ]; then
   echo "Download IIM installer"
   mkdir -p /tmp/iim/
@@ -96,11 +97,12 @@ elif [ "$1" = "ihs-v90-centos-8" ]; then
   echo "Download IHS installer and fixpacks"
   mkdir -p /tmp/repo-zips/
   curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/WAS/9.0.5ND/was.repo.90500.ihs.zip -o /tmp/repo-zips/was.repo.90500.ihs.zip
+  curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/WAS/9.0.5ND/was.repo.90500.plugins.zip -o /tmp/repo-zips/was.repo.90500.plugins.zip
+  curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/WAS/9.0.5ND/was.repo.90500.wct.zip -o /tmp/repo-zips/was.repo.90500.wct.zip
   # java
   curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/Java/IBM/ibm-java-sdk-8.0-6.26-linux-x64-installmgr.zip -o /tmp/repo-zips/java-repo.zip
-  curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/WAS/9.0ND/was.repo.9000.java8_part2.zip -o /tmp/repo-zips/was.repo.9000.java8_part2.zip
-  curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/WAS/9.0ND/was.repo.9000.java8_part3.zip -o /tmp/repo-zips/was.repo.9000.java8_part3.zip
-  # fixpacks
+
+  # FP Plugins
   curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/WAS/9.0.5Fixpacks/9.0.5-WS-WCT-FP008.zip -o /tmp/repo-zips/9.0.5-WS-WCT-FP008.zip
   curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/WAS/9.0.5Fixpacks/9.0.5-WS-IHSPLG-FP008.zip -o /tmp/repo-zips/9.0.5-WS-IHSPLG-FP008.zip
 
