@@ -50,10 +50,6 @@
     path: /tmp/repo/java
     state: directory
 
-- name: Check downloads 2
-  ansible.builtin.shell:
-    cmd: ls /tmp/repo-zips/
-
 - name: Extract WAS installers
   unarchive:
     src: "/tmp/repo-zips/{{ item }}"
@@ -89,10 +85,10 @@
     state: present
   when: "iim_info.packages | select('match', 'com.ibm.websphere.ND.*') | list | length == 0"
 
-- name: Cleanup
-  file:
-    path: "{{ item }}"
-    state: absent
-  loop:
-    - /tmp/repo
-    - /tmp/repo-zips
+# - name: Cleanup
+#   file:
+#     path: "{{ item }}"
+#     state: absent
+#   loop:
+#     - /tmp/repo
+#     - /tmp/repo-zips
