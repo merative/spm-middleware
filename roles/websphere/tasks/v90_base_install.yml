@@ -19,6 +19,10 @@
 #     headers:
 #       X-JFrog-Art-Api: "{{ artifactory_token }}"
 
+- name: Check downloads
+  ansible.builtin.shell:
+    cmd: ls /tmp/repo-zips/
+
 - name: Create WAS repo directories
   file:
     path: "/tmp/repo/{{ index }}"
@@ -31,6 +35,10 @@
   file:
     path: /tmp/repo/java
     state: directory
+
+- name: Check downloads 2
+  ansible.builtin.shell:
+    cmd: ls /tmp/repo-zips/
 
 - name: Extract WAS installers
   unarchive:
