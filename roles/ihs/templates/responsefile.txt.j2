@@ -1,0 +1,427 @@
+###############################################################################
+# Copyright 2017,2020 IBM Corporation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
+
+################################################################################
+# Note: Default Web server Plugins install locations
+# --------------------------------------------------
+#
+#  Below are the default install locations for each supported operating system.
+#
+#  AIX:  "/usr/IBM/WebSphere/Plugins"
+#
+#  HP-UX, Linux, and Solaris: "/opt/IBM/WebSphere/Plugins"
+#
+#  Windows: "C:/Program Files/IBM/WebSphere/Plugins"
+#
+#  Note: On unix operating systems, spaces in the install location is not supported.
+#  Note: On Windows operating systems, use forward slashes in the directory names.
+################################################################################
+
+################################################################################
+#
+# Configuration Type
+#
+# Valid Options :       local_standalone   WebSphere Application Server and web server on same machine
+#                       remote             WebSphere Applicaiton Server and web server on separate machines.
+#                       local_distributed  Required when the profile on WebSphere Application
+#                                          Server is federated to a deployment manager
+#
+
+configType="{{ ihs_config_type }}"
+
+
+################################################################################
+#
+# WebSphere Application Server Existing Location
+#
+# Valid Options : An existing WebSphere Application Server installation's home directory.
+#
+# Note 	: This option is valid for local configuration type.
+#
+
+wasExistingLocation=""
+
+
+################################################################################
+#
+# Web server to configure
+#
+# Valid options
+#        ihs           IBM HTTP Server V8.5.5
+#        apache22      Apache Web Server V2.2
+#        apache24      Apache Web Server V2.4
+#        domino9       IBM Domino Web Server V9.0 (not supported on HP-UX, Solaris x64 (x86_64))
+#        sunone        Sun Java System Web Server V6.1 or Sun Java System Web Server V7.0
+#        iis7          Microsoft Internet Information Services V7 (supported on Windows)
+#        iis8          Microsoft Internet Information Services V8 (supported on Windows)
+#
+# Note 	: Specify only one Web server to configure.
+#
+
+webServerSelected="ihs"
+
+
+################################################################################
+#
+# IHS-specific Administrator settings
+#
+################################################################################
+#
+# HTTP Administration Port Number
+#
+# Specify the HTTP administration port number
+#
+# Note : Specify this value only when configuring IHS.
+#
+
+ihsAdminPort="8008"
+
+
+################################################################################
+#
+# IHS Administrator User ID for IHS Administration Server
+#
+# Specify the IHS administrator server userid.
+#
+# Note : Specify this value only when configuring IHS.
+#
+
+ihsAdminUserID="{{ ihs_admin_user }}"
+
+
+################################################################################
+#
+# IHS Administrator User Group for IHS Administration server
+#
+# Specify the user Group of the IHS administration process.
+#
+# Note : Specify this value only when configuring IHS.
+#
+
+ihsAdminUserGroup="{{ ihs_admin_user }}"
+
+
+################################################################################
+#
+# Web Server Configuration File 1
+#
+# Specify the first web server configuration file.
+#
+# Valid options
+#
+#       ihs         : httpd.conf
+#       apache      : httpd.conf
+#       domino9     : Notes.jar       (Domino Web Server V9.0)
+#       sunone      : magnus.conf
+#
+# Note : File must exist
+#
+
+webServerConfigFile1="{{ ihs_install_path }}/conf/httpd.conf"
+
+
+################################################################################
+#
+# Web Server Configuration File 2
+#
+# Specify the second web server configuration file.
+#
+# Valid options
+#
+#       domino9 : names.nsf       (Domino Web Server V9.0)
+#       sunone  : obj.conf
+#
+# Note : File must exist
+#
+
+webServerConfigFile2=""
+
+
+################################################################################
+#
+# Web server port number
+#
+# Specify the web server port for the web server selected to be configured.
+#
+
+webServerPortNumber="80"
+
+
+################################################################################
+#
+# Domino User ID
+#
+# Specify the Domino V9.0 user ID.
+#
+
+#dominoUserID="notes"
+
+
+################################################################################
+#
+# Web Server Definition Name
+#
+# Specify a name for the web server being defined.
+#
+# Note : No spaces are allowed in the web server definition name.
+#
+
+webServerDefinition="ihs_{{ ansible_hostname }}"
+
+
+################################################################################
+#
+# WebSphere Application Server Machine Hostname
+#
+# remote install type : enter the hostname of the WebSphere Application Server machine.
+# local install type  : "" (hostname of target install machine will be used.)
+#
+# This specification can be omitted for a local_standalone installation type.
+#
+
+wasMachineHostName="{{ ansible_fqdn }}"
+
+
+################################################################################
+#
+#  Advanced user options available in silent installs only
+#
+#  Specify whether to map all the existing deployed applications to the web server.
+#
+#  Valid Options
+#           true  :  the web server definition is mapped as a target to the existing deployed
+#                    applications such as snoop and hitcount (recommended)
+#           false :  no applications are mapped to the web server definition
+#
+#  Note : If this is not set to a valid option, the installer will set it to true
+#         and continue the installation.
+#
+
+mapWebServerToApplications="true"
+
+
+################################################################################
+#
+#  Web Server Hostname
+#
+#  In advanced scenarios where a user has multiple web server hostnames on a machine,
+#  specify the web server hostname used to configure.
+#
+#  Valid Options :
+#           ""              :  installation will resolve to the hostname detected on the machine (recommended)
+#           "<HOSTNAME>"    :  installation will use the specified <HOSTNAME> on the machine.
+#
+
+webServerHostName=""
+
+
+################################################################################
+#
+#  Web Server Installation Architecture
+#
+#  Specify the web server installation architecture.
+#
+#  Valid Options :
+#           	"32"	:	valid for 32 bit web server installations
+#           	"64"	:   	valid for 64 bit web server installations
+#		""	:	architecture of the web server machine will be used
+#
+
+webServerInstallArch=""
+
+
+################################################################################
+#
+# WebSphere Application Server Profile Name
+#
+# Specify the name of the WebSphere Application Server profile to be configured.
+#
+# Valid options:
+#     "<WAS_profile_name>"  : Enter the name of an existing WebSphere Application Server
+#                             profile.  Leaving the string empty will result in the
+#                             installer using the default profile.
+#                             This option is valid only in local installation scenarios.
+#
+
+#profileName=""
+
+################################################################################
+#
+# Additional IHS-specific Configuration settings, Tentative
+#
+################################################################################
+#
+# Create a User and Group for the IHS Administrative Server
+#
+# Optionally creates a user and group when configuring the IHS Administrative
+# Server (only specify value when configuring IHS)
+#
+# Valid options:
+#                   "true"  : A user and group will be created if neccessary
+#                   "false" : A user and group will not be created
+#
+
+ihsAdminCreateUserAndGroup="true"
+
+{% if ansible_os_family == "Windows" %}
+################################################################################
+#
+# Additional IHS-specific configuration settings
+#
+################################################################################
+#
+# IHS Windows Startup Type
+#
+# Specify the startup type of the IHS administrative service that is to be created
+# on Windows.
+#
+# Valid options:
+#                   "auto"  : service will automatically start when system is booted
+#                 "demand"  : service will start only when requested
+#
+# Note : specify this value only when configuring IHS
+#
+
+ihsWindowsStartupType="auto"
+{% endif %}
+
+################################################################################
+#
+# IHS Administrative Server User ID
+#
+# Specify the ID of the user that will be used to configure the IHS administrative
+# server.
+#
+# Valid options:
+#    "<IHS_admin_user_ID>"  : enter the name that will be used to configure the
+#                             IHS administrative server
+#
+# Note : specify this value only when configuring IHS
+#
+
+{% if ansible_os_family == "Windows" %}
+ihsAdminWinUserID="{{ ihs_admin_user }}"
+{% else %}
+ihsAdminUnixUserID="{{ ihs_admin_user }}"
+{% endif %}
+
+################################################################################
+#
+# IHS Administrative Server User Password
+#
+# Specify the password of the user that will be used to configure the IHS
+# administrative server.
+#
+# Valid options:
+#       "<IHS_admin_pass>"  : enter the password of the user that will be used
+#                             to configure the IHS administrative server
+#
+# Note : specify this value only when configuring IHS
+#
+
+{% if ansible_os_family == "Windows" %}
+ihsAdminWinPassword="{{ ihs_admin_user }}"
+{% else %}
+ihsAdminUnixUserGroup="{{ ihs_admin_user }}"
+{% endif %}
+
+################################################################################
+#
+# IHS Administrative Server Password
+#
+# Specify the user password to the IHS administrative server to be configured
+#
+# Valid options:
+#   "<IHS_admin_password>"  : User must enter the password of the User
+#                             to the IHS administrative Server to be configured
+#
+# Note : specify this value only when configuring IHS
+#
+
+ihsAdminPassword="{{ ihs_admin_pass }}"
+
+#################################################################################
+#
+# Enable IHS Administrative Server Support
+#
+# Specify whether to configure the IHS administrative server
+#
+# Valid options:
+#                   "true"  : Support will be enabled and the IHS administrative
+#                             server will be configured
+#                  "false"  : Support will not be enabled and IHS administrative
+#                             server will not be configured
+#
+# Note : specify this value only when configuring IHS
+#
+
+enableAdminServerSupport="true"
+
+#################################################################################
+#
+# Enable Configuration Using a User ID and Password
+#
+# Specify whether to configure the IHS administrative Server with a user ID and
+# password as credentials
+#
+# Valid options:
+#                   "true"  : enable support to configure the IHS administrative server
+#                             with a given user ID and password.
+#                             The revelvant credentials must be supplied.
+#                  "false"  : do not enable support for user ID and password configuration.
+#                             No additional values are required.
+#
+# Note : specify this value only when configuring IHS
+#
+
+enableUserAndPass="true"
+
+{% if ansible_os_family == "Windows" %}
+#################################################################################
+#
+# Create a Windows Service for the IHS Administrative Server
+#
+# Specify whether to configure the IHS administrative server to run as a Windows service
+#
+# Valid options:
+#                   "true"  : support to configure the IHS administrative server
+#                             as a Windows service will be enabled
+#                  "false"  : support to configure the IHS administrative server
+#                             as a Windows service will not be enabled
+#
+# Note : specify this value only when configuring IHS
+#
+
+enableWinService="true"
+{% endif %}
+
+#################################################################################
+#
+# Type of the Web Server to be Configured
+#
+# Specify the type of the web server to be configured.
+#
+# Valid options:
+#        IHS           IBM HTTP Server V9.0
+#        APACHE        Apache Web Server V2.2 or Apache Web Server V2.4
+#        DOMINO        Domino Web Server V9.0 (not supported on HP-UX, Solaris x64 (x86_64))
+#        SUNJAVASYSTEM Sun Java System Web Server V6.1 or Sun Java System Web Server V7.0
+#        IIS           Microsoft Internet Information Services V7, V8 (supported on Windows)
+#
+# Note 	: Specify only one web server to configure.
+#
+
+webServerType="IHS"

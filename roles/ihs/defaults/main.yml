@@ -1,0 +1,15 @@
+---
+iim_install_path: /opt/IBM/InstallationManager
+
+ihs_install_path: /opt/IBM/HTTPServer
+plg_install_path: /opt/IBM/WebSphere/Plugins
+wct_install_path: /opt/IBM/WebSphere/Toolbox
+
+ihs_version: 9.0.5.7
+
+ihs_config_type: local_distributed
+ihs_admin_user: wasadmin
+ihs_admin_pass: wasadmin
+
+# Common
+profiled_path: /opt/profile.d

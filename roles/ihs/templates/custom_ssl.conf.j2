@@ -1,0 +1,40 @@
+###############################################################################
+# Copyright 2017,2020 IBM Corporation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
+#
+# Custom SSL config file
+#
+
+<IfModule !mod_ibm_ssl.c>
+LoadModule ibm_ssl_module modules/mod_ibm_ssl.so
+# Below 2 Listen directives needed for IHS in WINDOWS, second one for IPv6 support
+Listen 0.0.0.0:443
+# In Fyre some RHEL7 vms seem to have ipv6 disabled OOTB
+# Listen [::]:443
+<VirtualHost *:443>
+    SSLEnable
+    SSLClientAuth None
+    SSLServerCert websphere
+    # Disable SSLv3 for CVE-2014-3566
+    # SSLv2 is disabled in V8R0 and later by default, and in typical V7
+    # and earlier configurations disabled implicitly when SSLv3 ciphers
+    # are configured with SSLCipherSpec.
+    SSLProtocolDisable SSLv3 SSLv2 TLSv10 TLSv11
+    KeyFile {{ plg_install_path }}/config/key.kdb
+    SSLStashFile {{ plg_install_path }}/config/key.sth
+    SSLV3TimeOut 120
+</VirtualHost>
+# End of example SSL configuration
+</IfModule>

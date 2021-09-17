@@ -1,0 +1,23 @@
+---
+- name: Include version variables
+  include_vars: "v{{ ihs_version }}.yml"
+
+- name: Check packages
+  iim_info:
+    iim_path: "{{ iim_install_path }}"
+    product_id: "com.ibm.websphere.PLG.{{ ihs_pid }}"
+  register: iim_info
+
+- name: Install Base version
+  include_tasks: "{{ ihs_pid.split('_') | first }}_base_install.yml"
+  when: not iim_info.base_installed
+
+- name: Install Fixpack version
+  include_tasks: "{{ ihs_pid.split('_') | first }}_fixpack_install.yml"
+  when: not iim_info.exact_installed
+
+- name: Setup environment variables
+  include_tasks: env.yml
+
+- name: Configure IHS
+  include_tasks: configure.yml

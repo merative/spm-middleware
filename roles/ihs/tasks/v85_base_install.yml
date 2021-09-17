@@ -1,0 +1,64 @@
+---
+- name: Create zip directory
+  file:
+    path: /tmp/repo-zips
+    state: directory
+
+- name: Copy installers
+  copy:
+    directory_mode: yes
+    remote_src: no
+    src: "/tmp/repo-zips/"
+    dest: "/tmp/repo-zips/"
+
+- name: Create IHS repo directories
+  file:
+    path: "/tmp/repo"
+    state: directory
+
+- name: Extract IHS installers
+  unarchive:
+    src: "/tmp/repo-zips/{{ item }}"
+    dest: /tmp/repo/
+    remote_src: yes
+    creates: "/tmp/repo/disk{{ (index + 1) | string }}"
+  loop: "{{ ihs_base_archive_list }}"
+  loop_control:
+    index_var: index
+
+- name: Install IHS
+  iim_package:
+    iim_path: "{{ iim_install_path }}"
+    product_id: "com.ibm.websphere.IHS.{{ ihs_base_pid }}"
+    path: "{{ ihs_install_path }}"
+    repo: /tmp/repo
+    properties:
+      "user.ihs.httpPort": 80
+    state: present
+  when: "iim_info.packages | select('match', 'com.ibm.websphere.IHS.*') | list | length == 0"
+
+- name: Install PLG
+  iim_package:
+    iim_path: "{{ iim_install_path }}"
+    product_id: "com.ibm.websphere.PLG.{{ ihs_base_pid }}"
+    path: "{{ plg_install_path }}"
+    repo: /tmp/repo
+    state: present
+  when: "iim_info.packages | select('match', 'com.ibm.websphere.PLG.*') | list | length == 0"
+
+- name: Install WCT
+  iim_package:
+    iim_path: "{{ iim_install_path }}"
+    product_id: "com.ibm.websphere.WCT.{{ ihs_base_pid }}"
+    path: "{{ wct_install_path }}"
+    repo: /tmp/repo
+    state: present
+  when: "iim_info.packages | select('match', 'com.ibm.websphere.WCT.*') | list | length == 0"
+
+# - name: Cleanup
+#   file:
+#     path: "{{ item }}"
+#     state: absent
+#   loop:
+#     - /tmp/repo
+#     - /tmp/repo-zips
