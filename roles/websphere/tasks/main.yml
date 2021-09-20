@@ -34,11 +34,11 @@
 - name: Configure WebSphere
   include_tasks: configure.yml
 
-# - name: Ensure /opt/Props dir exists
-#   file: path=/opt/Props state=directory
-# - name: Copy AppServer.properties
-#   template:
-#     dest: /opt/Props/AppServer.properties
-#     src: AppServer.properties.j2
-#     mode: 0755
-#     force: no
+- name: Ensure /opt/Props dir exists
+  file: path=/opt/Props state=directory
+- name: Copy AppServer.properties
+  template:
+    dest: /opt/Props/AppServer.properties
+    src: AppServer.properties.j2
+    mode: 0755
+    force: no

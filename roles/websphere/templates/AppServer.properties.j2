@@ -1,0 +1,34 @@
+## APPLICATION SERVER PROPERTIES
+
+## IT IS VERY IMPORTANT TO USE '/' FOR DIRECTORY PATHS. ##
+
+# Property to indicate whether WLS/SAP or WAS is installed.
+as.vendor=IBM
+
+# The username and password for admin server.
+security.username=websphere
+# Encrypt the plain-text password using 'build encrypt -Dpassword=<password>'
+# Below is the encryption for the default password ("websphere").
+# NOTE: This must be updated after your first login!
+security.password=XOVRjjVTebM8gV953LGMLQ==
+
+# The name of the WebSphere Node or WebLogic Domain Name.
+node.name={{ansible_hostname}}
+
+# The name of the server on which the application will be hosted.
+curam.server.name=CuramServer
+curam.server.port=2809
+
+###############################################
+## THE FOLLOWING PROPERTIES ARE FOR WAS ONLY ##
+###############################################
+# The alias that should be used for the database authorization
+curam.db.auth.alias=databaseAlias
+
+# HTTP Port for the server on which the client
+# will be accessed
+curam.client.httpport=9044
+
+# HTTP Port for the server on which the Web services
+# will be accessed
+curam.webservices.httpport=9082
