@@ -1,10 +1,10 @@
 ---
-- name: Create zip directory
-  file:
-    path: /tmp/repo-zips/
-    state: directory
+# - name: Create zip directory
+#   file:
+#     path: /tmp/repo-zips/
+#     state: directory
 
-- name: Create IHS repo directories
+- name: Create IHS fixpack repo directories
   file:
     path: "/tmp/repo/{{ index }}"
     state: directory
@@ -12,20 +12,12 @@
   loop_control:
     index_var: index
 
-- name: Copy installers
+- name: Copy fixpack installers
   copy:
     directory_mode: yes
     remote_src: no
     src: "/tmp/repo-zips/"
     dest: "/tmp/repo-zips/"
-
-- name: Create IHS repo directories
-  file:
-    path: "/tmp/repo/{{ index }}"
-    state: directory
-  loop: "{{ ihs_fp_archive_list }}"
-  loop_control:
-    index_var: index
 
 # - name: List files and folder repos
 #   shell: 'ls -l /tmp/repo/0/ && ls -l /tmp/repo/1/'
@@ -34,7 +26,7 @@
 # - debug:
 #   var: command_output.stdout_lines
 
-- name: Extract IHS installers
+- name: Extract IHS fixpack installers
   unarchive:
     src: "/tmp/repo-zips/{{ item }}"
     dest: "/tmp/repo/{{ index }}"
@@ -45,7 +37,7 @@
   loop_control:
     index_var: index
 
-- name: Build repo list
+- name: Build fixpack repo list
   set_fact:
     repo_list: "{{ repo_list | default([]) + ['/tmp/repo/' + index|string]}}"
   loop: "{{ ihs_fp_archive_list }}"

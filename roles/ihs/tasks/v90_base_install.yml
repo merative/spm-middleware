@@ -4,14 +4,14 @@
     path: /tmp/repo-zips
     state: directory
 
-- name: Copy installers
+- name: Copy base installers
   copy:
     directory_mode: yes
     remote_src: no
     src: "/tmp/repo-zips/"
     dest: "/tmp/repo-zips/"
 
-- name: Create IHS repo directories
+- name: Create IHS base repo directories
   file:
     path: "/tmp/repo/{{ index }}"
     state: directory
@@ -24,7 +24,7 @@
     path: /tmp/repo/java
     state: directory
 
-- name: Extract IHS installers
+- name: Extract IHS base installers
   unarchive:
     src: "/tmp/repo-zips/{{ item }}"
     dest: "/tmp/repo/{{ index }}"
@@ -41,7 +41,7 @@
     remote_src: yes
     creates: /tmp/repo/java/repository.config
 
-- name: Build repo list
+- name: Build base repo list
   set_fact:
     repo_list: "{{ repo_list | default(['/tmp/repo/java']) + ['/tmp/repo/' + index|string]}}"
   loop: "{{ ihs_base_archive_list }}"
