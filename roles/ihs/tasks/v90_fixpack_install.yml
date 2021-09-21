@@ -31,8 +31,8 @@
 #   shell: 'ls -l /tmp/repo/0/ && ls -l /tmp/repo/1/'
 #     register: command_output
 
-- debug:
-  var: command_output.stdout_lines
+# - debug:
+#   var: command_output.stdout_lines
 
 - name: Extract IHS installers
   unarchive:
