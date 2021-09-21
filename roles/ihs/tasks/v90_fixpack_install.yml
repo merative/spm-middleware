@@ -1,7 +1,7 @@
 ---
 - name: Create zip directory
   file:
-    path: /tmp/repo-zips
+    path: /tmp/repo-zips/
     state: directory
 
 - name: Create IHS repo directories
@@ -31,7 +31,7 @@
   unarchive:
     src: "/tmp/repo-zips/{{ item }}"
     dest: "/tmp/repo/{{ index }}"
-    remote_src: yes
+    remote_src: no
     creates: "/tmp/repo/{{ index }}/repository.config"
   loop: "{{ ihs_fp_archive_list }}"
   loop_control:
