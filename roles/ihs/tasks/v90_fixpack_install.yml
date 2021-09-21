@@ -38,7 +38,8 @@
   unarchive:
     src: "/tmp/repo-zips/{{ item }}"
     dest: "/tmp/repo/{{ index }}"
-    remote_src: no
+    # remote_src: no
+    remote_src: yes
     # creates: "/tmp/repo/{{ index }}/repository.config"
   loop: "{{ ihs_fp_archive_list }}"
   loop_control:
