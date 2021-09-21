@@ -27,9 +27,9 @@
   loop_control:
     index_var: index
 
-- name: List files and folder repos
-  shell: 'ls -l /tmp/repo/0/ && ls -l /tmp/repo/1/'
-    register: command_output
+# - name: List files and folder repos
+#   shell: 'ls -l /tmp/repo/0/ && ls -l /tmp/repo/1/'
+#     register: command_output
 
 - debug:
   var: command_output.stdout_lines
