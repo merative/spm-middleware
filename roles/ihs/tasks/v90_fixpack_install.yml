@@ -19,6 +19,14 @@
     src: "/tmp/repo-zips/"
     dest: "/tmp/repo-zips/"
 
+- name: Create IHS repo directories
+  file:
+    path: "/tmp/repo/{{ index }}"
+    state: directory
+  loop: "{{ ihs_fp_archive_list }}"
+  loop_control:
+    index_var: index
+
 - name: Extract IHS installers
   unarchive:
     src: "/tmp/repo-zips/{{ item }}"
