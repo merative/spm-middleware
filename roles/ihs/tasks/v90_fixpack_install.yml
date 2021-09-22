@@ -1,9 +1,4 @@
 ---
-# - name: Create zip directory
-#   file:
-#     path: /tmp/repo-zips/
-#     state: directory
-
 - name: Create IHS fixpack repo directories
   file:
     path: "/tmp/repo/{{ index }}"

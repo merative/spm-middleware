@@ -8,9 +8,6 @@
     product_id: "com.ibm.websphere.ND.{{ websphere_pid }}"
   register: iim_info
 
-# Adding in main for consumption by either base or fixpack tasks
-# Determine OS for getting correct java installer. Hardcoded to linux as this is done in downloadInstaller.sh
-
 - name: Install Base version
   include_tasks: "{{ websphere_pid.split('_') | first }}_base_install.yml"
   when: not iim_info.base_installed
