@@ -82,11 +82,3 @@
     repo: "{{ repo_list }}"
     state: present
   when: "iim_info.packages | select('match', 'com.ibm.websphere.WCT.*') | list | length == 0"
-
-# - name: Cleanup
-#   file:
-#     path: "{{ item }}"
-#     state: absent
-#   loop:
-#     - /tmp/repo
-#     - /tmp/repo-zips

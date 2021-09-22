@@ -9,12 +9,7 @@
   register: iim_info
 
 # Adding in main for consumption by either base or fixpack tasks
-
 # Determine OS for getting correct java installer. Hardcoded to linux as this is done in downloadInstaller.sh
-
-# - name: Determine Suffix for Java zip
-#   set_fact:
-#     websphere_java_zip_suffix: "{% if ansible_architecture == 'ppc64le' %}linux-ppc64le{% elif ansible_os_family == 'Windows' %}win-x64{% else %}linux-x64{% endif %}"
 
 - name: Install Base version
   include_tasks: "{{ websphere_pid.split('_') | first }}_base_install.yml"

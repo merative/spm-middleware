@@ -21,3 +21,12 @@
 
 - name: Configure IHS
   include_tasks: configure.yml
+
+- name: Cleanup
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /tmp/fp
+    - /tmp/wct
+    - /tmp/repo-zips

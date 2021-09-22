@@ -1,11 +1,9 @@
 ---
 - name: Copy installers
   copy:
-    # src: "/tmp/repo-zips/was.repo.90500.nd.zip"
     directory_mode: yes
     remote_src: no
     src: "/tmp/repo-zips/"
-    # dest: "/tmp/repo-zips/was.repo.90500.nd.zip"
     dest: "/tmp/repo-zips/"
 
 - name: Create WAS repo directory
@@ -31,11 +29,3 @@
     repo: /tmp/repo
     state: present
   when: "iim_info.packages | select('match', 'com.ibm.websphere.ND.*') | list | length == 0"
-
-# - name: Cleanup
-#   file:
-#     path: "{{ item }}"
-#     state: absent
-#   loop:
-#     - /tmp/repo
-#     - /tmp/repo-zips

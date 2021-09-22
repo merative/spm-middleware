@@ -19,20 +19,11 @@
     src: "/tmp/repo-zips/"
     dest: "/tmp/repo-zips/"
 
-# - name: List files and folder repos
-#   shell: 'ls -l /tmp/repo/0/ && ls -l /tmp/repo/1/'
-#     register: command_output
-
-# - debug:
-#   var: command_output.stdout_lines
-
 - name: Extract IHS fixpack installers
   unarchive:
     src: "/tmp/repo-zips/{{ item }}"
     dest: "/tmp/repo/{{ index }}"
-    # remote_src: no
     remote_src: yes
-    # creates: "/tmp/repo/{{ index }}/repository.config"
   loop: "{{ ihs_fp_archive_list }}"
   loop_control:
     index_var: index
@@ -78,11 +69,3 @@
     repo: "{{ repo_list }}"
     state: present
   when: not (have_exact_wct|bool)
-
-# - name: Cleanup
-#   file:
-#     path: "{{ item }}"
-#     state: absent
-#   loop:
-#     - /tmp/repo
-#     - /tmp/repo-zips

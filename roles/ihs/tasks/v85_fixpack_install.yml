@@ -69,12 +69,3 @@
     repo: /tmp/wct
     state: present
   when: not (have_exact_wct|bool)
-
-# - name: Cleanup
-#   file:
-#     path: "{{ item }}"
-#     state: absent
-#   loop:
-#     - /tmp/fp
-#     - /tmp/wct
-#     - /tmp/repo-zips
