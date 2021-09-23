@@ -11,7 +11,7 @@ IBM Installation Manager (1.9.x) must already be installed in the target environ
 | Property Name            | Default value                                       |
 | ------------------------ | --------------------------------------------------- |
 | `websphere_install_path` | `/opt/IBM/WebSphere/AppServer`                      |
-| `websphere_version`      | `9.0.5.7`                                           |
+| `websphere_version`      | `9.0.5.8`                                           |
 | ------------------------ | --------------------------------------------------- |
 | `iim_install_path`       | `/opt/IBM/InstallationManager`                      |
 | `profiled_path`          | `/opt/profile.d`                                    |
