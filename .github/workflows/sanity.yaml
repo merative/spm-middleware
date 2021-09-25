@@ -1,7 +1,7 @@
 ---
 name: Sanity Checks
 
-# Run this workflow on push events, PRs to main branch, and manual dispatch events
+# Run Ansible lint / sanity checks on push events, PRs to main branch, and manual dispatch events
 on:
   push:
   pull_request:

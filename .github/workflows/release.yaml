@@ -1,7 +1,7 @@
 ---
 name: Release
 
-# Run this workflow on tag creation
+# Publish collection/release on tag creation
 on:
   push:
     tags: ['*']

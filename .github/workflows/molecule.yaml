@@ -1,7 +1,7 @@
 ---
 name: Molecule Tests
 
-# Run this workflow on push events, PRs to main branch, and manual dispatch events
+# Only execute molecule tests when running within the IBM org
 on:
   push:
   pull_request:
