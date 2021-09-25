@@ -49,6 +49,10 @@ jobs:
           chmod -v +x ./scripts/*
 
       - name: Publish to Galaxy
+        env:
+          ANSIBLE_GALAXY_SERVER_LIST: release
+          ANSIBLE_GALAXY_SERVER_RELEASE_URL: https://galaxy.ansible.com/
+          ANSIBLE_GALAXY_SERVER_RELEASE_TOKEN: "${{ secrets.GALAXY_TOKEN }}"
         run: |
           ansible-galaxy collection build
           ls -l *.tar.gz
