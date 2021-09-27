@@ -1,0 +1,62 @@
+---
+- name: Create temporary directory
+  file:
+    path: /tmp/repo-zips/
+    recurse: yes
+    mode: 0755
+    state: directory
+
+- name: Copy installers
+  copy:
+    directory_mode: yes
+    remote_src: no
+    src: "/tmp/repo-zips/"
+    dest: "/tmp/repo-zips/"
+
+- name: Create WAS repo directories
+  file:
+    path: "/tmp/repo/{{ index }}"
+    state: directory
+  loop: "{{ websphere_base_archive_list }}"
+  loop_control:
+    index_var: index
+
+- name: Create Java repo directory
+  file:
+    path: /tmp/repo/java
+    state: directory
+
+- name: Extract WAS installers
+  unarchive:
+    src: "/tmp/repo-zips/{{ item }}"
+    dest: "/tmp/repo/{{ index }}"
+    remote_src: yes
+    creates: "/tmp/repo/{{ index }}/repository.config"
+  loop: "{{ websphere_base_archive_list }}"
+  loop_control:
+    index_var: index
+
+- name: Extract Java installer
+  unarchive:
+    src: /tmp/repo-zips/java-repo.zip
+    dest: /tmp/repo/java
+    remote_src: yes
+    creates: /tmp/repo/java/repository.config
+
+- name: Build repo list
+  set_fact:
+    repo_list: "{{ repo_list | default(['/tmp/repo/java']) + ['/tmp/repo/' + index|string]}}"
+  loop: "{{ websphere_base_archive_list }}"
+  loop_control:
+    index_var: index
+
+- name: Install WAS
+  iim_package:
+    iim_path: "{{ iim_install_path }}"
+    product_id:
+      - com.ibm.websphere.ND.v90
+      - com.ibm.java.jdk.v8
+    path: "{{ websphere_install_path }}"
+    repo: "{{ repo_list }}"
+    state: present
+  when: "iim_info.packages | select('match', 'com.ibm.websphere.ND.*') | list | length == 0"

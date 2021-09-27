@@ -10,7 +10,7 @@ db2_license_path: /tmp/db2ese_u.lic
 db2_db_create: True
 db2_db_name: DATABASE
 db2_db_username: "{{ lookup('env', 'DB2_USER') }}"
-db2_db_password: "{{ lookup('env', 'DB2_PASSWPRD') }}"
+db2_db_password: "{{ lookup('env', 'DB2_PASSWORD') }}"
 db2_db_spm_enc: "{{ lookup('env', 'DB2_ENC_PASSWORD') }}"
 db2_db_drop_required: False
 

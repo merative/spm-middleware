@@ -1,0 +1,17 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  pre_tasks:
+    - name: Check packages
+      iim_info:
+        iim_path: /opt/IBM/InstallationManager
+      register: iim_info
+
+  tasks:
+    - name: Check that the correct packages are installed
+      assert:
+        that:
+          - "iim_info.packages | \
+          select('match', 'com.ibm.websphere.IHS.v90.*') | list | length > 0"

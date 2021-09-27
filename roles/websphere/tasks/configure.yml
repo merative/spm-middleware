@@ -1,0 +1,7 @@
+---
+- name: Patch JspBatchCompiler
+  replace:
+    path: "{{ websphere_install_path }}/bin/JspBatchCompiler.{{ 'bat' if ansible_os_family == 'Windows' else 'sh' }}"
+    regexp: "-Xmx256m"
+    replace: "-Xmx1024m"
+    mode: 0755

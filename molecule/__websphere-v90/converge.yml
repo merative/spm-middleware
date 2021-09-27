@@ -1,0 +1,13 @@
+---
+- name: Converge
+  hosts: all
+
+  collections:
+    - ibm.spm_middleware
+
+  vars:
+    websphere_version: 9.0.5.8
+
+  roles:
+    - iim
+    - websphere
