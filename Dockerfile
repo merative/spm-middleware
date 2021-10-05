@@ -1,15 +1,3 @@
-#FROM python:3.8-alpine
-
-#WORKDIR /usr/src/app
-
-#COPY requirements.txt ./
-#RUN pip install --no-cache-dir -r requirements.txt
-
-#ENTRYPOINT ["tail", "-f", "/dev/null"]
-
-#apk add py3-pip
-
-FROM docker:20.10.8-alpine3.14
 FROM docker:dind
 
 RUN apk add --no-cache bash \
