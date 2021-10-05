@@ -1,0 +1,66 @@
+---
+- name: Create IHS fixpack repo directories
+  file:
+    path: "/tmp/repo/{{ index }}"
+    state: directory
+  loop: "{{ ihs_fp_archive_list }}"
+  loop_control:
+    index_var: index
+
+- name: Copy fixpack installers
+  copy:
+    directory_mode: yes
+    remote_src: no
+    src: "/tmp/repo-zips/"
+    dest: "/tmp/repo-zips/"
+
+- name: Extract IHS fixpack installers
+  unarchive:
+    src: "/tmp/repo-zips/{{ item }}"
+    dest: "/tmp/repo/{{ index }}"
+    remote_src: yes
+  loop: "{{ ihs_fp_archive_list }}"
+  loop_control:
+    index_var: index
+
+- name: Build fixpack repo list
+  set_fact:
+    repo_list: "{{ repo_list | default([]) + ['/tmp/repo/' + index|string]}}"
+  loop: "{{ ihs_fp_archive_list }}"
+  loop_control:
+    index_var: index
+
+- name: Set up-to-date facts
+  set_fact:
+    have_exact_ihs: "'com.ibm.websphere.IHS.{{ ihs_pid }}' in iim_info.packages"
+    have_exact_plg: "'com.ibm.websphere.PLG.{{ ihs_pid }}' in iim_info.packages"
+    have_exact_wct: "'com.ibm.websphere.WCT.{{ ihs_pid }}' in iim_info.packages"
+
+- name: Upgrade IHS
+  iim_package:
+    iim_path: "{{ iim_install_path }}"
+    product_id: "com.ibm.websphere.IHS.{{ ihs_pid }}"
+    path: "{{ ihs_install_path }}"
+    repo: "{{ repo_list }}"
+    properties:
+      "user.ihs.httpPort": 80
+    state: present
+  when: not (have_exact_ihs|bool)
+
+- name: Upgrade PLG
+  iim_package:
+    iim_path: "{{ iim_install_path }}"
+    product_id: "com.ibm.websphere.PLG.{{ ihs_pid }}"
+    path: "{{ plg_install_path }}"
+    repo: "{{ repo_list }}"
+    state: present
+  when: not (have_exact_plg|bool)
+
+- name: Upgrade WCT
+  iim_package:
+    iim_path: "{{ iim_install_path }}"
+    product_id: "com.ibm.websphere.WCT.{{ ihs_pid }}"
+    path: "{{ wct_install_path }}"
+    repo: "{{ repo_list }}"
+    state: present
+  when: not (have_exact_wct|bool)

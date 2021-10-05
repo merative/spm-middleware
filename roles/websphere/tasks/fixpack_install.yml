@@ -1,0 +1,20 @@
+---
+- name: Create repo directories
+  file:
+    path: /tmp/repo
+    state: directory
+
+- name: Extract installers
+  unarchive:
+    src: "/tmp/repo-zips/{{ item }}"
+    dest: /tmp/repo
+    remote_src: yes
+  loop: "{{ zip_list }}"
+
+- name: Install package
+  iim_package:
+    iim_path: "{{ iim_install_path }}"
+    product_id: "{{ pack_id }}"
+    path: "{{ websphere_install_path }}"
+    repo: /tmp/repo
+    state: present

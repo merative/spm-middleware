@@ -1,0 +1,12 @@
+---
+- name: Converge
+  hosts: all
+
+  collections:
+    - ibm.spm_middleware
+
+  vars:
+    ihs_version: 8.5.5.17
+  roles:
+    - iim
+    - ihs

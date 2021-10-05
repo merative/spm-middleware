@@ -1,0 +1,31 @@
+---
+- name: Copy installers
+  copy:
+    directory_mode: yes
+    remote_src: no
+    src: "/tmp/repo-zips/"
+    dest: "/tmp/repo-zips/"
+
+- name: Create WAS repo directory
+  file:
+    path: "/tmp/repo"
+    state: directory
+
+- name: Extract WAS installers
+  unarchive:
+    src: "/tmp/repo-zips/{{ item }}"
+    dest: /tmp/repo
+    remote_src: yes
+    creates: "/tmp/repo/disk{{ (index + 1) | string }}"
+  loop: "{{ websphere_base_archive_list }}"
+  loop_control:
+    index_var: index
+
+- name: Install WAS
+  iim_package:
+    iim_path: "{{ iim_install_path }}"
+    product_id: com.ibm.websphere.ND.v85
+    path: "{{ websphere_install_path }}"
+    repo: /tmp/repo
+    state: present
+  when: "iim_info.packages | select('match', 'com.ibm.websphere.ND.*') | list | length == 0"

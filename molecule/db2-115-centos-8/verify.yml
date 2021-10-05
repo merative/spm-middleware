@@ -7,7 +7,7 @@
     - stat: "path=/opt/Props/Bootstrap.properties"
       register: boot_props
     - command: "db2level"
-      become: yes
+      become: true
       become_user: "db2admin"
       become_method: sudo
       become_flags: "-i"

@@ -1,0 +1,57 @@
+---
+- name: Check htpasswd
+  slurp:
+    path: "{{ ihs_install_path }}/conf/admin.passwd"
+  register: admin_passwd_file
+
+- name: Set htpasswd
+  command: "{{ ihs_install_path }}/bin/htpasswd -b -cm {{ ihs_install_path }}/conf/admin.passwd {{ ihs_admin_user }} {{ ihs_admin_pass }}"
+  when: ihs_admin_user not in (admin_passwd_file['content'] | b64decode)
+
+- name: Create config drop-ins directory
+  file:
+    path: "{{ ihs_install_path }}/conf.d"
+    state: directory
+
+- name: Include config drop-ins
+  lineinfile:
+    path: "{{ ihs_install_path }}/conf/httpd.conf"
+    line: "Include conf.d/*.conf"
+    insertafter: EOF
+    state: present
+
+- name: Render configuration files
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ ihs_install_path }}/conf.d/{{ item }}"
+  loop:
+    - custom_ihs_perf.conf
+    - custom_ssl.conf
+    - custom_staticcontent.conf
+
+- name: Create kdb for self-signed cert
+  command: "{{ ihs_install_path }}/bin/gskcapicmd -keydb -create -db {{ plg_install_path }}/config/key.kdb -pw {{ ihs_admin_pass }} -type cms -stash"
+  args:
+    creates: "{{ plg_install_path }}/config/key.kdb"
+  register: kdb_file
+
+- name: Generate self-signed cert
+  command: "{{ ihs_install_path }}/bin/gskcapicmd -cert -create -db {{ plg_install_path }}/config/key.kdb -pw {{ ihs_admin_pass }} -label websphere -size 2048 -sigalg SHA256WithRSA -expire 820 -dn 'CN={{ ansible_fqdn }},O=IBM,C=IE' -default_cert yes -san_dnsname {{ ansible_fqdn }} -eku serverAuth"
+  when: kdb_file.changed
+
+- name: Check admin.conf
+  slurp:
+    path: "{{ ihs_install_path }}/conf/admin.conf"
+  register: admin_conf_file
+
+- name: Render PCT response file
+  template:
+    src: responsefile.txt.j2
+    dest: "{{ wct_install_path }}/WCT/ihs_responsefile.txt"
+  when: "'Listen @@AdminPort@@' in (admin_conf_file['content'] | b64decode)"
+
+- name: Run PCT tool
+  command: "./wctcmd.sh -tool pct -defLocPathname {{ plg_install_path }} -defLocName {{ ansible_hostname }} -createDefinition -response ./ihs_responsefile.txt"
+  args:
+    chdir: "{{ wct_install_path }}/WCT"
+  when: "'Listen @@AdminPort@@' in (admin_conf_file['content'] | b64decode)"

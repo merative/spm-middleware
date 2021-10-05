@@ -1,0 +1,66 @@
+---
+- name: Copy installers
+  copy:
+    directory_mode: yes
+    remote_src: no
+    src: "/tmp/repo-zips/"
+    dest: "/tmp/repo-zips/"
+
+- name: Create WAS repo directory
+  file:
+    path: "/tmp/fp"
+    state: directory
+
+- name: Create WAS repo directory
+  file:
+    path: "/tmp/wct"
+    state: directory
+
+- name: Extract IHS installers
+  unarchive:
+    src: "/tmp/repo-zips/{{ item }}"
+    dest: "/tmp/fp/"
+    remote_src: yes
+  loop: "{{ ihs_fp_archive_list }}"
+
+- name: Extract WCT installers
+  unarchive:
+    src: "/tmp/repo-zips/{{ item }}"
+    dest: "/tmp/wct/"
+    remote_src: yes
+  loop: "{{ ihs_wct_archive_list }}"
+
+- name: Set up-to-date facts
+  set_fact:
+    have_exact_ihs: "'com.ibm.websphere.IHS.{{ ihs_pid }}' in iim_info.packages"
+    have_exact_plg: "'com.ibm.websphere.PLG.{{ ihs_pid }}' in iim_info.packages"
+    have_exact_wct: "'com.ibm.websphere.WCT.{{ ihs_pid }}' in iim_info.packages"
+
+- name: Upgrade IHS
+  iim_package:
+    iim_path: "{{ iim_install_path }}"
+    product_id: "com.ibm.websphere.IHS.{{ ihs_pid }}"
+    path: "{{ ihs_install_path }}"
+    repo: /tmp/fp
+    properties:
+      "user.ihs.httpPort": 80
+    state: present
+  when: not (have_exact_ihs|bool)
+
+- name: Upgrade PLG
+  iim_package:
+    iim_path: "{{ iim_install_path }}"
+    product_id: "com.ibm.websphere.PLG.{{ ihs_pid }}"
+    path: "{{ plg_install_path }}"
+    repo: /tmp/fp
+    state: present
+  when: not (have_exact_plg|bool)
+
+- name: Upgrade WCT
+  iim_package:
+    iim_path: "{{ iim_install_path }}"
+    product_id: "com.ibm.websphere.WCT.{{ ihs_pid }}"
+    path: "{{ wct_install_path }}"
+    repo: /tmp/wct
+    state: present
+  when: not (have_exact_wct|bool)

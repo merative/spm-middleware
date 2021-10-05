@@ -1,0 +1,114 @@
+###############################################################################
+# Copyright 2017,2020 IBM Corporation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
+
+#
+# Taken from http://www-01.ibm.com/support/docview.wss?uid=swg21685199&aid=1
+#
+
+KeepAlive On
+MaxKeepAliveRequests 1000
+KeepAliveTimeOut 120
+
+#
+# if required, you need to substitute these in the main httpd.conf for Linux
+#
+#<IfModule worker.c>
+#ThreadLimit        300
+#MaxClients         300
+#MinSpareThreads    300
+#MaxSpareThreads    300
+#ThreadsPerChild    300
+#StartServers         1
+#ServerLimit          1
+#MaxRequestsPerChild  0
+#</IfModule>
+#
+# if required, you need to substitue these in the main httpd.conf for Windows
+#
+#<IfModule mpm_winnt.c>
+#ThreadLimit         300
+#ThreadsPerChild     300
+#MaxRequestsPerChild  0
+#MaxMemFree 2048
+#</IfModule>
+#
+#
+
+#
+# Allow access to /server-status
+#
+#<Location /server-status>
+#    SetHandler server-status
+#    Order allow,deny
+#    Allow from all
+#</Location>
+
+#
+# Custom rule to redirect to HTTPS
+#
+#<VirtualHost *:80>
+#    RedirectPermanent / https://${HOSTNAME}_SSL/
+#</VirtualHost>
+<IfModule !mod_headers.c>
+    LoadModule headers_module modules/mod_headers.so
+</IfModule>
+<IfModule !mod_expires.c>
+    LoadModule expires_module modules/mod_expires.so
+</IfModule>
+# Enables mod_rewrite for React Router's BrowserRouter directives
+<IfModule !mod_rewrite.c>
+    LoadModule rewrite_module modules/mod_rewrite.so
+</IfModule>
+# Below "/opt/IBM/HTTPServer/htdocs/universal" is the location
+# where the web application is deployed under the DocumentRoot.
+# Alternatively you can specify the DocumentRoot "/opt/IBM/HTTPServer/htdocs"
+<Directory "{{ ihs_install_path }}/htdocs">
+    AllowOverride FileInfo Options=MultiViews
+    ExpiresActive On
+    ExpiresDefault "access plus 1 month"
+    Header unset Last-Modified
+</Directory>
+
+# List of MIME types that can be compressed provided with the out-of-the-box application
+# some of them might be already configured in your HTTP server, please edit as required
+<IfModule mime_module>
+    AddType image/x-icon .ico
+    AddType application/javascript .js
+    AddType application/json json
+    AddType image/svg+xml svg
+    AddType text/css css
+    AddType text/html html
+</IfModule>
+
+# mod_filter is needed for "AddOutputFilterByType" in IHS9 (Apache 2.4)
+<IfModule !mod_filter.c>
+    LoadModule filter_module modules/mod_filter.so
+</IfModule>
+<IfModule !mod_deflate.c>
+    LoadModule deflate_module modules/mod_deflate.so
+</IfModule>
+
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css application/x-javascript application/javascript image/svg+xml application/json image/x-icon image/vnd.microsoft.icon text/xml
+    # Netscape 4.x has some problems...
+    BrowserMatch ^Mozilla/4 gzip-only-text/html
+    # Netscape 4.06-4.08 have some more problems
+    BrowserMatch ^Mozilla/4\.0[678] no-gzip
+    # MSIE masquerades as Netscape, but it is fine
+    BrowserMatch \bMSI[E] !no-gzip !gzip-only-text/html
+    # Make sure proxies don't deliver the wrong content
+    Header append Vary User-Agent env=!dont-vary
+</IfModule>
