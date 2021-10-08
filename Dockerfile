@@ -1,6 +1,6 @@
 FROM docker:dind
 
-RUN apk add --no-cache bash \
+RUN apk update && apk add --no-cache bash \
                        py3-pip \
                        gcc \
                        libvirt \
