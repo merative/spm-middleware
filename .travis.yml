@@ -1,3 +1,4 @@
+
 ---
 sudo: required
 
@@ -33,8 +34,8 @@ env:
   matrix:
     - SCENARIO=websphere-v90-centos-8
     - SCENARIO=websphere-v85-centos-7
-    - SCENARIO=db2-111-centos-7
-    - SCENARIO=db2-115-centos-8
+    - SCENARIO=db2111
+    - SCENARIO=db2115
     - SCENARIO=iim-191-centos-8
     - SCENARIO=iim-191-centos-8
     - SCENARIO=ihs-v90-centos-8
