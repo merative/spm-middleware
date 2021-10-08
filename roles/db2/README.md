@@ -17,9 +17,9 @@ The `db2` role will install IBM Db2.
 | ------------------------- | --------------------------------------------------- |
 | `db2_db_create`           | `True`                                              |
 | `db2_db_name`             | `DATABASE`                                          |
-| `db2_db_username`         | Environment variable: `DB2_USER`                    |
-| `db2_db_password`         | Environment variable: `DB2_PASSWORD`                |
-| `db2_db_spm_enc`          | Environment variable: `DB2_ENC_PASSWORD`            |
+| `db2_db_username`         | `db2admin`                    |
+| `db2_db_password`         | `db2admin`               |
+| `db2_db_spm_enc`          | `dummyPassword`            |
 | `db2_db_drop_required`    | `False`                                             |
 | ------------------------- | --------------------------------------------------- |
 | `bootstrap_dateformat`    | `dd MM yyyy`                                        |
@@ -37,7 +37,7 @@ None
 - hosts: servers
   roles:
     - role: ibm.spm_middleware.db2
-      db2_version: 11.1.4.6
+      db2_version: 11.5.5.0
 ```
 
 ## License
