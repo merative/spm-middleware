@@ -12,6 +12,31 @@
     src: "{{ iim_installer_path }}"
     dest: "{{tmp_dir.path}}/iim_installer.tar.gz"
   register: iim_zip
+  when: download_url is not defined
+  
+- name: Download IIM installer
+  get_url:
+    dest: "{{ tmp_dir.path }}/agent.installer.linux.gtk.x86_64_{{ iim_agent_version }}.zip"
+    # url: "{{ download_url }}/{{ artifactory_repo }}/SoftwareInstallers/IIM/agent.installer.linux.gtk.x86_64_{{ iim_agent_version }}.zip"
+    url: "{{ download_url }}/{{ iim_installer_path }}"
+    mode: '644'
+    headers:
+      # X-JFrog-Art-Api: "{{ artifactory_token }}"
+      {{ download_header }}
+  register: iim_zip
+  when: download_url is defined
+
+
+
+# - name: Download IIM installer
+#   get_url:
+#     dest: "{{ tmp_dir.path }}/agent.installer.linux.gtk.x86_64_{{ iim_agent_version }}.zip"
+#     url: "{{ artifactory_url }}/{{ artifactory_repo }}/SoftwareInstallers/IIM/agent.installer.linux.gtk.x86_64_{{ iim_agent_version }}.zip"
+#     mode: '644'
+#     headers:
+#       X-JFrog-Art-Api: "{{ artifactory_token }}"
+#   register: iim_zip
+#   when: download_url is defined
 
 - name: Extract IIM installer
   unarchive:
