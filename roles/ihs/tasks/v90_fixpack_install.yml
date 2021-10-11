@@ -28,7 +28,8 @@
     remote_src: no
     src: "{{ installer_dir.path }}"
     dest: "{{ installer_dir.path }}"
-
+  when: download_url is not defined
+  
 - name: Extract IHS fixpack installers
   unarchive:
     src: "{{ installer_dir.path }}{{ item }}"
