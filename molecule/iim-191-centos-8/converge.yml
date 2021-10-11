@@ -10,7 +10,7 @@
 
   vars:
     iim_agent_version: 1.9.1001.20191112_1525
-    download_url: "{{ lookup('env','ARTIFACTORY_URL')}}/{{ lookup('env,'ARTIFACTORY_REPO') }}/SoftwareInstallers"
-    download_header: {'X-JFrog-art-Api': "{{lookup('env','ARTIFACTORY_TOKEN')}}"}
+    download_url: "{{ lookup('env','ARTIFACTORY_URL') }}/{{ lookup('env','ARTIFACTORY_REPO') }}/SoftwareInstallers"
+    download_header: {'X-JFrog-Art-Api': "{{ lookup('env','ARTIFACTORY_TOKEN' )}}"}
     ansible_os_family: redhat
     iim_installer_path: /IIM/agent.installer.linux.gtk.x86_64_{{ iim_agent_version }}.zip
