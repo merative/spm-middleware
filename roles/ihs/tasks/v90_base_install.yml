@@ -15,7 +15,7 @@
   file:
     path: "/tmp/repo/{{ index }}"
     state: directory
-  loop: "{{ ihs_base_archive_list }}"
+  loop: "{{ ihs_installer_archive_list }}"
   loop_control:
     index_var: index
 
@@ -30,7 +30,7 @@
     dest: "/tmp/repo/{{ index }}"
     remote_src: yes
     creates: "/tmp/repo/{{ index }}/repository.config"
-  loop: "{{ ihs_base_archive_list }}"
+  loop: "{{ ihs_installer_archive_list }}"
   loop_control:
     index_var: index
 
@@ -44,7 +44,7 @@
 - name: Build base repo list
   set_fact:
     repo_list: "{{ repo_list | default(['/tmp/repo/java']) + ['/tmp/repo/' + index|string]}}"
-  loop: "{{ ihs_base_archive_list }}"
+  loop: "{{ ihs_installer_archive_list }}"
   loop_control:
     index_var: index
 

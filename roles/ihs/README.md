@@ -21,15 +21,19 @@ IBM Installation Manager (1.9.x) must already be installed in the target environ
 | Version-specific:       | Values from `9.0.5.8`                               |
 | ----------------------- | --------------------------------------------------- |
 | `ihs_base_path`         | `WAS/9.0.5ND`                                       |
-| `ihs_base_archive_list` | `was.repo.90500.[ihs|plugins|wct].zip`              |
-| `ihs_fp_path`           | `WAS/9.0.5Fixpacks`                                 |
-| `ihs_fp_archive_list`   | `9.0.5-WS-[IHSPLG|WCT]-FP008.zip`                   |
+| `ihs_installer_archive_list` | `was.repo.90500.[ihs|plugins|wct].zip`              |
+| `ihs_fp_installer_path`           | `WAS/9.0.5Fixpacks`                                 |
+| `ihs_fp_installer_path`   | `9.0.5-WS-[IHSPLG|WCT]-FP008.zip`                   |
 | `ihs_pid`               | `v90_9.0.5008.20210525_1601`                        |
 | `ihs_java_zip_path`     | `Java/IBM/ibm-java-sdk-8.0-6.26-linux-x64-installmgr.zip` |
 | `ihs_java_pid`          | `com.ibm.java.jdk.v8`                               |
 | ----------------------- | --------------------------------------------------- |
 | `iim_install_path`      | `/opt/IBM/InstallationManager`                      |
 | `profiled_path`         | `/opt/profile.d`                                    |
+| ------------------------- | --------------------------------------------------- |
+| `download_url`    | # set this if license and installer is being downloaded from a http server |
+| `download_header` | # Use this in conjunction with `download_url`               |
+| ------------------------- | --------------------------------------------------- |
 
 ## Dependencies
 
