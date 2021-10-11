@@ -46,7 +46,7 @@
 
 - name: Extract Java installer
   unarchive:
-    src: {{ installer_dir.path }}/java-repo.zip
+    src: "{{ installer_dir.path }}/java-repo.zip"
     dest: /tmp/repo/java
     remote_src: yes
     creates: /tmp/repo/java/repository.config
