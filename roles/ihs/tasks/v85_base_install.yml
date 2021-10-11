@@ -14,7 +14,7 @@
   loop: "{{ ihs_base_archive_list }}"
   when: download_url is defined
 
-- name: Copy installers
+- name: Copy base installers
   copy:
     directory_mode: yes
     remote_src: no
