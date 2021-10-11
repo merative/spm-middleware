@@ -54,4 +54,14 @@ elif [ "$1" = "websphere-v90-centos-8" ]; then
   curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/Java/IBM/ibm-java-sdk-8.0-6.26-linux-x64-installmgr.zip -o /tmp/repo-zips/java-repo.zip
   # fixpacks
   curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/WAS/9.0.5Fixpacks/9.0.5-WS-WAS-FP008.zip -o /tmp/repo-zips/9.0.5-WS-WAS-FP008.zip
+
+elif [ "$1" = "ihs-v90-centos-8" ]; then
+  echo "Download IIM installer"
+  mkdir -p /tmp/iim/
+  curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/IIM/agent.installer.linux.gtk.x86_64_1.9.1001.20191112_1525.zip -o /tmp/iim/iim_installer.tar.gz
+
+elif [ "$1" = "ihs-v80-centos-7" ]; then
+  echo "Download IIM installer"
+  mkdir -p /tmp/iim/
+  curl -H "X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" -k ${ARTIFACTORY_URL}/${ARTIFACTORY_REPO}/SoftwareInstallers/IIM/agent.installer.linux.gtk.x86_64_1.9.1001.20191112_1525.zip -o /tmp/iim/iim_installer.tar.gz
 fi
