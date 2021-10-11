@@ -11,7 +11,7 @@
     dest: "{{ installer_dir.path }}/{{ item }}"
     url: "{{ download_url }}/{{ ihs_installer_path }}/{{ item }}"
     headers: {{ download_header }}
-  loop: "{{ ihs_base_archive_list }}"
+  loop: "{{ ihs_installer_archive_list }}"
   when: download_url is defined
 
 - name: Copy base installers
@@ -20,7 +20,7 @@
     remote_src: no
     src: "{{ installer_dir.path }}/"
     dest: "{{ installer_dir.path }}/"
-  when: download_url is defined
+  when: download_url is not defined
 
 - name: Create IHS repo directories
   file:

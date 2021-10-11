@@ -20,7 +20,6 @@ IBM Installation Manager (1.9.x) must already be installed in the target environ
 | ----------------------- | --------------------------------------------------- |
 | Version-specific:       | Values from `9.0.5.8`                               |
 | ----------------------- | --------------------------------------------------- |
-| `ihs_base_path`         | `WAS/9.0.5ND`                                       |
 | `ihs_installer_archive_list` | `was.repo.90500.[ihs|plugins|wct].zip`              |
 | `ihs_fp_installer_path`           | `WAS/9.0.5Fixpacks`                                 |
 | `ihs_fp_installer_path`   | `9.0.5-WS-[IHSPLG|WCT]-FP008.zip`                   |

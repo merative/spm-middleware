@@ -1,5 +1,4 @@
 ---
-
 - name: Download IHS Fix Pack installers
   get_url:
     dest: "/tmp/repo-zips/{{ item }}"
