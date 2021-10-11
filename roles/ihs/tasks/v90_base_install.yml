@@ -30,6 +30,13 @@
   loop_control:
     index_var: index
 
+- name: Download Java repo
+  get_url:
+    dest: "{{ installer_dir.path }}/java-repo.zip"
+    url: "{{ download_url }}/{{ ihs_java_zip_path }}"
+    headers: "{{ download_header }}"
+  when: download_url is defined
+
 - name: Create Java repo directory
   file:
     path: /tmp/repo/java
