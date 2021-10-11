@@ -8,6 +8,8 @@ The `db2` role will install IBM Db2.
 
 ## Role Variables
 
+Ensure you update / override password variables prior to using the role.
+
 | Property Name             | Default value                                       |
 | ------------------------- | --------------------------------------------------- |
 | `db2_install_path`        | `/opt/IBM/db2`                                      |
