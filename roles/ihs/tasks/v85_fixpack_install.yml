@@ -12,7 +12,7 @@
     dest: "/tmp/repo-zips/{{ item }}"
     url: "{{ download_url }}/{{ ihs_fp_installer_path }}/{{ item }}"
     headers: {{ download_header }}
-  loop: "{{ ihs_fp_installer_list }}"
+  loop: "{{ ihs_fp_installer_archive_list }}"
   when: download_url is defined
 
 - name: Download WCT repo
