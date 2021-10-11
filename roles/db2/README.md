@@ -19,17 +19,17 @@ Ensure you update / override password variables prior to using the role.
 | ------------------------- | --------------------------------------------------- |
 | `db2_db_create`           | `True`                                              |
 | `db2_db_name`             | `DATABASE`                                          |
-| `db2_db_username`         | `db2admin`                    |
-| `db2_db_password`         | `db2admin`               |
-| `db2_db_spm_enc`          | `dummyPassword`            |
+| `db2_db_username`         | `db2admin`                                          |
+| `db2_db_password`         | `db2admin`                                          |
+| `db2_db_spm_enc`          | `dummyPassword`                                     |
 | `db2_db_drop_required`    | `False`                                             |
 | ------------------------- | --------------------------------------------------- |
 | `bootstrap_dateformat`    | `dd MM yyyy`                                        |
 | `bootstrap_dateseparator` | `/`                                                 |
 | `bootstrap_dmx_locale`    | `en_US`                                             |
 | ------------------------- | --------------------------------------------------- |
-| `download_url`    | # set this if license and installer is being downloaded from a http server                                                       |
-| `download_header` | # Use this in conjunction with `download_url`                                                       |
+| `download_url`            | # set this if license and installer is being downloaded from a http server|
+| `download_header`         | # Use this in conjunction with `download_url`       |
 | ------------------------- | --------------------------------------------------- |
 
 

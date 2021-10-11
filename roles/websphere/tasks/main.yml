@@ -14,10 +14,6 @@
 
 - name: Install Fixpack version
   include_tasks: fixpack_install.yml
-  vars:
-    zip_path: "{{ websphere_fp_path }}"
-    zip_list: "{{ websphere_fp_archive_list }}"
-    pack_id: "com.ibm.websphere.ND.{{ websphere_pid }}"
   when: not iim_info.exact_installed
 
 - name: Setup environment variables
