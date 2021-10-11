@@ -20,9 +20,8 @@
     # url: "{{ artifactory_url }}/{{ artifactory_repo }}/SoftwareInstallers/IIM/agent.installer.linux.gtk.x86_64_{{ iim_agent_version }}.zip"
     url: "{{ download_url }}/{{ iim_installer_path }}"
     mode: '644'
-    headers:
+    headers: "{{ download_header }}"
       # X-JFrog-Art-Api: "{{ artifactory_token }}"
-      {{ download_header }}
   register: iim_zip
   when: download_url is defined
 
