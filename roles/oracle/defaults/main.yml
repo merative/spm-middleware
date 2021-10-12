@@ -1,0 +1,32 @@
+---
+# path can be relative to download_url or local on controller
+oracle_installer_path: "Oracle"
+
+# Travis
+travis_build: "{{ lookup('env', 'CI') }}"
+travis_flags: "{{'-force -ignoresysprereqs -ignoreprereq' if lookup('env', 'CI') is defined else ''}}"
+
+# Oracle config
+oracle_version: 19.11.0.0.0
+oracle_family: "{{ oracle_version.split('.') | first }}c"
+oracle_base: /opt/oracle
+oracle_home: "/opt/oracle/product/{{ oracle_family }}/dbhome_1"
+oracle_inventory: /opt/Oracle/oraInventory  # only used for 12c
+oracle_global_name: "orcl.{{ ansible_domain }}"
+oracle_sid: orcl
+oracle_admin_password: dummyPassword
+sql_username: curam
+sql_password: dummyPassword
+enc_sql_password: dummyPassword
+
+# Bootstrap config
+bootstrap_dateformat: 'dd MM yyyy'
+bootstrap_dateseparator: '/'
+bootstrap_dmx_locale: 'en_US'
+
+# Common
+profiled_path: /opt/profile.d
+
+# Server info for downloading installers / licenses directly, leave blank to copy
+download_url:   # e.g. https://artifactory/repo
+download_header:  # e.g. X-JFrog-Art-Api: "{{ lookup('env', 'MYTOKEN') }}"

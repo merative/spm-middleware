@@ -1,0 +1,15 @@
+---
+# prereq installers
+prereqs_installer_7: https://yum.oracle.com/repo/OracleLinux/OL7/latest/x86_64/getPackage/oracle-database-preinstall-19c-1.0-1.el7.x86_64.rpm
+prereqs_installer_8: https://yum.oracle.com/repo/OracleLinux/OL8/appstream/x86_64/getPackage/oracle-database-preinstall-19c-1.0-2.el8.x86_64.rpm
+prereqs_installer: "{{ prereqs_installer_7 if ansible_distribution_major_version=='7' else prereqs_installer_8 }}"
+# base installer values
+# base_installer: V982063-01.zip #19.3
+base_version: 19.3.0.0.0
+base_installer: oracle-database-ee-19c-1.0-1.x86_64.rpm
+# patch values
+patch_filename: p32218454_190000_Linux-x86-64.zip
+patch_number: 32218454  # used for directory
+# Add OPatch values when bundled OPatch needs to be upgraded
+opatch_filename: p6880880_190000_Linux-x86-64.zip
+opatch_version: 12.2.0.1.23

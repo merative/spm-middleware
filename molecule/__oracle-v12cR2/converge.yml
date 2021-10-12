@@ -1,0 +1,14 @@
+---
+- name: Converge
+  hosts: all
+
+  collections:
+    - wh_spm.middleware
+
+  vars:
+    oracle_version: 12.2.0.1.210720
+    download_url: "{{ lookup('env', 'ARTIFACTORY_URL') }}/{{ lookup('env', 'ARTIFACTORY_REPO') }}/SoftwareInstallers"
+    download_header: { 'X-JFrog-Art-Api': "{{ lookup('env', 'ARTIFACTORY_TOKEN') }}"}
+
+  roles:
+    - oracle
