@@ -12,6 +12,9 @@ None
 | ------------------- | ----------------------------------------------------- |
 | `iim_agent_version` | `1.9.1001.20191112_1525`                              |
 | `iim_install_path`  | `/opt/IBM/InstallationManager`                        |
+| `download_url`            | # set this if license and installer is being downloaded from a http server|
+| `download_header`         | # Use this in conjunction with `download_url`   |
+| ------------------------- | ------------------------------------------------|
 
 ## Dependencies
 
