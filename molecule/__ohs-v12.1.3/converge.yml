@@ -42,4 +42,5 @@
         ohs_version: 12.1.3.0.200412
 
   vars:
-    artifactory_url: "https://{{ lookup('env', 'JFROG_GEO') | default('eu', true) }}.artifactory.swg-devops.com/artifactory"
+    download_url: "{{ lookup('env', 'ARTIFACTORY_URL') }}/{{ lookup('env', 'ARTIFACTORY_REPO') }}/SoftwareInstallers"
+    download_header: { 'X-JFrog-Art-Api': "{{ lookup('env', 'ARTIFACTORY_TOKEN') }}"}
