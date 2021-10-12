@@ -1,0 +1,26 @@
+---
+weblogic_home: '/home/oracle/Oracle/Middleware/Oracle_Home'
+weblogic_user: 'oracle'
+weblogic_group: 'oinstall'
+weblogic_os_user_pass: 'Password1'
+weblogic_base: '/home/oracle'
+# If not passed in, use this default value
+weblogic_version: '14.1.1.0.210716'
+inv_loc: '/opt/Oracle/oraInventory'
+jdk_folder: '/usr/java'
+# Common paths and names
+domains_home: '{{ weblogic_base }}/config/Domains'
+applications_home: '{{ weblogic_base }}/config/applications'
+mw_installer_folder: '{{ weblogic_base }}/installer'
+domain_username: 'weblogic'
+domain_password: 'Password1'
+encrypted_password: 'dummypassword'
+server_name: 'CuramServer'
+server_port: 7001
+# Artifactory info
+artifactory_token: "{{ lookup('env', 'ARTIFACTORY_TOKEN') }}"
+download_url: "{{ lookup('env','ARTIFACTORY_URL') }}/{{ lookup('env','ARTIFACTORY_REPO') }}/SoftwareInstallers"
+# artifactory_url: https://eu.artifactory.swg-devops.com/artifactory
+artifactory_repo: wh-spmdevops-generic-local
+artifactory_patch_folder: 'Patches'
+weblogic_installer_path: /tmp/weblogic/

@@ -1,0 +1,117 @@
+---
+## ==> if patch is not empty, let's opatch
+
+- name: opatch upgrade
+  block:
+
+    - name: Create opatch folder
+      file: state=directory path="{{ mw_installer_folder }}/Patches" owner="{{ weblogic_user }}" group="{{ weblogic_group }}"
+
+    # - name: download patch package
+    #   get_url:
+    #     url: "{{ artifactory_url }}/{{ artifactory_repo }}/SoftwareInstallers/WLS/{{ artifactory_patch_folder }}/{{ opatch }}"
+    #     dest: "{{ mw_installer_folder }}/"
+    #     headers:
+    #       X-JFrog-Art-Api: "{{ artifactory_token }}"
+
+    - name: Copy installer
+      copy:
+        src: "{{ weblogic_installer_path }}"
+        dest: "{{ mw_installer_folder }}/"
+      when: download_url is not defined
+
+    - name: Download opatch installer
+      get_url:
+        dest: "{{ mw_installer_folder }}/"
+        url: "{{ download_url }}/WLS/{{ artifactory_patch_folder }}/{{ opatch }}"
+        mode: '644'
+        headers: "{{ download_header }}"
+      when: download_url is defined
+
+    - name: Extract OPatch
+      unarchive:
+        remote_src: yes
+        src: "{{ mw_installer_folder }}/{{ opatch }}"
+        dest: "{{ mw_installer_folder }}"
+        owner: "{{ weblogic_user }}"
+        group: "{{ weblogic_group }}"
+
+    - name: Patch OPatch
+      command: "{{ jdk_folder }}/{{ java_version_path }}/bin/java -jar {{ mw_installer_folder }}/6880880/opatch_generic.jar -silent -ignoreSysPrereqs oracle_home={{ weblogic_home }}"
+      become: true
+      become_user: "{{ weblogic_user }}"
+      ignore_errors: true
+
+    - name: Show OPatch Version
+      command: "{{ weblogic_home }}/OPatch/opatch version"
+      become_user: "{{ weblogic_user }}"
+      register: opatch_version
+
+  become: true
+  when: (opatch is defined) and (opatch|length > 0)
+
+- name: Check if already patched
+  become: yes
+  become_user: "{{ weblogic_user }}"
+  shell: "{{ weblogic_home }}/OPatch/opatch lspatches | grep -i {{ patch_number }}"
+  register: weblogic_patched
+  changed_when: False
+  ignore_errors: True
+
+- name: patch weblogic
+  block:
+
+    - name: Create patch folder
+      file: state=directory path="{{ mw_installer_folder }}/patch" owner="{{ weblogic_user }}" group="{{ weblogic_group }}"
+
+    # - name: Download patch package
+    #   get_url:
+    #     url: "{{ artifactory_url }}/{{ artifactory_repo }}/SoftwareInstallers/WLS/{{ artifactory_patch_folder }}/{{ patch }}"
+    #     dest: "{{ mw_installer_folder }}/patch"
+    #     headers:
+    #       X-JFrog-Art-Api: "{{ artifactory_token }}"
+
+    - name: Copy installer
+      copy:
+        src: "{{ weblogic_installer_path }}"
+        dest: "{{ mw_installer_folder }}/patch"
+      when: download_url is not defined
+
+    - name: Download patch installer
+      get_url:
+        dest: "{{ mw_installer_folder }}/patch"
+        url: "{{ download_url }}/WLS/{{ artifactory_patch_folder }}/{{ patch }}"
+        mode: '644'
+        headers: "{{ download_header }}"
+      when: download_url is defined
+
+    - name: Extract Patch
+      unarchive:
+        remote_src: yes
+        src: "{{ mw_installer_folder }}/patch/{{ patch }}"
+        dest: "{{ mw_installer_folder }}/patch/"
+        owner: "{{ weblogic_user }}"
+        group: "{{ weblogic_group }}"
+
+    - name: Patch it in old way
+      command: "{{ weblogic_home }}/OPatch/opatch apply -silent"
+      become: true
+      become_user: "{{ weblogic_user }}"
+      environment:
+        ORACLE_HOME: "{{ weblogic_home }}"
+      args:
+        chdir: "{{ mw_installer_folder }}/patch/{{ patch_folder }}"
+      when: not napply
+
+    - name: Patch it in new way
+      command: "{{ weblogic_home }}/OPatch/opatch napply -silent -oh {{ weblogic_home }}  -phBaseFile linux64_patchlist.txt"
+      become: true
+      become_user: "{{ weblogic_user }}"
+      environment:
+        ORACLE_HOME: "{{ weblogic_home }}"
+      args:
+        chdir: "{{ mw_installer_folder }}/patch/{{ patch_folder }}/binary_patches"
+      when: napply
+
+  become: true
+  when: (patch is defined) and (weblogic_patched.rc != 0)

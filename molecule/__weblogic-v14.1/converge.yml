@@ -1,0 +1,14 @@
+---
+- name: Converge
+  hosts: all
+
+  collections:
+    - wh_spm.middleware
+
+  vars:
+    # artifactory_url: "https://{{ lookup('env', 'JFROG_GEO') | default('eu', true) }}.artifactory.swg-devops.com/artifactory"
+    weblogic_version: "14.1.1.0.210716"
+    download_url: "{{ lookup('env','ARTIFACTORY_URL') }}/{{ lookup('env','ARTIFACTORY_REPO') }}/SoftwareInstallers"
+    download_header: {'X-JFrog-Art-Api': "{{ lookup('env','ARTIFACTORY_TOKEN' )}}"}
+  roles:
+    - weblogic

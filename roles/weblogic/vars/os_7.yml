@@ -1,0 +1,42 @@
+---
+packages_list:
+  - 'binutils'
+  - 'net-tools'
+  - 'psmisc'
+  - 'shadow-utils'
+  - 'gcc-c++'
+  - 'glibc.x86_64'
+  - 'glibc-devel.x86_64'
+  - 'libaio-devel'
+  - 'libstdc++-devel'
+  - 'ksh'
+  - 'make'
+  - 'sudo'
+  - 'unzip'
+  - 'sysstat'
+  - 'yum-utils'
+  - 'smartmontools'
+kernel_params:
+  kernel.sem: 250        32000   100     128
+  kernel.shmmax: "{{ (ansible_memtotal_mb  * 1048576 / 2) |round|int|abs }}"
+  kernel.shmall: "{{ (ansible_memtotal_mb  * 1048576 / 4096) |round|int|abs }}"
+  kernel.shmmni: 4096
+  net.ipv4.ip_local_port_range: 9000   65535
+  # net.core.rmem_default: 262144
+  # net.core.rmem_max: 4194304
+  # net.core.wmem_default: 262144
+  # net.core.wmem_max: 1048576
+  fs.aio-max-nr: 1048576
+  # net.ipv4.tcp_rmem: 4096 87380 16777216
+  # net.ipv4.tcp_wmem: 4096 65536 16777216
+  vm.swappiness: 10
+  vm.dirty_background_ratio: 5
+  vm.dirty_ratio: 10
+  fs.file-max: 6815744
+  net.ipv4.tcp_keepalive_time: 300
+  net.ipv4.tcp_keepalive_intvl: 60
+  net.ipv4.tcp_keepalive_probes: 10
+soft_no_file: 4096
+hard_no_file: 65536
+soft_nproc: 2047
+hard_nproc: 16384
