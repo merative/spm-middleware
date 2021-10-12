@@ -1,17 +1,36 @@
 ---
-- name: Create temporary directory
+- name: Create zip directory
   file:
-    path: /tmp/repo-zips/
-    recurse: yes
-    mode: 0755
+    path: /tmp/repo-zips
     state: directory
 
-- name: Copy installers
+- name: Copy WAS repo
   copy:
-    directory_mode: yes
-    remote_src: no
-    src: "/tmp/repo-zips/"
-    dest: "/tmp/repo-zips/"
+    src: "{{ websphere_base_path }}/{{ item }}"
+    dest: "/tmp/repo-zips/{{ item }}"
+  loop: "{{ websphere_base_archive_list }}"
+  when: download_url is not defined
+
+- name: Download WAS repo
+  get_url:
+    dest: "/tmp/repo-zips/{{ item }}"
+    url: "{{ download_url }}/{{ websphere_base_path }}/{{ item }}"
+    headers: "{{ download_header }}"
+  loop: "{{ websphere_base_archive_list }}"
+  when: download_url is defined
+
+- name: Copy Java repo
+  copy:
+    src: "{{ websphere_java_path }}"
+    dest: "/tmp/repo-zips/java-repo.zip"
+  when: download_url is not defined
+
+- name: Download Java repo
+  get_url:
+    url: "{{ download_url }}/{{ websphere_java_path }}"
+    dest: "/tmp/repo-zips/java-repo.zip"
+    headers: "{{ download_header }}"
+  when: download_url is defined
 
 - name: Create WAS repo directories
   file:
@@ -54,9 +73,17 @@
   iim_package:
     iim_path: "{{ iim_install_path }}"
     product_id:
-      - com.ibm.websphere.ND.v90
-      - com.ibm.java.jdk.v8
+      - "{{ websphere_base_pid }}"
+      - "{{ websphere_java_pid }}"
     path: "{{ websphere_install_path }}"
     repo: "{{ repo_list }}"
     state: present
   when: "iim_info.packages | select('match', 'com.ibm.websphere.ND.*') | list | length == 0"
+
+- name: Cleanup
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /tmp/repo
+    - /tmp/repo-zips

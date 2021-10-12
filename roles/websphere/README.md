@@ -15,18 +15,33 @@ IBM Installation Manager (1.9.x) must already be installed in the target environ
 | ------------------------ | --------------------------------------------------- |
 | `iim_install_path`       | `/opt/IBM/InstallationManager`                      |
 | `profiled_path`          | `/opt/profile.d`                                    |
+| ------------------------- | --------------------------------------------------- |
+| `download_url`            | # set this if license and installer is being downloaded from a http server|
+| `download_header`         | # Use this in conjunction with `download_url`       |
+| ------------------------- | --------------------------------------------------- |
 
 ## Dependencies
 
-None
+ibm.spm_middleware.iim
 
 ## Example Playbook
 
 ```
-- hosts: servers
+---
+- name: Converge
+  hosts: all
+
+  collections:
+    - ibm.spm_middleware
+
+  vars:
+    websphere_version: 9.0.5.8
+    download_url: "https://myserver.com/was/repos"
+    download_header: { 'Authorization': 'Basic EncodedString'}
+
   roles:
-    - role: spm_middleware.websphere
-      websphere_version: 9.0.5.7
+    - ibm.spm_middleware.iim
+    - ibm.spm_middleware.websphere
 ```
 
 ## License

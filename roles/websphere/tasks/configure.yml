@@ -1,7 +1,7 @@
 ---
-- name: Patch JspBatchCompiler
+- name: Increase JspBatchCompiler Memory
   replace:
-    path: "{{ websphere_install_path }}/bin/JspBatchCompiler.{{ 'bat' if ansible_os_family == 'Windows' else 'sh' }}"
+    path: "{{ websphere_install_path }}/bin/JspBatchCompiler.sh"
     regexp: "-Xmx256m"
     replace: "-Xmx1024m"
     mode: 0755
