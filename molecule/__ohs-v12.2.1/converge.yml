@@ -27,12 +27,12 @@
       vars:
         ansible_python_interpreter: /usr/bin/python3
 
-    - name: include weblogic
-      include_role:
-        name: weblogic
-      vars:
-        ansible_python_interpreter: /usr/bin/python3
-        weblogic_version: "12.1.3.0.210720"
+    # - name: include weblogic
+    #   include_role:
+    #     name: weblogic
+    #   vars:
+    #     ansible_python_interpreter: /usr/bin/python3
+    #     weblogic_version: "12.1.3.0.210720"
 
     - name: include ohs
       include_role:

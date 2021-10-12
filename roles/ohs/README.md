@@ -9,7 +9,7 @@ The `ohs` role will install and patch Oracle HTTP Server, the Web server compone
 * `passlib` Python module must be installed.
 
 ## Role Variables
-NOTE: Update these default user and passwords after the initial installation.
+NOTE: Update these default usernames and passwords after the initial installation.
 | Property Name             | Default value                                       |
 | ------------------------- | --------------------------------------------------- |
 | `ohs_version`             | `12.2.1.4.210324`                                   |
