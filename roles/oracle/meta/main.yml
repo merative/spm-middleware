@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: SPM DevOps Team
-  description: Install and Configure IBM Db2 server for use with IBM \
+  description: Install and Configure Oracle database server for use with IBM \
     Curam Social Program Management Platform.
   company: Watson Health SPM
 
