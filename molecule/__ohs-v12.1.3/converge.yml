@@ -40,7 +40,6 @@
       vars:
         ansible_python_interpreter: /usr/bin/python3
         ohs_version: 12.1.3.0.200412
-
   vars:
     download_url: "{{ lookup('env', 'ARTIFACTORY_URL') }}/{{ lookup('env', 'ARTIFACTORY_REPO') }}/SoftwareInstallers"
     download_header: { 'X-JFrog-Art-Api': "{{ lookup('env', 'ARTIFACTORY_TOKEN') }}"}
