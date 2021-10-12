@@ -7,7 +7,7 @@ The `ihs` role will install IBM HTTP Server.
 IBM Installation Manager (1.9.x) must already be installed in the target environment.
 
 ## Role Variables
-
+NOTE: ihs_admin_pass should be changed after first installation.
 | Property Name           | Default value                                       |
 | ----------------------- | --------------------------------------------------- |
 | `ihs_install_path`      | `/opt/IBM/HTTPServer`                               |
@@ -20,9 +20,9 @@ IBM Installation Manager (1.9.x) must already be installed in the target environ
 | ----------------------- | --------------------------------------------------- |
 | Version-specific:       | Values from `9.0.5.8`                               |
 | ----------------------- | --------------------------------------------------- |
-| `ihs_installer_archive_list` | `was.repo.90500.[ihs|plugins|wct].zip`              |
-| `ihs_fp_installer_path`           | `WAS/9.0.5Fixpacks`                                 |
-| `ihs_fp_installer_path`   | `9.0.5-WS-[IHSPLG|WCT]-FP008.zip`                   |
+| `ihs_installer_archive_list` | `was.repo.90500.[ihs|plugins|wct].zip`         |
+| `ihs_fp_installer_path` | `WAS/9.0.5Fixpacks`                                 |
+| `ihs_fp_installer_path` | `9.0.5-WS-[IHSPLG|WCT]-FP008.zip`                   |
 | `ihs_pid`               | `v90_9.0.5008.20210525_1601`                        |
 | `ihs_java_zip_path`     | `Java/IBM/ibm-java-sdk-8.0-6.26-linux-x64-installmgr.zip` |
 | `ihs_java_pid`          | `com.ibm.java.jdk.v8`                               |
@@ -37,41 +37,25 @@ IBM Installation Manager (1.9.x) must already be installed in the target environ
 ## Dependencies
 
 IBM Installation Manager (iim)
-
+ibm.spm_middleware.iim
 
 ## Example Playbook
 
 ```
 ---
-- hosts: servers
-  remote_user: root
+- name: Deploy IHS
+  hosts: all
 
   collections:
     - ibm.spm_middleware
 
   roles:
     - ibm.spm_middleware.iim
-    - role: ibm.spm_middleware.ihs
+    - ibm.spm_middleware.ihs
       vars:
         - ihs_version: 8.5.5.17
-
-```
-
-## Example Playbook (Local Development)
-```
----
-- hosts: servers
-  remote_user: root
-
-  collections:
-    - ibm.spm_middleware
-
-  roles:
-    - ibm.spm_middleware.iim
-    - role: ihs
-      vars:
-        - ihs_version: 8.5.5.17
-
+        - download_url: "https://myserver.com/IHS/repos"
+        - download_header: { 'Authorization': 'Basic EncodedString'}
 ```
 
 ## License
