@@ -53,7 +53,7 @@
     src: "{{ installer_dir.path }}/{{ item }}"
     dest: "/tmp/fp/"
     remote_src: yes
-  loop: "{{ ihs_fp_installer_path }}"
+  loop: "{{ ihs_installer_archive_list }}"
 
 - name: Extract WCT installers
   unarchive:
