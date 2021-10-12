@@ -10,7 +10,7 @@
 - name: Copy installer
   copy:
     src: "{{ iim_installer_path }}"
-    dest: "{{tmp_dir.path}}/iim_installer.tar.gz"
+    dest: "{{tmp_dir.path}}/iim_installer.zip"
   register: iim_zip
   when: download_url is not defined
 
