@@ -59,7 +59,7 @@
 
 - name: Download base installer
   get_url:
-    url: "{{ download_url }}/{{ base_installer }}"
+    url: "{{ download_url }}/{{ ohs_version_folder }}/{{ base_installer }}"
     dest: "{{ ohs_installer_loc }}"
     owner: "{{ ohs_user }}"
     group: "{{ ohs_group }}"
