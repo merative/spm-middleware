@@ -37,7 +37,7 @@
     src: "{{ installer_dir.path }}"
     dest: "{{ installer_dir.path }}"
   when: download_url is not defined
-  
+
 - name: Create WAS repo directory
   file:
     path: "/tmp/fp"
