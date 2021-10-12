@@ -14,14 +14,6 @@
     path: "/tmp/java-repo.zip"
   register: stat_result
 
-- name: Download Java repo
-  get_url:
-    dest: "/tmp/java-repo.zip"
-    url: "{{ artifactory_url }}/{{ artifactory_repo }}/SoftwareInstallers/{{ java_zip_path }}"
-    headers:
-      X-JFrog-Art-Api: "{{ artifactory_token }}"
-  when: not stat_result.stat.exists
-
 - name: Copy Java repo
   copy:
     src: "{{ java_zip_path }}"
