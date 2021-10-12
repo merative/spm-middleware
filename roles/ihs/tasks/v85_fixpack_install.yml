@@ -25,7 +25,7 @@
 - name: Download WCT repo
   get_url:
     dest: "{{ installer_dir.path }}/{{ item }}"
-    url: "{{ download_url }}/{{ ihs_wct_installer_list }}/{{ item }}"
+    url: "{{ download_url }}/{{ ihs_fp_installer_path }}/{{ item }}"
     headers: "{{ download_header }}"
   loop: "{{ ihs_wct_installer_list }}"
   when: download_url is defined
