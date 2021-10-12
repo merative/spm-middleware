@@ -1,5 +1,4 @@
 ---
-# url relative OR local
 iim_install_path: /opt/IBM/InstallationManager
 # paths can be relative to download_url or local
 iim_installer_path: "IIM/agent.installer.linux.gtk.x86_64_{{ iim_agent_version }}.zip"
