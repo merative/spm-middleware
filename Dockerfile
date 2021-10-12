@@ -1,6 +1,6 @@
 FROM docker:dind
 
-RUN apk add --no-cache bash \
+RUN apk update && apk add --no-cache bash \
                        py3-pip \
                        gcc \
                        libvirt \
@@ -36,6 +36,7 @@ RUN apk add --no-cache bash \
                        py3-urllib3 \
                        py3-virtualenv \
                        py3-websocket-client \
+		       docker-compose \
     && rm -rf /var/cache/apk/* \
     && pip install --upgrade pip \
     && pip install --upgrade setuptools

@@ -7,6 +7,8 @@
 
   vars:
     websphere_version: 9.0.5.8
+    download_url: "{{ lookup('env', 'ARTIFACTORY_URL') }}/{{ lookup('env', 'ARTIFACTORY_REPO') }}/SoftwareInstallers"
+    download_header: { 'X-JFrog-Art-Api': "{{ lookup('env', 'ARTIFACTORY_TOKEN') }}"}
 
   roles:
     - iim

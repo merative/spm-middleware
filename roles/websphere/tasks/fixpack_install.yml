@@ -1,4 +1,24 @@
 ---
+- name: Create zip directory
+  file:
+    path: /tmp/repo-zips
+    state: directory
+
+- name: Copy WAS repo
+  copy:
+    src: "{{ websphere_fp_path }}/{{ item }}"
+    dest: "/tmp/repo-zips/{{ item }}"
+  loop: "{{ websphere_fp_archive_list }}"
+  when: download_url is not defined
+
+- name: Download repo
+  get_url:
+    dest: "/tmp/repo-zips/{{ item }}"
+    url: "{{ download_url }}/{{ websphere_fp_path }}/{{ item }}"
+    headers: "{{ download_header }}"
+  loop: "{{ websphere_fp_archive_list }}"
+  when: download_url is defined
+
 - name: Create repo directories
   file:
     path: /tmp/repo
@@ -9,12 +29,20 @@
     src: "/tmp/repo-zips/{{ item }}"
     dest: /tmp/repo
     remote_src: yes
-  loop: "{{ zip_list }}"
+  loop: "{{ websphere_fp_archive_list }}"
 
 - name: Install package
   iim_package:
     iim_path: "{{ iim_install_path }}"
-    product_id: "{{ pack_id }}"
+    product_id: "com.ibm.websphere.ND.{{ websphere_pid }}"
     path: "{{ websphere_install_path }}"
     repo: /tmp/repo
     state: present
+
+- name: Cleanup
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /tmp/repo
+    - /tmp/repo-zips

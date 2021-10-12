@@ -5,11 +5,10 @@
   collections:
     - ibm.spm_middleware
 
+  roles:
+    - db2
+
   vars:
-    websphere_version: 8.5.5.17
+    db2_version: "11.1.4.6"
     download_url: "{{ lookup('env', 'ARTIFACTORY_URL') }}/{{ lookup('env', 'ARTIFACTORY_REPO') }}/SoftwareInstallers"
     download_header: { 'X-JFrog-Art-Api': "{{ lookup('env', 'ARTIFACTORY_TOKEN') }}"}
-
-  roles:
-    - iim
-    - websphere

@@ -1,10 +1,23 @@
 ---
-- name: Copy installers
+- name: Create zip directory
+  file:
+    path: /tmp/repo-zips
+    state: directory
+
+- name: Copy WAS repo
   copy:
-    directory_mode: yes
-    remote_src: no
-    src: "/tmp/repo-zips/"
-    dest: "/tmp/repo-zips/"
+    src: "{{ websphere_base_path }}/{{ item }}"
+    dest: "/tmp/repo-zips/{{ item }}"
+  loop: "{{ websphere_base_archive_list }}"
+  when: download_url is not defined
+
+- name: Download WAS repo
+  get_url:
+    dest: "/tmp/repo-zips/{{ item }}"
+    url: "{{ download_url }}/{{ websphere_base_path }}/{{ item }}"
+    headers: "{{ download_header }}"
+  loop: "{{ websphere_base_archive_list }}"
+  when: download_url is defined
 
 - name: Create WAS repo directory
   file:
@@ -24,8 +37,16 @@
 - name: Install WAS
   iim_package:
     iim_path: "{{ iim_install_path }}"
-    product_id: com.ibm.websphere.ND.v85
+    product_id: "{{ websphere_base_pid }}"
     path: "{{ websphere_install_path }}"
     repo: /tmp/repo
     state: present
   when: "iim_info.packages | select('match', 'com.ibm.websphere.ND.*') | list | length == 0"
+
+- name: Cleanup
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /tmp/repo
+    - /tmp/repo-zips
