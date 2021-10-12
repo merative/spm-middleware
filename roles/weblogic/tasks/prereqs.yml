@@ -74,14 +74,6 @@
     path: "{{ jdk_folder }}/java-repo.zip"
   register: stat_result
 
-# - name: Download Java repo
-#   get_url:
-#     dest: "{{ mw_installer_folder }}/java-repo.zip"
-#     url: "{{ artifactory_url }}/{{ artifactory_repo }}/SoftwareInstallers/{{ java_zip_path }}"
-#     headers:
-#       X-JFrog-Art-Api: "{{ artifactory_token }}"
-#   when: not stat_result.stat.exists
-
 - name: Copy installer
   copy:
     src: "{{ weblogic_installer_path }}"
