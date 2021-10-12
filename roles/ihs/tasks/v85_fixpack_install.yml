@@ -34,7 +34,7 @@
   copy:
     directory_mode: yes
     remote_src: no
-    src: "{{ installer_dir.path }}"
+    src: "{{ ihs_fp_installer_path }}"
     dest: "{{ installer_dir.path }}"
   when: download_url is not defined
 
