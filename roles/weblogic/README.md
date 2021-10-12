@@ -13,6 +13,9 @@ The `weblogc` role will install Weblogic.
 | `weblogic_base`           | `/home/oracle`                                      |
 | `weblogic_home`           | `/home/oracle/Oracle/Middleware/Oracle_Home`        |
 | `server_port`             | `7001`                                              |
+| `download_url`            | # Set this if license and installer is being downloaded from a http server|
+| `download_header`         | # Use this in conjunction with `download_url` |
+| `weblogic_installer_path`      | # Set this to your downloaded installers filepath if copying from local|
 | ------------------------- | --------------------------------------------------- |
 | ** `weblogic_version` **  | `12.1.3.0.2`                                        |
 |                           | `12.1.3.0.210720`                                   |

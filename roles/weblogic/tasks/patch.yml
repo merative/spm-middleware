@@ -7,13 +7,6 @@
     - name: Create opatch folder
       file: state=directory path="{{ mw_installer_folder }}/Patches" owner="{{ weblogic_user }}" group="{{ weblogic_group }}"
 
-    # - name: download patch package
-    #   get_url:
-    #     url: "{{ artifactory_url }}/{{ artifactory_repo }}/SoftwareInstallers/WLS/{{ artifactory_patch_folder }}/{{ opatch }}"
-    #     dest: "{{ mw_installer_folder }}/"
-    #     headers:
-    #       X-JFrog-Art-Api: "{{ artifactory_token }}"
-
     - name: Copy installer
       copy:
         src: "{{ weblogic_installer_path }}"
@@ -63,13 +56,6 @@
 
     - name: Create patch folder
       file: state=directory path="{{ mw_installer_folder }}/patch" owner="{{ weblogic_user }}" group="{{ weblogic_group }}"
-
-    # - name: Download patch package
-    #   get_url:
-    #     url: "{{ artifactory_url }}/{{ artifactory_repo }}/SoftwareInstallers/WLS/{{ artifactory_patch_folder }}/{{ patch }}"
-    #     dest: "{{ mw_installer_folder }}/patch"
-    #     headers:
-    #       X-JFrog-Art-Api: "{{ artifactory_token }}"
 
     - name: Copy installer
       copy:

@@ -7,14 +7,6 @@
     owner: "{{ weblogic_user }}"
     group: "{{ weblogic_group }}"
 
-# - name: Download installer
-#   get_url:
-#     url: "{{ artifactory_url }}/{{ artifactory_repo }}/SoftwareInstallers/WLS/{{ base_install_file }}"
-#     dest: "{{ mw_installer_folder }}/"
-#     headers:
-#       X-JFrog-Art-Api: "{{ artifactory_token }}"
-#   register: ora_installer
-
 - name: Copy installer
   copy:
     src: "{{ weblogic_installer_path }}"
