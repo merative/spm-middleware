@@ -26,6 +26,7 @@ The `oracle` role will install Oracle Database EE Single Instance.
 | `bootstrap_dateseparator` | `/`                                                 |
 | `bootstrap_dmx_locale`    | `en_US`                                             |
 | ------------------------- | --------------------------------------------------- |
+| `oracle_installer_path`   | # Either local controller path or relative to `download_url` |
 | `download_url`            | # set this if license and installer is being downloaded from a http server|
 | `download_header`         | # Use this in conjunction with `download_url`       |
 | ------------------------- | --------------------------------------------------- |
