@@ -1,0 +1,112 @@
+---
+- name: Install required packages (1)
+  package:
+    name:
+      - binutils
+      - gcc-c++
+      - ksh
+      - libaio-devel
+      - libstdc++-devel
+      - make
+      - net-tools
+      - openssl
+      - psmisc
+      - shadow-utils
+      - smartmontools
+      - sudo
+      - sysstat
+      - unzip
+      - yum-utils
+    state: present
+
+- name: Install required packages (2)
+  package:
+    name:
+      - compat-libcap1
+      - compat-libstdc++-33.x86_64
+    state: present
+  when: ansible_distribution_major_version | int == 7
+
+- name: "Create {{ ohs_group }} group"
+  group:
+    name: "{{ ohs_group }}"
+    gid: 54321
+    state: present
+
+- name: "Create {{ ohs_user }} user"
+  user:
+    name: "{{ ohs_user }}"
+    uid: 54321
+    group: "{{ ohs_group }}"
+    append: yes
+    password: "{{ ohs_admin_password | password_hash('sha512', 'SaltyCl0ud') }}"  # hash with salt
+    expires: -1
+    create_home: yes
+    state: present
+
+- name: Create "{{ ohs_installer_loc }}"
+  file:
+    path: "{{ ohs_installer_loc }}"
+    state: directory
+    owner: "{{ ohs_user }}"
+    group: "{{ ohs_group }}"
+    mode: 0755
+
+- name: Download base installer
+  get_url:
+    url: "{{ download_url }}/{{ base_installer }}"
+    dest: "{{ ohs_installer_loc }}"
+    owner: "{{ ohs_user }}"
+    group: "{{ ohs_group }}"
+    mode: 0755
+    force: no
+    headers: "{{ download_header }}"
+  when: not installer.stat.exists and download_url is defined
+
+- name: Copy installer
+  copy:
+    src: "{{ ohs_installer_loc }}"
+    dest: "{{ ohs_installer_loc }}/{{ base_installer }}"
+  when: download_url is not defined
+
+- name: Check Installer File Exists
+  stat:
+    path: "{{ ohs_installer_loc }}/{{ base_installer }}"
+  register: installer
+
+- name: Check if Inventory Dir exists
+  stat:
+    path: "{{ ohs_inventory }}"
+  register: inventory_dir
+
+- name: Create "{{ ohs_inventory }}"
+  file:
+    path: "{{ ohs_inventory }}"
+    state: directory
+    group: "{{ ohs_group }}"
+    owner: "{{ ohs_user }}"
+    mode: 0755
+  when: not inventory_dir.stat.exists
+
+- name: Create oraInst.loc
+  copy:
+    dest: /etc/oraInst.loc
+    content: |
+      inventory_loc={{ ohs_inventory }}
+      inst_group=oinstall
+    mode: 0644
+    owner: "{{ ohs_user }}"
+    group: "{{ ohs_group }}"
+
+- name: copy response file
+  template:
+    src: ohs_install.rsp.j2
+    dest: "{{ ohs_installer_loc }}/ohs_install.rsp"
+    mode: 0644
+    owner: "{{ ohs_user }}"
+    group: "{{ ohs_group }}"
+
+- name: Install OHS
+  become: yes
+  become_user: "{{ ohs_user }}"
+  command: "{{ ohs_installer_loc }}/{{ base_installer }} -ignoreSysPrereqs -silent -responseFile {{ ohs_installer_loc }}/ohs_install.rsp"

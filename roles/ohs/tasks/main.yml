@@ -1,0 +1,47 @@
+---
+- name: Install python3
+  package:
+    name: python3
+    state: present
+
+- name: Create symlink for python3
+  file:
+    src: /usr/bin/python3
+    dest: /usr/local/bin/python
+    owner: root
+    group: root
+    state: link
+
+- name: "Include v{{ ohs_version }}.yml variables"
+  include_vars: "v{{ ohs_version }}.yml"
+
+- name: check if OHS already installed
+  shell: "grep {{ base_version }} {{ ohs_home }}/inventory/registry.xml"
+  changed_when: False
+  ignore_errors: True
+  register: base_installed
+
+- name: Install Base version
+  include_tasks: "base_install.yml"
+  when: base_version is defined and base_installed.rc != 0
+
+- name: Check if Patch already applied
+  become: yes
+  become_user: "{{ ohs_user }}"
+  shell: "{{ ohs_home }}/OPatch/opatch lspatches | grep -i {{ item.number }}"
+  register: ohs_version_status
+  changed_when: False
+  ignore_errors: True
+  loop: "{{ patches }}"
+
+- name: Print ohs_version_status
+  debug:
+    msg: "{{ ohs_version_status }}"
+
+- name: Patch OHS
+  include_tasks: "patch.yml"
+  when: ohs_version_status.results | selectattr('rc','greaterthan',0) | list | count > 0
+
+- name: Set up properties file
+  include_tasks: "config.yml"
+  when: base_version is defined

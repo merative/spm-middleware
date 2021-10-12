@@ -1,0 +1,336 @@
+---
+- name: "Create {{ profiled_path }}"
+  file:
+    path: "{{ profiled_path }}"
+    mode: 0755
+    state: directory
+
+- name: "Create {{ profiled_path }}/ohs.sh"
+  copy:
+    dest: "{{ profiled_path }}/ohs.sh"
+    content: |
+      #!/bin/bash
+      export OHS_HOME={{ ohs_home }}
+      export OHS_PATH=$OHS_HOME/ohs/bin:$PATH
+    mode: 0755
+
+- name: Create /opt/.profile
+  copy:
+    dest: /opt/.profile
+    content: |
+      #!/bin/bash
+      PATH=.:$PATH
+      if [ -e {{ profiled_path }} ]; then
+        if [ "$PS1" ]; then
+          ls -l {{ profiled_path }}/*.sh
+        fi
+        for lizard in {{ profiled_path }}/*.sh ; do
+          . $lizard
+        done
+      fi
+      LANG=en_US.ISO-8859-1
+      umask 002
+    mode: 0755
+
+- name: Create /etc/cap.ora
+  copy:
+    dest: /etc/cap.ora
+    content: "oinstall: bind"
+    mode: 0644
+    owner: root
+
+# Ignore errors, this file may not exists
+- name: Modify launch file
+  file:
+    path: "{{ ohs_home }}/ohs/bin/launch"
+    mode: u=rwxs,g=rx
+    owner: root
+  ignore_errors: True
+
+# Ignore errors, this file may not exists
+- name: Modify hasbind file
+  file:
+    path: "{{ ohs_home }}/oracle_common/bin/hasbind"
+    mode: 4750
+    owner: root
+  ignore_errors: True
+
+- name: Create scripts folder
+  file:
+    dest: "{{ ohs_scripts_loc }}"
+    state: directory
+    owner: "{{ ohs_user }}"
+    group: "{{ ohs_group }}"
+
+
+- name: Copy configOHS.py
+  copy:
+    src: configOHS.py
+    dest: "{{ ohs_scripts_loc }}"
+    owner: "{{ ohs_user }}"
+    group: "{{ ohs_group }}"
+
+- name: Copy plugin.py
+  copy:
+    src: plugin.py
+    dest: "{{ ohs_scripts_loc }}"
+    owner: "{{ ohs_user }}"
+    group: "{{ ohs_group }}"
+
+- name: Copy Template custom_ohs_perf.conf
+  template:
+    owner: "{{ ohs_user }}"
+    group: "{{ ohs_group }}"
+    src: custom_ohs_perf.conf.j2
+    dest: "{{ ohs_moduleconf_loc }}/custom_ohs_perf.conf"
+
+- name: Copy Template mod_wl_ohs.conf
+  template:
+    owner: "{{ ohs_user }}"
+    group: "{{ ohs_group }}"
+    src: mod_wl_ohs.conf.j2
+    dest: "{{ ohs_moduleconf_loc }}/mod_wl_ohs.conf"
+
+- name: Copy Template custom_staticcontent.conf
+  copy:
+    owner: "{{ ohs_user }}"
+    group: "{{ ohs_group }}"
+    src: custom_staticcontent.conf
+    dest: "{{ ohs_moduleconf_loc }}/custom_staticcontent.conf"
+
+- name: Check Domain Created
+  shell: "grep ohs_{{ ansible_hostname }} {{ ohs_home }}/domain-registry.xml"
+  ignore_errors: True
+  changed_when: False
+  register: domain_created
+
+- name: Create Domain
+  become: yes
+  become_user: "{{ ohs_user }}"
+  command: "./wlst.sh -i {{ ohs_scripts_loc }}/configOHS.py {{ ohs_home }} ohs_{{ ansible_hostname }} {{ ansible_fqdn }} {{ weblogic_user }} {{ weblogic_password }} {{ template_jar }}"
+  args:
+    chdir: "{{ ohs_home }}/oracle_common/common/bin"
+  when: domain_created.rc != 0
+
+- name: Check if keystore exists before setting up certs
+  stat:
+    path: "{{ wallet_path }}/publicEndPoint"
+  register: keystore
+
+- name: Generate Certs
+  block:
+    # needed for openssl_* modules
+    - name: Install PYOpenSSL python package
+      pip:
+        name: PyOpenSSL
+        executable: pip3
+
+    - name: Check if CertGenCA exists
+      stat:
+        path: "{{ weblogic_home }}/wlserver/server/lib/CertGenCA.der"
+      register: certgen
+      when: weblogic_home is defined
+
+    - name: Execute create_back_wallet
+      become: yes
+      become_user: "{{ ohs_user }}"
+      command: "{{ ohs_home }}/oracle_common/bin/orapki wallet create -wallet {{ wallet_path }}/pluginWallet -auto_login -pwd {{ keystore_password }}"
+      environment:
+        ORACLE_HOME: "{{ ohs_home }}"
+
+    - name: Execute trust_wlsca
+      become: yes
+      become_user: "{{ ohs_user }}"
+      command: "./orapki wallet add -wallet {{ wallet_path }}/pluginWallet -trusted_cert -cert {{ weblogic_home }}/wlserver/server/lib/CertGenCA.der -pwd {{ keystore_password }}"
+      args:
+        chdir: "{{ ohs_home }}/oracle_common/bin"
+      environment:
+        ORACLE_HOME: "{{ ohs_home }}"
+      when: weblogic_home is defined
+
+    - name: Create ssl folder
+      file:
+        state: directory
+        path: "{{ ohs_base }}/scripts/ssl"
+        owner: "{{ ohs_user }}"
+        group: "{{ ohs_group }}"
+
+    - name: Generate an OpenSSL private key
+      openssl_privatekey:
+        owner: "{{ ohs_user }}"
+        group: "{{ ohs_group }}"
+        type: RSA
+        size: 2048
+        path: "{{ ohs_base }}/scripts/ssl/WLSPlugin.key"
+
+    - name: Generate an OpenSSL Certificate Request
+      openssl_csr:
+        owner: "{{ ohs_user }}"
+        group: "{{ ohs_group }}"
+        path: "{{ ohs_base }}/scripts/ssl/WLSPlugin.csr"
+        privatekey_path: "{{ ohs_base }}/scripts/ssl/WLSPlugin.key"
+        common_name: "{{ ansible_fqdn }}"
+        organization_name: WLSPlugin
+        organizational_unit_name: Watson Health SPM
+        key_usage:
+          - keyEncipherment
+          - digitalSignature
+        key_usage_critical: no
+        extended_key_usage:
+          - serverAuth
+        extended_key_usage_critical: no
+        subject_alt_name: "DNS:{{ ansible_hostname }},DNS:{{ ansible_fqdn }}"
+        subject_alt_name_critical: no
+
+    - name: Generate a Self Signed OpenSSL certificate
+      openssl_certificate:
+        owner: "{{ ohs_user }}"
+        group: "{{ ohs_group }}"
+        path: "{{ ohs_base }}/scripts/ssl/WLSPlugin.crt"
+        provider: selfsigned
+        privatekey_path: "{{ ohs_base }}/scripts/ssl/WLSPlugin.key"
+        csr_path: "{{ ohs_base }}/scripts/ssl/WLSPlugin.csr"
+
+    - name: Create backend_p12
+      become: yes
+      become_user: "{{ ohs_user }}"
+      command: "openssl pkcs12 -export -in {{ ohs_base }}/scripts/ssl/WLSPlugin.crt -inkey {{ ohs_base }}/scripts/ssl/WLSPlugin.key -out {{ ohs_base }}/scripts/ssl/WLSPlugin.p12 -name selfsigned -password pass:{{ keystore_password }}"
+      environment:
+        ORACLE_HOME: "{{ ohs_home }}"
+
+    - name: Import cert to backend wallet
+      become: yes
+      become_user: "{{ ohs_user }}"
+      command: "./orapki wallet import_pkcs12 -wallet {{ wallet_path }}/pluginWallet -pkcs12file {{ ohs_base }}/scripts/ssl/WLSPlugin.p12 -pkcs12pwd {{ keystore_password }} -pwd {{ keystore_password }}"
+      args:
+        chdir: "{{ ohs_home }}/oracle_common/bin"
+      environment:
+        ORACLE_HOME: "{{ ohs_home }}"
+
+    - name: Import cert to wls
+      become: yes
+      become_user: "{{ ohs_user }}"
+      command: "./keytool -file {{ ohs_base }}/scripts/ssl/WLSPlugin.crt -importcert -trustcacerts -keystore {{ weblogic_home }}/wlserver/server/lib/DemoTrust.jks -storepass DemoTrustKeyStorePassPhrase -noprompt"
+      args:
+        chdir: "{{ ohs_home }}/oracle_common/jdk/bin"
+      environment:
+        ORACLE_HOME: "{{ ohs_home }}"
+      when: weblogic_home is defined
+
+    - name: Create front wallet
+      become: yes
+      become_user: "{{ ohs_user }}"
+      command: "./orapki wallet create -wallet {{ wallet_path }}/publicEndPoint -auto_login -pwd {{ keystore_password }}"
+      args:
+        chdir: "{{ ohs_home }}/oracle_common/bin"
+      environment:
+        ORACLE_HOME: "{{ ohs_home }}"
+
+    - name: Generate an OpenSSL private key
+      openssl_privatekey:
+        owner: "{{ ohs_user }}"
+        group: "{{ ohs_group }}"
+        type: RSA
+        size: 2048
+        path: "{{ ohs_base }}/scripts/ssl/FrontCert.key"
+
+    - name: Generate an OpenSSL Certificate Request
+      openssl_csr:
+        owner: "{{ ohs_user }}"
+        group: "{{ ohs_group }}"
+        path: "{{ ohs_base }}/scripts/ssl/FrontCert.csr"
+        privatekey_path: "{{ ohs_base }}/scripts/ssl/FrontCert.key"
+        common_name: "{{ ansible_fqdn }}"
+        organization_name: "{{ cert_organization_name }}"
+        organizational_unit_name: "{{ cert_organization_unit_name }}"
+        key_usage:
+          - keyEncipherment
+          - digitalSignature
+        key_usage_critical: no
+        extended_key_usage:
+          - serverAuth
+        extended_key_usage_critical: no
+        subject_alt_name: "DNS:{{ ansible_hostname }},DNS:{{ ansible_fqdn }}"
+        subject_alt_name_critical: no
+
+    - name: Generate a Self Signed OpenSSL certificate
+      openssl_certificate:
+        owner: "{{ ohs_user }}"
+        group: "{{ ohs_group }}"
+        path: "{{ ohs_base }}/scripts/ssl/FrontCert.crt"
+        provider: selfsigned
+        privatekey_path: "{{ ohs_base }}/scripts/ssl/FrontCert.key"
+        csr_path: "{{ ohs_base }}/scripts/ssl/FrontCert.csr"
+
+    - name: Create front end p12
+      become: yes
+      become_user: "{{ ohs_user }}"
+      command: "openssl pkcs12 -export -in {{ ohs_scripts_loc }}/ssl/FrontCert.crt -inkey {{ ohs_scripts_loc }}/ssl/FrontCert.key -out {{ ohs_scripts_loc }}/ssl/FrontCert.p12 -name selfsigned -password pass:{{ keystore_password }}"
+      args:
+        chdir: "{{ ohs_home }}/oracle_common/bin"
+      environment:
+        ORACLE_HOME: "{{ ohs_home }}"
+
+    - name: Import cert to front end wallet
+      become: yes
+      become_user: "{{ ohs_user }}"
+      command: "./orapki wallet import_pkcs12 -wallet {{ wallet_path }}/publicEndPoint -pkcs12file  {{ ohs_scripts_loc }}/ssl/FrontCert.p12 -pkcs12pwd {{ keystore_password }} -pwd {{ keystore_password }}"
+      args:
+        chdir: "{{ ohs_home }}/oracle_common/bin"
+      environment:
+        ORACLE_HOME: "{{ ohs_home }}"
+
+    - name: "Update {{ ohs_home }}/user_projects/domains/ohs_{{ ansible_hostname }}/config/fmwconfig/components/OHS/ohs1/ssl.conf"
+      replace:
+        path: "{{ ohs_home }}/user_projects/domains/ohs_{{ ansible_hostname }}/config/fmwconfig/components/OHS/ohs1/ssl.conf"
+        regexp: "(SSLWallet.*)default"
+        replace: "\\1publicEndPoint"
+
+    - name: "Update {{ ohs_home }}/user_projects/domains/ohs_{{ ansible_hostname }}/config/fmwconfig/components/OHS/ohs1/ssl.conf"
+      replace:
+        path: "{{ ohs_home }}/user_projects/domains/ohs_{{ ansible_hostname }}/config/fmwconfig/components/OHS/ohs1/ssl.conf"
+        regexp: "443>"
+        replace: "443>\n\tRewriteEngine On\n\tRewriteOptions Inherit\n\t"
+
+  when: not keystore.stat.exists
+
+# if startComponent.sh successfully, will create /home/oracle/.wlst
+- name: Check if .wlst exists
+  stat:
+    path: "{{ ohs_base }}/.wlst"
+  register: wlst
+  ignore_errors: True
+  changed_when: False
+
+- name: Starting and authenticating NM
+  block:
+
+    - name: Copy ohsNM.service
+      template:
+        src: ohsNM.service.j2
+        dest: /etc/systemd/system/ohsNM.service
+
+    - name: Start service
+      systemd:
+        name: ohsNM.service
+        enabled: yes
+        state: started
+    # Using shell as command did not wait
+    - name: Start Component
+      become: yes
+      become_user: "{{ ohs_user }}"
+      shell: "echo {{ weblogic_password }} | ./startComponent.sh ohs1 storeUserConfig"
+      args:
+        chdir: "{{ ohs_home }}/user_projects/domains/ohs_{{ ansible_hostname }}/bin"
+      environment:
+        ORACLE_HOME: "{{ ohs_home }}"
+
+    - name: Stop Component
+      become: yes
+      become_user: "{{ ohs_user }}"
+      shell: "./stopComponent.sh ohs1"
+      args:
+        chdir: "{{ ohs_home }}/user_projects/domains/ohs_{{ ansible_hostname }}/bin"
+      environment:
+        ORACLE_HOME: "{{ ohs_home }}"
+  when: not wlst.stat.exists

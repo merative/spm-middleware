@@ -1,0 +1,26 @@
+# NOTE : This is a template to configure mod_weblogic.
+LoadModule weblogic_module   "${PRODUCT_HOME}/modules/mod_wl_ohs.so"
+# This empty block is needed to save mod_wl related configuration from EM to this file when changes are made at the Base Virtual Host Level
+<IfModule weblogic_module>
+    # WebLogicHost <WEBLOGIC_HOST>
+    # WebLogicPort <WEBLOGIC_PORT>
+    # MatchExpression *.jsp
+    DebugConfigInfo ON
+    KeepAliveEnabled OFF
+    KeepAliveSecs 0
+    # SSL
+    SecureProxy ON
+    WLProxySSL ON
+    WLSSLWallet "${ORACLE_INSTANCE}/config/fmwconfig/components/${COMPONENT_TYPE}/instances/${COMPONENT_NAME}/keystores/pluginWallet"
+    WebLogicSSLVersion TLSv1_2
+    <LocationMatch "^/(console|CitizenPortal|CPMExternalNS|CPMExternalS|Curam|CuramBIRTViewer|CuramWS|CuramWS2|Rest|swagger)">
+        WLSRequest on
+        WebLogicHost {{ ansible_fqdn }}
+        WebLogicPort {{ ohs_port }}
+    </LocationMatch>
+</IfModule>
+# <Location /weblogic>
+#      SetHandler weblogic-handler
+#      PathTrim /weblogic
+#      ErrorPage  http:/WEBLOGIC_HOME:WEBLOGIC_PORT/
+#  </Location>
