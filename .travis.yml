@@ -60,8 +60,8 @@ before_script:
 script:
   # Ansible Molecule tests
   - chmod +x ./scripts/*
-  - ./scripts/downloadInstaller.sh $SCENARIO
   - molecule test -s $SCENARIO
+
 jobs:
   include:
     - stage: Ansible Tests
