@@ -15,14 +15,13 @@
 - name: Install Fixpack version
   include_tasks: fixpack_install.yml
   vars:
-    zip_path: "{{ liberty_zip_path }}"
     pack_id: "com.ibm.websphere.liberty.ND_{{ liberty_pid }}"
   when: not iim_info.exact_installed
 
 - name: Install Java
   include_tasks: fixpack_install.yml
   vars:
-    zip_path: "{{ liberty_java_zip_path }}"
+    liberty_fp_path: "{{ liberty_java_zip_path }}"
     pack_id: "{{ liberty_java_pid }}"
   when: not iim_info.exact_installed
 
