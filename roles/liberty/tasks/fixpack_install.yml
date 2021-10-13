@@ -3,8 +3,7 @@
   get_url:
     dest: /tmp/repo.zip
     url: "{{ download_url }}/{{ liberty_fp_path }}"
-    headers:
-      X-JFrog-Art-Api: "{{ download_header }}"
+    headers: "{{ download_header }}"
   when: download_url is defined
   register: wlp_repo
 
