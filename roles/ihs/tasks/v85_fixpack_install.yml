@@ -1,10 +1,42 @@
 ---
+- name: Create zip directory
+  file:
+    path: /tmp/repo-zips
+    mode: 0755
+    state: directory
+  register: installer_dir
+
+- name: Download IHS Fix Pack installers
+  get_url:
+    dest: "{{ installer_dir.path }}/{{ item }}"
+    url: "{{ download_url }}/{{ ihs_fp_installer_path }}/{{ item }}"
+    headers: "{{ download_header }}"
+  loop: "{{ ihs_fp_installer_archive_list }}"
+  when: download_url is defined
+
+- name: Download IHS repo
+  get_url:
+    dest: "{{ installer_dir.path }}/{{ item }}"
+    url: "{{ download_url }}/{{ ihs_fp_installer_path }}/{{ item }}"
+    headers: "{{ download_header }}"
+  loop: "{{ ihs_fp_installer_archive_list }}"
+  when: download_url is defined
+
+- name: Download WCT repo
+  get_url:
+    dest: "{{ installer_dir.path }}/{{ item }}"
+    url: "{{ download_url }}/{{ ihs_fp_installer_path }}/{{ item }}"
+    headers: "{{ download_header }}"
+  loop: "{{ ihs_wct_installer_list }}"
+  when: download_url is defined
+
 - name: Copy installers
   copy:
     directory_mode: yes
     remote_src: no
-    src: "/tmp/repo-zips/"
-    dest: "/tmp/repo-zips/"
+    src: "{{ ihs_fp_installer_path }}"
+    dest: "{{ installer_dir.path }}"
+  when: download_url is not defined
 
 - name: Create WAS repo directory
   file:
@@ -18,17 +50,17 @@
 
 - name: Extract IHS installers
   unarchive:
-    src: "/tmp/repo-zips/{{ item }}"
+    src: "{{ installer_dir.path }}/{{ item }}"
     dest: "/tmp/fp/"
     remote_src: yes
-  loop: "{{ ihs_fp_archive_list }}"
+  loop: "{{ ihs_fp_installer_archive_list }}"
 
 - name: Extract WCT installers
   unarchive:
-    src: "/tmp/repo-zips/{{ item }}"
+    src: "{{ installer_dir.path }}/{{ item }}"
     dest: "/tmp/wct/"
     remote_src: yes
-  loop: "{{ ihs_wct_archive_list }}"
+  loop: "{{ ihs_wct_installer_list }}"
 
 - name: Set up-to-date facts
   set_fact:

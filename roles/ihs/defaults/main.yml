@@ -13,3 +13,7 @@ ihs_admin_pass: wasadmin
 
 # Common
 profiled_path: /opt/profile.d
+
+# Server info for downloading installers / repos directly, leave blank to copy
+download_url:   # e.g. https://artifactory/repo
+download_header:  # e.g. X-JFrog-Art-Api: "{{ lookup('env', 'MYTOKEN') }}"
