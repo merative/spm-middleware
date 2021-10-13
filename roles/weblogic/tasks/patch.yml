@@ -9,7 +9,7 @@
 
     - name: Copy installer
       copy:
-        src: "{{ weblogic_installer_path }}/{{ opatch }}"
+        src: "{{ weblogic_local_installer_path }}/{{ weblogic_installer_path }}/{{ opatch }}"
         dest: "{{ mw_installer_folder }}/"
         mode: '644'
       when: download_url is not defined
@@ -17,7 +17,7 @@
     - name: Download opatch installer
       get_url:
         dest: "{{ mw_installer_folder }}/"
-        url: "{{ download_url }}/{{ weblogic_installer_path }}/{{ artifactory_patch_folder }}/{{ opatch }}"
+        url: "{{ download_url }}/{{ weblogic_installer_path }}/{{ weblogic_patch_path }}/{{ opatch }}"
         mode: '644'
         headers: "{{ download_header }}"
       when: download_url is defined
@@ -60,8 +60,9 @@
 
     - name: Copy installer
       copy:
-        src: "{{ weblogic_installer_path }}"
-        dest: "{{ mw_installer_folder }}/patch"
+        src: "{{ weblogic_local_installer_path }}/{{ weblogic_installer_path }}/{{ weblogic_patch_path }}/{{ patch }}"
+        dest: "{{ mw_installer_folder }}/{{ weblogic_patch_path }}"
+        mode: '644'
       when: download_url is not defined
 
     - name: Download patch installer
@@ -75,8 +76,8 @@
     - name: Extract Patch
       unarchive:
         remote_src: yes
-        src: "{{ mw_installer_folder }}/patch/{{ patch }}"
-        dest: "{{ mw_installer_folder }}/patch/"
+        src: "{{ mw_installer_folder }}/{{ weblogic_patch_path }}/{{ patch }}"
+        dest: "{{ mw_installer_folder }}/{{ weblogic_patch_path }}/"
         owner: "{{ weblogic_user }}"
         group: "{{ weblogic_group }}"
 
@@ -87,7 +88,7 @@
       environment:
         ORACLE_HOME: "{{ weblogic_home }}"
       args:
-        chdir: "{{ mw_installer_folder }}/patch/{{ patch_folder }}"
+        chdir: "{{ mw_installer_folder }}/{{ weblogic_patch_path }}/{{ patch_folder }}"
       when: not napply
 
     - name: Patch it in new way
@@ -97,7 +98,7 @@
       environment:
         ORACLE_HOME: "{{ weblogic_home }}"
       args:
-        chdir: "{{ mw_installer_folder }}/patch/{{ patch_folder }}/binary_patches"
+        chdir: "{{ mw_installer_folder }}/{{ weblogic_patch_path }}/{{ patch_folder }}/binary_patches"
       when: napply
 
   become: true

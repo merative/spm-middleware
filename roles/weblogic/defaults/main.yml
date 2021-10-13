@@ -19,10 +19,11 @@ server_name: 'CuramServer'
 server_port: 7001
 
 # To download installer, patches, opatch and java from http server set download_url
-download_url:   # e.g. https://artifactory/repo
-download_header:  # e.g. X-JFrog-Art-Api: "{{ lookup('env', 'MYTOKEN') }}"
+# download_url:   # e.g. https://artifactory/repo
+# download_header:  # e.g. X-JFrog-Art-Api: "{{ lookup('env', 'MYTOKEN') }}"
 
 # Local controller path OR relative path to download_url
+weblogic_local_installer_path: /opt/IBM/weblogic
 weblogic_installer_path: WLS
 # Local controller path relative to weblogic_installer_path OR relative path to download_url/weblogic_installer_path
 weblogic_patch_path: Patches
