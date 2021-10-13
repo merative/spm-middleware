@@ -107,7 +107,7 @@
   environment:
     ORACLE_HOME: "{{ oracle_home }}"
     ORACLE_SID: "{{ oracle_sid }}"
-  async: 600
+  async: 900
   poll: 0
   register: patch_checker
 
@@ -120,7 +120,7 @@
   register: job_result
   until: job_result.finished
   retries: 30
-  delay: 20
+  delay: 30
 
 - name: Check listener status
   become: yes
