@@ -17,6 +17,14 @@ cache:
 
 before_cache:
   - rm -f $HOME/.cache/pip/log/debug.log
+  
+before_install:
+  - sudo fallocate -l 4G /swapfile
+  - sudo chmod 600 /swapfile
+  - sudo mkswap /swapfile
+  - sudo swapon /swapfile
+  - sudo sysctl -w vm.swappiness=10
+  - sudo sysctl -w net.core.wmem_default=65536
 
 install:
   - pip install -r ci-requirements.txt
