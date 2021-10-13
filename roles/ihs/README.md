@@ -25,7 +25,7 @@ IBM Installation Manager (1.9.x) must already be installed in the target environ
 | `ihs_fp_path`           | `WAS/9.0.5Fixpacks`                                 |
 | `ihs_fp_archive_list`   | `9.0.5-WS-[IHSPLG|WCT]-FP008.zip`                   |
 | `ihs_pid`               | `v90_9.0.5008.20210525_1601`                        |
-| `ihs_java_zip_path`     | `Java/IBM/ibm-java-sdk-8.0-6.26-linux-x64-installmgr.zip` |
+| `liberty_installer_path`     | `Java/IBM/ibm-java-sdk-8.0-6.26-linux-x64-installmgr.zip` |
 | `ihs_java_pid`          | `com.ibm.java.jdk.v8`                               |
 | ----------------------- | --------------------------------------------------- |
 | `iim_install_path`      | `/opt/IBM/InstallationManager`                      |

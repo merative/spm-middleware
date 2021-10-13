@@ -1,0 +1,14 @@
+---
+iim_install_path: /opt/IBM/InstallationManager
+
+liberty_install_path: /opt/IBM/WebSphere/Liberty
+
+liberty_version: 21.0.0.9
+
+# Default JVM Options
+liberty_default_heapsize: 1024m
+liberty_enable_verbose_gc: false
+liberty_extra_jvm_options: []
+
+# Common
+profiled_path: /opt/profile.d
