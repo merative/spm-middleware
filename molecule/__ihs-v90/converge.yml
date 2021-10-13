@@ -3,7 +3,7 @@
   hosts: all
 
   collections:
-    - wh_spm.middleware
+    - ibm.spm_middleware
 
   vars:
     ihs_version: 9.0.5.8
