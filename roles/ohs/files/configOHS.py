@@ -15,41 +15,43 @@
 # limitations under the License.
 ###############################################################################
 
+from __future__ import (absolute_import, division, print_function)
+__metaclass__ = type
 import sys
 
 
 def usage():
-  print('Usage:')
-  print('\twlst.sh -i configOHS.py [OracleHome] [OHSDomain] [FQDN] [AdminUsername] [AdminPassword] [OHSTemplateJar]')
-  print('\twlst.sh -i configOHS.py $OHS_HOME "ohs_$(hostname -s)" $(hostname -f) weblogic Password1 ohs_standalone_template.jar')
-  print('')
+    print('Usage:')
+    print('\twlst.sh -i configOHS.py [OracleHome] [OHSDomain] [FQDN] [AdminUsername] [AdminPassword] [OHSTemplateJar]')
+    print('\twlst.sh -i configOHS.py $OHS_HOME "ohs_$(hostname -s)" $(hostname -f) weblogic Password1 ohs_standalone_template.jar')
+    print('')
 
 
 def create_ohs_domain(oracle_home, local_domain, fqdn, admin_username, admin_password, template_jar='ohs_standalone_template.jar'):
-  readTemplate('%s/wlserver/common/templates/wls/base_standalone.jar' % (oracle_home))
-  addTemplate('%s/ohs/common/templates/wls/%s' % (oracle_home, template_jar))
-  cd('/')
-  create(local_domain, 'SecurityConfiguration')
-  cd('SecurityConfiguration/%s' % (local_domain))
-  set('NodeManagerUsername', admin_username)
-  set('NodeManagerPasswordEncrypted', admin_password)
-  setOption('NodeManagerType', 'PerDomainNodeManager')
-  setOption('JavaHome', '%s/oracle_common/jdk' % (oracle_home))
-  cd('/Machines/localmachine/NodeManager/localmachine')
-  cmo.setListenAddress('localhost')
-  cmo.setListenPort(5556)
-  cmo.setNMType('SSL')
-  cd('/OHS/ohs1')
-  cmo.setListenPort('80')
-  cmo.setSSLListenPort('443')
-  cmo.setServerName('http://%s' % (fqdn))
-  writeDomain('%s/user_projects/domains/%s'  % (oracle_home, local_domain))
-  exit()
+    readTemplate('%s/wlserver/common/templates/wls/base_standalone.jar' % (oracle_home))
+    addTemplate('%s/ohs/common/templates/wls/%s' % (oracle_home, template_jar))
+    cd('/')
+    create(local_domain, 'SecurityConfiguration')
+    cd('SecurityConfiguration/%s' % (local_domain))
+    set('NodeManagerUsername', admin_username)
+    set('NodeManagerPasswordEncrypted', admin_password)
+    setOption('NodeManagerType', 'PerDomainNodeManager')
+    setOption('JavaHome', '%s/oracle_common/jdk' % (oracle_home))
+    cd('/Machines/localmachine/NodeManager/localmachine')
+    cmo.setListenAddress('localhost')
+    cmo.setListenPort(5556)
+    cmo.setNMType('SSL')
+    cd('/OHS/ohs1')
+    cmo.setListenPort('80')
+    cmo.setSSLListenPort('443')
+    cmo.setServerName('http://%s' % (fqdn))
+    writeDomain('%s/user_projects/domains/%s'  % (oracle_home, local_domain))
+    exit()
 
 
 if len(sys.argv) < 6:
-  usage()
-  sys.exit(1)
+    usage()
+    sys.exit(1)
 
 
 oracle_home = str(sys.argv[1])
@@ -63,7 +65,7 @@ print('Creating Domain "%s" ...' % (local_domain))
 
 
 if len(sys.argv) == 7:
-  template_jar = str(sys.argv[6])
-  create_ohs_domain(oracle_home, local_domain, fqdn, admin_username, admin_password, template_jar)
+    template_jar = str(sys.argv[6])
+    create_ohs_domain(oracle_home, local_domain, fqdn, admin_username, admin_password, template_jar)
 else:
-  create_ohs_domain(oracle_home, local_domain, fqdn, admin_username, admin_password)
+    create_ohs_domain(oracle_home, local_domain, fqdn, admin_username, admin_password)

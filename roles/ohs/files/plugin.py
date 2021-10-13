@@ -15,34 +15,36 @@
 # limitations under the License.
 ###############################################################################
 
+from __future__ import (absolute_import, division, print_function)
+__metaclass__ = type
 import sys
 
 
 def usage():
-  print('Usage:')
-  print('\twlst.sh -i plugin.py [AdminUsername] [AdminPassword] [AdminPort] [ServerName]')
-  print('\twlst.sh -i plugin.py weblogic Password1 7001 CuramServer')
-  print('')
+    print('Usage:')
+    print('\twlst.sh -i plugin.py [AdminUsername] [AdminPassword] [AdminPort] [ServerName]')
+    print('\twlst.sh -i plugin.py weblogic Password1 7001 CuramServer')
+    print('')
 
 
 def enable_plugin(admin_username, admin_password, admin_port='7001', server_name='CuramServer'):
-  connect(admin_username, admin_password, 't3://localhost:%s' % (admin_port))
-  edit()
-  startEdit()
-  cd('//Servers/%s' % (server_name))
-  cmo.setWeblogicPluginEnabled(true)
-  cd('//Servers/%s/SSL/%s' % (server_name, server_name))
-  cmo.setTwoWaySSLEnabled(true)
-  cmo.setClientCertificateEnforced(false)
-  save()
-  activate(block='true')
-  disconnect()
-  exit()
+    connect(admin_username, admin_password, 't3://localhost:%s' % (admin_port))
+    edit()
+    startEdit()
+    cd('//Servers/%s' % (server_name))
+    cmo.setWeblogicPluginEnabled(true)
+    cd('//Servers/%s/SSL/%s' % (server_name, server_name))
+    cmo.setTwoWaySSLEnabled(true)
+    cmo.setClientCertificateEnforced(false)
+    save()
+    activate(block='true')
+    disconnect()
+    exit()
 
 
 if len(sys.argv) < 5:
-  usage()
-  sys.exit(1)
+    usage()
+    sys.exit(1)
 
 
 admin_username = str(sys.argv[1])
