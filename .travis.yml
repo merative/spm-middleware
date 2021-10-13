@@ -36,7 +36,6 @@ env:
     - SCENARIO=db2111
     - SCENARIO=db2115
     - SCENARIO=iim-191-centos-8
-    - SCENARIO=iim-191-centos-8
     - SCENARIO=ihs-v90-centos-8
     - SCENARIO=ihs-v80-centos-7
 stage: Molecule Tests
@@ -58,8 +57,8 @@ before_script:
 script:
   # Ansible Molecule tests
   - chmod +x ./scripts/*
-  - ./scripts/downloadInstaller.sh $SCENARIO
   - molecule test -s $SCENARIO
+  
 jobs:
   include:
     - stage: Ansible Tests
