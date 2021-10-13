@@ -9,5 +9,6 @@ patch: 'p33125241_122140_Generic.zip'
 patch_number: 33059296
 napply: true
 patch_folder: 'WLS_SPB_12.2.1.4.210716'
-java_zip_path: 'Java/jdk-8u191-linux-x64.tar.gz'
+# Local controller path OR relative path to download_url
+java_archive_file: jdk-8u191-linux-x64.tar.gz
 java_version_path: 'jdk1.8.0_191'

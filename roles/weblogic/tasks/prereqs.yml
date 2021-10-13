@@ -76,14 +76,15 @@
 
 - name: Copy installer
   copy:
-    src: "{{ weblogic_installer_path }}"
+    src: "{{ java_zip_path }}/{{ java_archive_file }}"
     dest: "{{ mw_installer_folder }}/java-repo.zip"
+    mode: '644'
   when: download_url is not defined and not stat_result.stat.exists
 
 - name: Download Java installer
   get_url:
     dest: "{{ mw_installer_folder }}/java-repo.zip"
-    url: "{{ download_url }}/{{ java_zip_path }}"
+    url: "{{ download_url }}/{{ java_zip_path }}/{{ java_archive_file }}"
     mode: '644'
     headers: "{{ download_header }}"
   when: download_url is defined and not stat_result.stat.exists

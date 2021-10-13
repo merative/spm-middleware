@@ -15,7 +15,10 @@ The `weblogc` role will install Weblogic.
 | `server_port`             | `7001`                                              |
 | `download_url`            | # Set this if license and installer is being downloaded from a http server|
 | `download_header`         | # Use this in conjunction with `download_url` |
-| `weblogic_installer_path`      | # Set this to your downloaded installers filepath if copying from local|
+| `weblogic_installer_path` | Controller local path or relative to download_url |
+| `weblogic_patch_path`     | Controller local path or relative to download_url |
+| `java_zip_path`           | Controller local path or relative to download_url |
+
 | ------------------------- | --------------------------------------------------- |
 | ** `weblogic_version` **  | `12.1.3.0.2`                                        |
 |                           | `12.1.3.0.210720`                                   |

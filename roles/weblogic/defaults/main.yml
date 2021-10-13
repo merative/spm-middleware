@@ -17,9 +17,14 @@ domain_password: 'weblogic'
 encrypted_password: 'dummypassword'
 server_name: 'CuramServer'
 server_port: 7001
-# Artifactory info
-artifactory_token: "{{ lookup('env', 'ARTIFACTORY_TOKEN') }}"
-download_url: "{{ lookup('env','ARTIFACTORY_URL') }}/{{ lookup('env','ARTIFACTORY_REPO') }}/SoftwareInstallers"
-artifactory_repo: wh-spmdevops-generic-local
-artifactory_patch_folder: 'Patches'
-weblogic_installer_path: /tmp/weblogic/
+
+# To download installer, patches, opatch and java from http server set download_url
+download_url:   # e.g. https://artifactory/repo
+download_header:  # e.g. X-JFrog-Art-Api: "{{ lookup('env', 'MYTOKEN') }}"
+
+# Local controller path OR relative path to download_url
+weblogic_installer_path: WLS
+# Local controller path relative to weblogic_installer_path OR relative path to download_url/weblogic_installer_path
+weblogic_patch_path: Patches
+# Local controller path OR relative path to download_url
+java_zip_path: 'Java'

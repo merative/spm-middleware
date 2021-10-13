@@ -9,14 +9,15 @@
 
     - name: Copy installer
       copy:
-        src: "{{ weblogic_installer_path }}"
+        src: "{{ weblogic_installer_path }}/{{ opatch }}"
         dest: "{{ mw_installer_folder }}/"
+        mode: '644'
       when: download_url is not defined
 
     - name: Download opatch installer
       get_url:
         dest: "{{ mw_installer_folder }}/"
-        url: "{{ download_url }}/WLS/{{ artifactory_patch_folder }}/{{ opatch }}"
+        url: "{{ download_url }}/{{ weblogic_installer_path }}/{{ artifactory_patch_folder }}/{{ opatch }}"
         mode: '644'
         headers: "{{ download_header }}"
       when: download_url is defined
@@ -65,8 +66,8 @@
 
     - name: Download patch installer
       get_url:
-        dest: "{{ mw_installer_folder }}/patch"
-        url: "{{ download_url }}/WLS/{{ artifactory_patch_folder }}/{{ patch }}"
+        dest: "{{ mw_installer_folder }}/{{ weblogic_patch_path }}/{{ patch }}"
+        url: "{{ download_url }}/{{ weblogic_installer_path }}/{{ weblogic_patch_path }}/{{ patch }}"
         mode: '644'
         headers: "{{ download_header }}"
       when: download_url is defined
