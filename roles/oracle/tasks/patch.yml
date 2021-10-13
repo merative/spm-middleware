@@ -107,6 +107,17 @@
   environment:
     ORACLE_HOME: "{{ oracle_home }}"
     ORACLE_SID: "{{ oracle_sid }}"
+  async: 600
+  poll: 0
+  register: patch_checker
+# Avoid travis timeout
+- name: 'Patch - check status'
+  async_status:
+    jid: "{{ patch_checker.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 30
+  delay: 20
 
 - name: Check listener status
   become: yes
