@@ -3,10 +3,11 @@
   hosts: all
 
   collections:
-    - wh_spm.middleware
+    - ibm.spm_middleware
 
   vars:
     weblogic_version: "12.2.1.4.210716"
+    # weblogic_installer_path: /opt/IBM/weblogic/WLS
     download_url: "{{ lookup('env','ARTIFACTORY_URL') }}/{{ lookup('env','ARTIFACTORY_REPO') }}/SoftwareInstallers"
     download_header: {'X-JFrog-Art-Api': "{{ lookup('env','ARTIFACTORY_TOKEN' )}}"}
   roles:

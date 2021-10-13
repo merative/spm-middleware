@@ -9,7 +9,7 @@
 
     - name: Copy installer
       copy:
-        src: "{{ weblogic_local_installer_path }}/{{ weblogic_installer_path }}/{{ opatch }}"
+        src: "{{ weblogic_installer_path }}/{{ opatch }}"
         dest: "{{ mw_installer_folder }}/"
         mode: '644'
       when: download_url is not defined
@@ -60,7 +60,7 @@
 
     - name: Copy installer
       copy:
-        src: "{{ weblogic_local_installer_path }}/{{ weblogic_installer_path }}/{{ weblogic_patch_path }}/{{ patch }}"
+        src: "{{ weblogic_installer_path }}/{{ weblogic_patch_path }}/{{ patch }}"
         dest: "{{ mw_installer_folder }}/{{ weblogic_patch_path }}"
         mode: '644'
       when: download_url is not defined

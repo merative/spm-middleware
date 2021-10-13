@@ -23,7 +23,6 @@ server_port: 7001
 # download_header:  # e.g. X-JFrog-Art-Api: "{{ lookup('env', 'MYTOKEN') }}"
 
 # Local controller path OR relative path to download_url
-weblogic_local_installer_path: /opt/IBM/weblogic
 weblogic_installer_path: WLS
 # Local controller path relative to weblogic_installer_path OR relative path to download_url/weblogic_installer_path
 weblogic_patch_path: Patches

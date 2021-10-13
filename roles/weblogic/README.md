@@ -15,7 +15,6 @@ The `weblogc` role will install Weblogic.
 | `server_port`             | `7001`                                              |
 | `download_url`            | # Set this if license and installer is being downloaded from a http server|
 | `download_header`         | # Use this in conjunction with `download_url` |
-| `weblogic_local_installer_path`| `/opt/IBM/weblogic`       |
 | `weblogic_installer_path` | Controller local path or relative to download_url |
 | `weblogic_patch_path`     | Controller local path or relative to download_url |
 | `java_zip_path`           | Controller local path or relative to download_url |
@@ -49,7 +48,7 @@ The version of the OPatch tool itself is also handed by the above tasks file.
 ```
 - hosts: servers
   roles:
-    - role: wh_spm.middleware.weblogic
+    - role: ibm.spm_middleware.weblogic
       weblogic_version: 14.1.1.0.210716
 ```
 
