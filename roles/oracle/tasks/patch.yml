@@ -110,8 +110,11 @@
   async: 600
   poll: 0
   register: patch_checker
+
 # Avoid travis timeout
 - name: 'Patch - check status'
+  become: yes
+  become_user: oracle
   async_status:
     jid: "{{ patch_checker.ansible_job_id }}"
   register: job_result
