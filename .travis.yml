@@ -39,7 +39,6 @@ env:
     - SCENARIO=oracle12cR2-centos-7
     - SCENARIO=oracle19c-centos-8
     - SCENARIO=iim-191-centos-8
-    - SCENARIO=iim-191-centos-8
     - SCENARIO=ihs-v90-centos-8
     - SCENARIO=ihs-v80-centos-7
 stage: Molecule Tests
