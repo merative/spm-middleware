@@ -58,7 +58,7 @@ script:
   # Ansible Molecule tests
   - chmod +x ./scripts/*
   - molecule test -s $SCENARIO
-  
+
 jobs:
   include:
     - stage: Ansible Tests
