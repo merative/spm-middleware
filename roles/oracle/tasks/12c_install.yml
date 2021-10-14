@@ -1,0 +1,232 @@
+---
+# Start Prereqs
+
+- name: Check prereqs guard
+  stat:
+    path: /opt/prereqs.guard
+  register: prereq_guard
+
+- name: Install required packages (1)
+  package:
+    name:
+      - binutils
+      - compat-libcap1
+      - compat-libstdc++-33
+      - compat-libstdc++-33.i686
+      - glibc
+      - glibc.i686
+      - glibc-devel
+      - glibc-devel.i686
+      - hostname
+      - ksh
+      - libaio
+      - libaio.i686
+      - libaio-devel
+      - libaio-devel.i686
+      - libX11
+      - libX11.i686
+      - libXau
+      - libXau.i686
+      - libXi
+      - libXi.i686
+      - libXtst
+      - libXtst.i686
+      - libgcc
+      - libgcc.i686
+      - libstdc++
+      - libstdc++.i686
+      - libstdc++-devel
+      - libstdc++-devel.i686
+      - libxcb
+      - libxcb.i686
+      - make
+      - nfs-utils
+      - net-tools
+      - psmisc
+      - smartmontools
+      - sysstat
+      - unixODBC
+      - unixODBC-devel
+      - unzip
+      - which
+    state: present
+
+# Required for 12.1, not listed for 12.2
+- name: Install required packages (2)
+  package:
+    name:
+      - gcc
+      - gcc-c++
+      - libXext
+      - libXext.i686
+      - zlib-devel
+      - zlib-devel.i686
+    state: present
+
+- name: Create dba group
+  group:
+    name: "{{ item.name }}"
+    gid: "{{ item.id }}"
+    state: present
+  loop:
+    - { name: 'oinstall', id: 54321 }
+    - { name: 'dba', id: 54322 }
+    - { name: 'oper', id: 54323 }
+
+- name: Create users
+  user:
+    name: oracle
+    uid: 54321
+    groups: dba,oper,oinstall
+    password: "{{ oracle_admin_password | password_hash('sha512', 'SaltyCl0ud') }}"  # hash with salt
+    expires: -1
+    create_home: yes
+    state: present
+
+# May need to increase swap
+
+- name: Copy sysctl props file
+  copy:
+    src: 98-oracle.conf
+    dest: /etc/sysctl.d/98-oracle.conf
+    mode: 0755
+  when: travis_build is not defined
+
+- name: Run sysctl
+  shell: /sbin/sysctl -p /etc/sysctl.d/98-oracle.conf
+  when: not prereq_guard.stat.exists and travis_build is not defined
+
+- name: Copy security limits props file
+  copy:
+    src: oracle-database-server-12cR2-preinstall.conf
+    dest: /etc/security/limits.d/oracle-database-server-12cR2-preinstall.conf
+    mode: 0755
+
+# Also add to /etc/security/limits.conf
+- name: Update /etc/security/limits.conf
+  blockinfile:
+    path: /etc/security/limits.conf
+    block: |
+      oracle   soft   nofile    1024
+      oracle   hard   nofile    65536
+      oracle   soft   nproc    16384
+      oracle   hard   nproc    16384
+      oracle   soft   stack    10240
+      oracle   hard   stack    32768
+      oracle   hard   memlock    134217728
+      oracle   soft   memlock    134217728
+
+- name: Create /opt/prereqs.guard
+  copy:
+    dest: /opt/prereqs.guard
+    content: |
+      prerequisites installed
+    mode: 0644
+
+# End Prereqs
+
+- name: Copy base installer
+  copy:
+    src: "{{ oracle_installer_path }}/{{ item }}"
+    dest: "/tmp/"
+  loop: "{{ base_installer }}"
+  when: download_url is not defined
+
+- name: Download base installer
+  get_url:
+    url: "{{download_url}}/{{ oracle_installer_path }}/{{ item }}"
+    dest: "/tmp/"
+    force: no
+    headers: "{{ download_header }}"
+  loop: "{{ base_installer }}"
+  when: download_url is defined
+
+- name: Create /opt/OracleInstaller
+  file:
+    path: /tmp/OracleInstaller
+    state: directory
+    group: oinstall
+    owner: oracle
+    mode: 0755
+
+- name: Unarchive a file with extra options
+  ansible.builtin.unarchive:
+    src: "/tmp/{{ item }}"
+    dest: /tmp/OracleInstaller/
+    remote_src: yes
+    owner: oracle
+    group: oinstall
+    mode: 0755
+    creates: /tmp/OracleInstaller/database/install/.oui
+  loop: "{{ base_installer }}"
+
+
+- name: lower_runlevel_severity
+  ansible.builtin.replace:
+    path: /tmp/OracleInstaller/database/stage/cvu/cvu_prereq.xml
+    regexp: '<RUNLEVEL>'
+    replace: '<RUNLEVEL SEVERITY="IGNORABLE">'
+
+# This is modified during installation so needs guard but perhaps removing group from next step would also work
+- name: Check if Inventory Dir exists
+  stat:
+    path: "{{ oracle_inventory }}"
+  register: inventory_dir
+
+- name: Create inventory location
+  file:
+    path: "{{ oracle_inventory }}"
+    state: directory
+    group: oinstall
+    owner: oracle
+    mode: 0777
+  when: not inventory_dir.stat.exists
+
+- name: Create oracle home
+  file:
+    path: "{{ oracle_home }}"
+    state: directory
+    group: oinstall
+    owner: oracle
+    mode: 0777
+
+- name: Create /etc/oraInst.loc
+  copy:
+    dest: /etc/oraInst.loc
+    content: |
+      inventory_loc={{ oracle_inventory }}
+      inst_group=oinstall
+    mode: 0644
+    owner: oracle
+    group: oinstall
+
+- name: Render DB Response File
+  template:
+    src: "{{ oracle_rsp_filename }}"
+    dest: /tmp/db.rsp
+
+- name: Check if Base already installed
+  become: yes
+  become_user: oracle
+  shell: "echo 'SELECT * FROM v$version;' | $ORACLE_HOME/bin/sqlplus / as sysdba | grep -i {{ base_version }}"
+  register: oracle_base_status
+  changed_when: False
+  ignore_errors: True
+  environment:
+    ORACLE_HOME: "{{ oracle_home }}"
+    ORACLE_SID: "{{ oracle_sid }}"
+
+- name: Run Installer
+  become: yes
+  become_user: oracle
+  command: "./runInstaller -silent -logLevel info -waitForCompletion -responseFile /tmp/db.rsp -showProgress {{ travis_flags }}"
+  args:
+    chdir: "/tmp/OracleInstaller/database"
+  environment:
+    ORACLE_HOME: "{{ oracle_home }}"
+    ORACLE_SID: "{{ oracle_sid }}"
+  when: oracle_base_status.rc != 0
+
+- name: "Run Post Install"
+  command: "{{ oracle_home }}/root.sh"
+  when: oracle_base_status.rc != 0

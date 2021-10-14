@@ -1,0 +1,89 @@
+---
+- name: Check listener status
+  become: yes
+  become_user: oracle
+  shell: $ORACLE_HOME/bin/lsnrctl status
+  ignore_errors: true
+  register: lsnr_status
+  changed_when: False
+  environment:
+    ORACLE_HOME: "{{ oracle_home }}"
+    ORACLE_SID: "{{ oracle_sid }}"
+
+- name: Start the listener
+  become: yes
+  become_user: oracle
+  shell: $ORACLE_HOME/bin/lsnrctl start
+  when: lsnr_status.rc != 0
+  environment:
+    ORACLE_HOME: "{{ oracle_home }}"
+    ORACLE_SID: "{{ oracle_sid }}"
+
+- name: Check if DB exists
+  stat:
+    path: "{{ oracle_base }}/oradata/ORCL"
+  register: db_dir_19c
+
+- name: Check if DB exists
+  stat:
+    path: "{{ oracle_base }}/oradata/orcl"
+  register: db_dir_12c
+
+- name: Create the database
+  become: yes
+  become_user: oracle
+  shell: |
+    $ORACLE_HOME/bin/dbca  -silent -createdatabase \
+        -templatename General_Purpose.dbc \
+        -gdbname $ORACLE_GLOBAL_NAME \
+        -sid $ORACLE_SID \
+        -syspassword $ORACLE_ADMIN_PASSWORD \
+        -systempassword $ORACLE_ADMIN_PASSWORD \
+        -storageType FS \
+        -datafileDestination $ORACLE_BASE/oradata \
+        -emConfiguration DBEXPRESS \
+        -emUser emcurator \
+        -emPassword $ORACLE_ADMIN_PASSWORD \
+        -emExpressPort 5555 \
+        -characterSet AL32UTF8 \
+        -memoryPercentage 40 \
+        -initParams processes=1500,open_cursors=1000
+  environment:
+    ORACLE_BASE: "{{ oracle_base }}"
+    ORACLE_HOME: "{{ oracle_home }}"
+    ORACLE_GLOBAL_NAME: "{{ oracle_global_name }}"
+    ORACLE_SID: "{{ oracle_sid }}"
+    ORACLE_ADMIN_PASSWORD: "{{ oracle_admin_password}}"
+  when: (not db_dir_19c.stat.exists) and (not db_dir_12c.stat.exists)
+
+- name: Render CuramPostInstall.ddl file
+  template:
+    src: CuramPostInstall.ddl.j2
+    dest: "{{ oracle_base }}/CuramPostInstall.ddl"
+    owner: oracle
+    group: oinstall
+    mode: 0755
+  tags:
+    - post
+
+- name: Check if DB Configured
+  become: yes
+  become_user: oracle
+  shell: "echo 'SELECT USERNAME FROM DBA_USERS;' | $ORACLE_HOME/bin/sqlplus / as sysdba | grep CURAM"
+  register: db_config_status
+  changed_when: False
+  ignore_errors: True
+  environment:
+    ORACLE_HOME: "{{ oracle_home }}"
+    ORACLE_SID: "{{ oracle_sid }}"
+
+- name: Run post install script
+  become: yes
+  become_user: oracle
+  shell: "$ORACLE_HOME/bin/sqlplus system/{{ oracle_admin_password }} as sysdba @{{ oracle_base }}/CuramPostInstall.ddl"
+  environment:
+    ORACLE_HOME: "{{ oracle_home }}"
+    ORACLE_SID: "{{ oracle_sid }}"
+  when: db_config_status.rc != 0
+  tags:
+    - post
