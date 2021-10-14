@@ -49,6 +49,9 @@ env:
     - SCENARIO=ohs-v12.2.1-centos-7
     - SCENARIO=ohs-v12.2.1-centos-8
     - SCENARIO=ohs-v12.1.3-centos-7
+    - SCENARIO=weblogic-centos-7
+    - SCENARIO=weblogic-centos-8
+
 stage: Molecule Tests
 
 before_script:
