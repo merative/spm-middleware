@@ -1,0 +1,101 @@
+---
+# ==> Configure Linux
+- name: Install required libraries
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ packages_list }}"
+
+- name: Change kernel parameters
+  sysctl:
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
+    state: present
+  with_dict: "{{ kernel_params }}"
+
+# ==> Create user and groups
+- name: Create group
+  group:
+    name: "{{ weblogic_group }}"
+    gid: 54321
+    state: present
+
+- name: Create user
+  user:
+    name: oracle
+    uid: 54321
+    group: "{{ weblogic_group }}"
+    append: yes
+    password: "{{ weblogic_os_user_pass | password_hash('sha512', 'SaltyCl0ud') }}"  # hash with salt
+    expires: -1
+    create_home: yes
+    state: present
+
+# ==> Add open file and process limits for oracle user
+- name: Add soft limit number of open files
+  lineinfile:
+    dest: /etc/security/limits.conf
+    line: '{{ weblogic_user }} soft  nofile  {{ soft_no_file }}'
+- name: Add hard limit for number of open files
+  lineinfile:
+    dest: /etc/security/limits.conf
+    line: "{{ weblogic_user }} hard  nofile  {{ hard_no_file }}"
+- name: Add soft limit for number of processes
+  lineinfile:
+    dest: /etc/security/limits.conf
+    line: "{{ weblogic_user }} soft  nproc   {{ soft_nproc }}"
+- name: Add hard limit for number of processes
+  lineinfile:
+    dest: /etc/security/limits.conf
+    line: "{{ weblogic_user }} hard  nproc   {{ hard_nproc }}"
+- name: Create a shell profile with file and process limits for oracle user
+  template:
+    src: oracle-limits.sh.j2
+    dest: /etc/profile.d/oracle-limits.sh
+
+# ==> Create Base Directories
+- name: Create Installer directory
+  file:
+    path: "{{ mw_installer_folder }}"
+    owner: "{{ weblogic_user }}"
+    group: "{{ weblogic_group }}"
+    state: directory
+
+- name: Create Oracle Inventory directory
+  file:
+    path: "{{ inv_loc }}"
+    owner: "{{ weblogic_user }}"
+    group: "{{ weblogic_group }}"
+    state: directory
+
+# ==> install java
+- name: Check if the Java download exists
+  stat:
+    path: "{{ mw_installer_folder }}/java-repo.zip"
+  register: stat_result
+
+- name: Copy installer
+  copy:
+    src: "{{ weblogic_installer_path }}/{{ java_zip_path }}/{{ java_archive_file }}"
+    dest: "{{ mw_installer_folder }}/java-repo.zip"
+    mode: '644'
+  when: download_url is not defined and not stat_result.stat.exists
+
+- name: Download Java installer
+  get_url:
+    dest: "{{ mw_installer_folder }}/java-repo.zip"
+    url: "{{ download_url }}/{{ java_zip_path }}/{{ java_archive_file }}"
+    mode: '644'
+    headers: "{{ download_header }}"
+  when: download_url is defined and not stat_result.stat.exists
+
+- name: Create Java repo directory
+  file:
+    path: "{{ jdk_folder }}"
+    state: directory
+
+- name: Extract Java installer
+  unarchive:
+    src: "{{ mw_installer_folder }}/java-repo.zip"
+    dest: "{{ jdk_folder }}"
+    remote_src: yes
