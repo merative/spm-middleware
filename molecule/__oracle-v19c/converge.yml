@@ -3,7 +3,7 @@
   hosts: all
 
   collections:
-    - wh_spm.middleware
+    - ibm.spm_middleware
 
   vars:
     oracle_version: 19.11.0.0.0
