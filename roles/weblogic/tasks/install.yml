@@ -1,0 +1,70 @@
+---
+
+- name: Create installer directory
+  file:
+    state: directory
+    path: "{{ mw_installer_folder }}"
+    owner: "{{ weblogic_user }}"
+    group: "{{ weblogic_group }}"
+
+- name: Copy installer
+  copy:
+    src: "{{ weblogic_installer_path }}/{{ base_install_file }}"
+    dest: "{{ mw_installer_folder }}/"
+    mode: '644'
+  register: ora_installer
+  when: download_url is not defined
+
+- name: Download weblogic base installer
+  get_url:
+    dest: "{{ mw_installer_folder }}/"
+    url: "{{ download_url }}/{{ weblogic_installer_path }}/{{ base_install_file }}"
+    mode: '644'
+    headers: "{{ download_header }}"
+  register: ora_installer
+  when: download_url is defined
+
+- name: Copy file for silent installation
+  template:
+    src: weblogic.rsp.j2
+    dest: "{{ mw_installer_folder }}/weblogic.rsp"
+    owner: "{{ weblogic_user }}"
+    group: "{{ weblogic_group }}"
+
+- name: Copy OraInst.loc
+  template:
+    src: oraInst.loc.j2
+    dest: "/etc/oraInst.loc"
+    owner: "{{ weblogic_user }}"
+    group: "{{ weblogic_group }}"
+
+- name: execute Weblogic installer
+  command: "{{ jdk_folder }}/{{ java_version_path }}/bin/java -Xms1024m -Xmx1024m -jar {{ mw_installer_folder }}/{{ base_install_file }} -silent -ignoreSysPrereqs -responseFile {{ mw_installer_folder }}/weblogic.rsp "
+  # sudo_user: '{{ weblogic_user }}'
+  become: true
+  become_user: '{{ weblogic_user }}'
+
+- name: Create profile.d directory
+  file:
+    state: directory
+    path: "/opt/profile.d"
+
+- name: Create Props directory
+  file:
+    state: directory
+    path: "/opt/Props"
+
+- name: copy weblogic.sh
+  template:
+    src: weblogic.sh.j2
+    dest: "/opt/profile.d/weblogic.sh"
+
+- name: copy sunjdk.sh
+  template:
+    src: sunjdk.sh.j2
+    dest: "/opt/profile.d/sunjdk.sh"
+
+- name: copy AppServer.properties
+  template:
+    src: AppServer.properties.j2
+    dest: "/opt/Props/AppServer.properties"

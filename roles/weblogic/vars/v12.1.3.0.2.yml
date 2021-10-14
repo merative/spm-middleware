@@ -1,0 +1,14 @@
+---
+base_install_file: 'fmw_12.1.3.0.0_wls.jar'
+weblogic_version: 12.1
+# 13.9.4.2.6
+opatch: 'p28186730_139426_Generic.zip'
+opatch_version: 13.9.4.2.6
+# 31656851 WLS PATCH SET UPDATE 12.1.3.0.201020
+patch: 'p19637454_121300_Generic.zip'
+patch_number: 19637454
+napply: false
+patch_folder: '19637454'
+# Local controller path OR relative path to download_url
+java_archive_file: jdk-8u191-linux-x64.tar.gz
+java_version_path: 'jdk1.8.0_191'
