@@ -1,0 +1,27 @@
+---
+
+- name: Download and install the Oracle Database Preinstallation rpm
+  yum:
+    name: "{{ prereqs_installer }}"
+    state: present
+    disable_gpg_check: yes
+
+- name: Copy .rpm file for RPM-based installation
+  copy:
+    src: "{{ oracle_installer_path }}/{{ base_installer }}"
+    dest: "/tmp/{{ base_installer }}"
+  when: download_url is not defined
+
+- name: Download .rpm file for RPM-based installation
+  get_url:
+    url: "{{ download_url }}/{{ oracle_installer_path }}/{{ base_installer }}"
+    dest: "/tmp/{{ base_installer }}"
+    force: no
+    headers: "{{ download_header }}"
+  when: download_url is defined
+
+- name: Install oracle software rpm
+  yum:
+    name: "/tmp/{{ base_installer }}"
+    state: present
+    disable_gpg_check: yes

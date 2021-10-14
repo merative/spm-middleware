@@ -1,0 +1,12 @@
+---
+# base installer values
+oracle_rsp_filename: "install_{{ oracle_family }}R2.rsp.j2"
+base_version: 12.2.0.1.0
+base_installer:
+  - linuxx64_12201_database.zip
+# patch values
+patch_filename: p32916808_122010_Linux-x86-64.zip
+patch_number: 32916808  # used for directory
+# Add OPatch values when bundled OPatch needs to be upgraded
+opatch_filename: p6880880_190000_Linux-x86-64_12.2.0.1.25.zip
+opatch_version: 12.2.0.1.25

@@ -1,0 +1,158 @@
+---
+- name: "Copy OPatch {{ opatch_filename }}"
+  copy:
+    src: "{{ oracle_installer_path }}/{{ opatch_filename }}"
+    dest: "/tmp//{{ opatch_filename }}"
+    owner: oracle
+    group: oinstall
+  when:
+    - download_url is not defined
+    - opatch_filename is defined
+
+- name: "Download OPatch {{ opatch_filename }}"
+  get_url:
+    url: "{{ download_url }}/{{ oracle_installer_path }}/{{ opatch_filename }}"
+    dest: "/tmp//{{ opatch_filename }}"
+    owner: oracle
+    group: oinstall
+    headers: "{{ download_header }}"
+  when:
+    - download_url is defined
+    - opatch_filename is defined
+
+- name: "Check OPatch version matches {{ opatch_version }}"
+  become: yes
+  become_user: oracle
+  shell: "grep {{ opatch_version }} {{ oracle_home }}/OPatch/version.txt"
+  ignore_errors: true
+  register: opatch_status
+  changed_when: False
+  when: opatch_version is defined
+
+- name: "Extract {{ opatch_filename }} replace bundled Opatch tool"
+  unarchive:
+    remote_src: yes
+    src: "/tmp/{{ opatch_filename }}"
+    dest: "{{ oracle_home }}"
+    owner: oracle
+    group: oinstall
+  when: opatch_version is defined and opatch_status.rc != 0
+
+- name: "Copy Patch {{ oatch_filename }}"
+  copy:
+    src: "{{ oracle_installer_path }}/{{ patch_filename }}"
+    dest: "/tmp//{{ patch_filename }}"
+    owner: oracle
+    group: oinstall
+  when: download_url is not defined
+
+- name: "Download Patch {{ patch_filename }}"
+  get_url:
+    url: "{{ download_url }}/{{ oracle_installer_path }}/{{ patch_filename }}"
+    dest: "/tmp//{{ patch_filename }}"
+    owner: oracle
+    group: oinstall
+    headers: "{{ download_header }}"
+  when: download_url is defined
+
+- name: "Extract Patch {{ patch_filename }}"
+  unarchive:
+    remote_src: yes
+    src: "/tmp/{{ patch_filename }}"
+    dest: /tmp/
+    owner: oracle
+    group: oinstall
+
+- name: Check listener status
+  become: yes
+  become_user: oracle
+  shell: $ORACLE_HOME/bin/lsnrctl status
+  ignore_errors: true
+  register: lsnr_status
+  changed_when: False
+  environment:
+    ORACLE_HOME: "{{ oracle_home }}"
+    ORACLE_SID: "{{ oracle_sid }}"
+
+- name: Shutdown Oracle
+  become: yes
+  become_user: oracle
+  shell:
+    cmd: |
+     $ORACLE_HOME/bin/sqlplus / as sysdba << EOF
+       shutdown immediate
+       exit
+     EOF
+  environment:
+    ORACLE_HOME: "{{ oracle_home }}"
+    ORACLE_SID: "{{ oracle_sid }}"
+  when: lsnr_status.rc == 0
+
+- name: Stop the listener
+  become: yes
+  become_user: oracle
+  shell: $ORACLE_HOME/bin/lsnrctl stop
+  ignore_errors: true
+  when: lsnr_status.rc == 0
+  environment:
+    ORACLE_HOME: "{{ oracle_home }}"
+    ORACLE_SID: "{{ oracle_sid }}"
+
+- name: "Apply Patch {{ patch_number }}"
+  become: yes
+  become_user: oracle
+  command: $ORACLE_HOME/OPatch/opatch apply -silent
+  args:
+    chdir: "/tmp/{{ patch_number }}"
+  environment:
+    ORACLE_HOME: "{{ oracle_home }}"
+    ORACLE_SID: "{{ oracle_sid }}"
+  async: 900
+  poll: 0
+  register: patch_checker
+
+# Avoid travis timeout
+- name: 'Patch - check status'
+  become: yes
+  become_user: oracle
+  async_status:
+    jid: "{{ patch_checker.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 30
+  delay: 30
+
+- name: Check listener status
+  become: yes
+  become_user: oracle
+  shell: $ORACLE_HOME/bin/lsnrctl status
+  ignore_errors: True
+  register: lsnr_status
+  changed_when: False
+  environment:
+    ORACLE_HOME: "{{ oracle_home }}"
+    ORACLE_SID: "{{ oracle_sid }}"
+
+- name: Start the listener
+  become: yes
+  become_user: oracle
+  shell: $ORACLE_HOME/bin/lsnrctl start
+  when: lsnr_status.rc != 0
+  environment:
+    ORACLE_HOME: "{{ oracle_home }}"
+    ORACLE_SID: "{{ oracle_sid }}"
+
+# Better way to check oracle is up not relying on listener
+- name: Start Oracle
+  become: yes
+  become_user: oracle
+  shell: |
+    $ORACLE_HOME/bin/sqlplus / as sysdba << EOF
+      startup
+      exit
+      /
+    EOF
+  environment:
+    ORACLE_HOME: "{{ oracle_home }}"
+    ORACLE_SID: "{{ oracle_sid }}"
+  when: lsnr_status.rc != 0

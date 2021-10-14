@@ -43,6 +43,9 @@ env:
     - SCENARIO=websphere-v85-centos-7
     - SCENARIO=db2111
     - SCENARIO=db2115
+    - SCENARIO=oracle12cR1-centos-7
+    - SCENARIO=oracle12cR2-centos-7
+    - SCENARIO=oracle19c-centos-8
     - SCENARIO=iim-191-centos-8
     - SCENARIO=ihs-v90-centos-8
     - SCENARIO=ihs-v80-centos-7
