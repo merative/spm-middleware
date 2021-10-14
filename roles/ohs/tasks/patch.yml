@@ -41,27 +41,27 @@
     owner: "{{ ohs_user }}"
     group: "{{ ohs_group }}"
 
-- name: "Download OPatch tool {{ opatch_filename }}"
+- name: "Download OPatch tool {{ opatch_filename_path }}"
   get_url:
-    url: "{{ download_url }}/OHS/{{ opatch_filename }}"
-    dest: "/tmp/{{ opatch_filename }}"
+    url: "{{ download_url }}/{{ opatch_filename_path }}"
+    dest: "/tmp/{{ opatch_filename_path }}"
     owner: "{{ ohs_user }}"
     group: "{{ ohs_group }}"
     headers: "{{ download_header }}"
-  when: opatch_filename is defined and download_url is defined
+  when: opatch_filename_path is defined and download_url is defined
 
-- name: "Copy OPatch tool {{ opatch_filename }}"
+- name: "Copy OPatch tool {{ opatch_filename_path }}"
   copy:
-    src: "/tmp/{{ opatch_filename }}"
-    dest: "/tmp/{{ opatch_filename }}"
+    src: "/tmp/{{ opatch_filename_path }}"
+    dest: "/tmp/{{ opatch_filename_path }}"
     owner: "{{ ohs_user }}"
     group: "{{ ohs_group }}"
   when: download_url is not defined
 
-- name: "Extract {{ opatch_filename }} "
+- name: "Extract {{ opatch_filename_path }} "
   unarchive:
     remote_src: yes
-    src: "/tmp/{{ opatch_filename }}"
+    src: "/tmp/{{ opatch_filename_path }}"
     dest: "{{ ohs_installer_loc }}"
     owner: "{{ ohs_user }}"
     group: "{{ ohs_group }}"
@@ -75,7 +75,7 @@
 
 - name: "Download OHS Patches"
   get_url:
-    url: "{{ download_url }}/OHS/{{ item.filename }}"
+    url: "{{ download_url }}/{{ item.filename }}"
     dest: "/tmp/{{ item.filename }}"
     force: no
     owner: "{{ ohs_user }}"

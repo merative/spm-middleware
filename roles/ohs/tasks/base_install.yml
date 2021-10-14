@@ -59,7 +59,7 @@
 
 - name: Download base installer
   get_url:
-    url: "{{ download_url }}/OHS/{{ ohs_version_folder }}/{{ base_installer }}"
+    url: "{{ download_url }}/{{ base_installer_path }}"
     dest: "{{ ohs_installer_loc }}"
     owner: "{{ ohs_user }}"
     group: "{{ ohs_group }}"
@@ -71,8 +71,11 @@
 - name: Copy installer
   copy:
     src: "{{ ohs_installer_loc }}"
-    dest: "{{ ohs_installer_loc }}/{{ base_installer }}"
-  when: download_url is not defined
+    dest: "{{ ohs_installer_loc }}/{{ base_installer_path }}"
+    owner: "{{ ohs_user }}"
+    group: "{{ ohs_group }}"
+    mode: 0755
+  when: not installer.stat.exists and download_url is not defined
 
 - name: Check if Inventory Dir exists
   stat:
