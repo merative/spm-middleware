@@ -54,13 +54,13 @@
 
 - name: Check Installer File Exists
   stat:
-    path: "{{ ohs_installer_loc }}/{{ base_installer }}"
+    path: "{{ ohs_installer_loc }}/{{ base_installer_path }}"
   register: installer
 
 - name: Download base installer
   get_url:
     url: "{{ download_url }}/{{ base_installer_path }}"
-    dest: "{{ ohs_installer_loc }}"
+    dest: "{{ ohs_installer_loc }}/{{ base_installer_path }}"
     owner: "{{ ohs_user }}"
     group: "{{ ohs_group }}"
     mode: 0755

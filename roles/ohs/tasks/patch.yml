@@ -11,25 +11,25 @@
 # ==> install java
 - name: Check if the Java download exists
   stat:
-    path: "/tmp/java-repo.zip"
+    path: "{{ ohs_installer_loc }}/java-repo.zip"
   register: stat_result
 
 - name: Copy Java repo
   copy:
     src: "{{ java_zip_path }}"
-    dest: "/tmp/java-repo.zip"
+    dest: "{{ ohs_installer_loc }}/java-repo.zip"
   when: download_url is not defined
 
 - name: Download Java repo
   get_url:
     url: "{{ download_url }}/{{ java_zip_path }}"
-    dest: "/tmp/java-repo.zip"
+    dest: "{{ ohs_installer_loc }}/java-repo.zip"
     headers: "{{ download_header }}"
   when: download_url is defined
 
 - name: Extract Java installer
   unarchive:
-    src: "/tmp/java-repo.zip"
+    src: "{{ ohs_installer_loc }}/java-repo.zip"
     dest: "{{ jdk_folder }}"
     remote_src: yes
     extra_opts: [--strip-components=1]
