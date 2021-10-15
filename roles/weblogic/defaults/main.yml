@@ -1,0 +1,30 @@
+---
+weblogic_home: '/home/oracle/Oracle/Middleware/Oracle_Home'
+weblogic_user: 'oracle'
+weblogic_group: 'oinstall'
+weblogic_os_user_pass: 'oracle'
+weblogic_base: '/home/oracle'
+# If not passed in, use this default value
+weblogic_version: '14.1.1.0.210716'
+inv_loc: '/opt/Oracle/oraInventory'
+jdk_folder: '/usr/java'
+# Common paths and names
+domains_home: '{{ weblogic_base }}/config/Domains'
+applications_home: '{{ weblogic_base }}/config/applications'
+mw_installer_folder: '{{ weblogic_base }}/installer'
+domain_username: 'weblogic'
+domain_password: 'weblogic'
+encrypted_password: 'dummypassword'
+server_name: 'CuramServer'
+server_port: 7001
+
+# To download installer, patches, opatch and java from http server set download_url
+# download_url:   # e.g. https://artifactory/repo
+# download_header:  # e.g. X-JFrog-Art-Api: "{{ lookup('env', 'MYTOKEN') }}"
+
+# Local controller path OR relative path to download_url
+weblogic_installer_path: WLS
+# Local controller path relative to weblogic_installer_path OR relative path to download_url/weblogic_installer_path
+weblogic_patch_path: Patches
+# Local controller path OR relative path to download_url
+java_zip_path: 'Java'

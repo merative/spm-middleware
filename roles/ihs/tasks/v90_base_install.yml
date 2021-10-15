@@ -2,22 +2,40 @@
 - name: Create zip directory
   file:
     path: /tmp/repo-zips
+    mode: 0755
     state: directory
+  register: installer_dir
+
+- name: Download IHS installers
+  get_url:
+    dest: "{{ installer_dir.path }}/{{ item }}"
+    url: "{{ download_url }}/{{ ihs_installer_path }}/{{ item }}"
+    headers: "{{ download_header }}"
+  loop: "{{ ihs_installer_archive_list }}"
+  when: download_url is defined
 
 - name: Copy base installers
   copy:
     directory_mode: yes
     remote_src: no
-    src: "/tmp/repo-zips/"
-    dest: "/tmp/repo-zips/"
+    src: "{{ ihs_installer_path }}/"
+    dest: "{{ installer_dir.path }}/"
+  when: download_url is not defined
 
 - name: Create IHS base repo directories
   file:
     path: "/tmp/repo/{{ index }}"
     state: directory
-  loop: "{{ ihs_base_archive_list }}"
+  loop: "{{ ihs_installer_archive_list }}"
   loop_control:
     index_var: index
+
+- name: Download Java repo
+  get_url:
+    dest: "{{ installer_dir.path }}/java-repo.zip"
+    url: "{{ download_url }}/{{ ihs_java_zip_path }}"
+    headers: "{{ download_header }}"
+  when: download_url is defined
 
 - name: Create Java repo directory
   file:
@@ -26,17 +44,17 @@
 
 - name: Extract IHS base installers
   unarchive:
-    src: "/tmp/repo-zips/{{ item }}"
+    src: "{{ installer_dir.path }}/{{ item }}"
     dest: "/tmp/repo/{{ index }}"
     remote_src: yes
     creates: "/tmp/repo/{{ index }}/repository.config"
-  loop: "{{ ihs_base_archive_list }}"
+  loop: "{{ ihs_installer_archive_list }}"
   loop_control:
     index_var: index
 
 - name: Extract Java installer
   unarchive:
-    src: /tmp/repo-zips/java-repo.zip
+    src: "{{ installer_dir.path }}/java-repo.zip"
     dest: /tmp/repo/java
     remote_src: yes
     creates: /tmp/repo/java/repository.config
@@ -44,7 +62,7 @@
 - name: Build base repo list
   set_fact:
     repo_list: "{{ repo_list | default(['/tmp/repo/java']) + ['/tmp/repo/' + index|string]}}"
-  loop: "{{ ihs_base_archive_list }}"
+  loop: "{{ ihs_installer_archive_list }}"
   loop_control:
     index_var: index
 
