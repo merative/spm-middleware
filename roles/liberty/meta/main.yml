@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  author: Andrey Zhereshchin
+  author: SPM DevOps Team
   description: Install WebSphere Liberty.
   company: Watson Health SPM
 
@@ -22,16 +22,7 @@ galaxy_info:
     - name: EL
       versions:
         - 7
-    - name: MacOSX
-      versions:
-        - 10.15
-    - name: Ubuntu
-      versions:
-        - xenial
-        - bionic
-    - name: Windows
-      versions:
-        - all
+        - 8
 
   galaxy_tags:
     []

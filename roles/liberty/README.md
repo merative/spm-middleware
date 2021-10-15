@@ -18,11 +18,14 @@ IBM Installation Manager (1.9.x) must already be installed in the target environ
 | ----------------------- | --------------------------------------------------- |
 | `iim_install_path`      | `/opt/IBM/InstallationManager`                      |
 | `profiled_path`         | `/opt/profile.d`                                    |
-| `download_header`       | # Use this in conjunction with `download_url`       |
-| `liberty_installer_path`| # Set this to your downloaded installers filepath if copying from local|
-|                           # Set to remote filepath if downloading installers  |
-| `liberty_fp_path`       | # Set this to your downloaded fixpack filepath if copying from local|
-|                           # Set to remote filepath if downloading fixpacks    |
+
+| `download_url`          | # Set this if installation zips are being downloaded from a http server|
+| `download_header`       | # Use this in conjunction with `download_url`                          |
+
+| `liberty_installers_path`| # Set these to your downloaded zip filepath if copying from local|
+| `liberty_fp_path`        | # Set to remote filepath if downloading                          |
+| `liberty_java_zip_path`  |                                                                  |
+| ------------------------ | -----------------------------------------------------------------|
 
 ## Dependencies
 
