@@ -5,7 +5,6 @@
     url: "{{ download_url }}/{{ liberty_fp_path }}"
     headers: "{{ download_header }}"
   when: download_url is defined
-  register: wlp_repo
 
 - name: Create repo directory
   file:
@@ -17,7 +16,6 @@
     src: "{{ liberty_fp_path }}"
     dest: "/tmp/repo.zip"
   when: download_url is not defined
-  register: wlp_repo
 
 - name: Extract repo
   unarchive:

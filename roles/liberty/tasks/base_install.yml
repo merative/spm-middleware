@@ -3,11 +3,8 @@
   get_url:
     dest: /tmp/repo.zip
     url: "{{ download_url }}/{{ liberty_installers_path }}"
-  #  /WLP/was.repo.16002.liberty.nd.zip
-    #https://eu.artifactory.swg-devops.com/artifactory/wh-spmdevops-generic-local/SoftwareInstallers/WLP
     headers: "{{ download_header }}"
   when: download_url is defined
-  register: wlp_repo
 
 - name: Create repo directory
   file:
@@ -19,7 +16,6 @@
     src: "{{ liberty_installers_path }}"
     dest: "/tmp/repo.zip"
   when: download_url is not defined
-  register: wlp_repo
 
 - name: Extract Liberty installers
   unarchive:
