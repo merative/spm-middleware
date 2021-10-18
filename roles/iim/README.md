@@ -16,7 +16,6 @@ None
 | `download_header`   | # Use this in conjunction with `download_url` |
 | `iim_installer_path`| # Set this to your downloaded installers filepath if copying from local|
 |                       # Set to remote filepath if downloading installers    |
-|                       # Default `/tmp/iim/`                                 |
 | ------------------- | ------------------------------------------------------|
 
 ## Dependencies

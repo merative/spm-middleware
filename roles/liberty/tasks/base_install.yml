@@ -1,0 +1,41 @@
+---
+- name: Download Liberty repo
+  get_url:
+    dest: /tmp/repo.zip
+    url: "{{ download_url }}/{{ liberty_installers_path }}"
+    headers: "{{ download_header }}"
+  when: download_url is defined
+
+- name: Create repo directory
+  file:
+    path: /tmp/repo
+    state: directory
+
+- name: Copy Liberty installer repo
+  copy:
+    src: "{{ liberty_installers_path }}"
+    dest: "/tmp/repo.zip"
+  when: download_url is not defined
+
+- name: Extract Liberty installers
+  unarchive:
+    src: /tmp/repo.zip
+    dest: /tmp/repo
+    remote_src: yes
+    creates: /tmp/repo/repository.config
+
+- name: Install Liberty
+  iim_package:
+    iim_path: "{{ iim_install_path }}"
+    product_id: com.ibm.websphere.liberty.ND
+    path: "{{ liberty_install_path }}"
+    repo: /tmp/repo
+    state: present
+
+- name: Cleanup
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /tmp/repo
+    - /tmp/repo.zip

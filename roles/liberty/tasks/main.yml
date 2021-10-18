@@ -1,0 +1,48 @@
+---
+- name: Include version variables
+  include_vars: "v{{ liberty_version }}.yml"
+
+- name: Check packages
+  iim_info:
+    iim_path: "{{ iim_install_path }}"
+    product_id: "com.ibm.websphere.liberty.ND_{{ liberty_pid }}"
+  register: iim_info
+
+- name: Install Base version
+  include_tasks: base_install.yml
+  when: not iim_info.base_installed
+
+- name: Install Fixpack version
+  include_tasks: fixpack_install.yml
+  vars:
+    pack_id: "com.ibm.websphere.liberty.ND_{{ liberty_pid }}"
+  when: not iim_info.exact_installed
+
+- name: Install Java
+  include_tasks: fixpack_install.yml
+  vars:
+    liberty_fp_path: "{{ liberty_java_zip_path }}"
+    pack_id: "{{ liberty_java_pid }}"
+  when: not iim_info.exact_installed
+
+- name: Create /opt/Props
+  file:
+    path: /opt/Props
+    mode: 0755
+    state: directory
+  when: ansible_os_family != "Windows"
+
+- name: Copy AppServer.properties
+  copy:
+    src: AppServer.properties
+    dest: /opt/Props/AppServer.properties
+    mode: 0644
+
+- name: Create environment files
+  include_tasks: env.yml
+
+- name: Render jvm.options
+  template:
+    src: jvm.options.j2
+    dest: "{{ liberty_install_path }}/usr/shared/jvm.options"
+    mode: 0644
