@@ -19,6 +19,10 @@ on:
 # that can run sequentially or in parallel
 jobs:
   molecule:
+    env:
+      ARTIFACTORY_TOKEN: ${{ secrets.ARTIFACTORY_TOKEN }}
+      ARTIFACTORY_REPO: ${{ secrets.ARTIFACTORY_REPO }}
+      ARTIFACTORY_URL: ${{ secrets.ARTIFACTORY_URL }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -32,10 +36,6 @@ jobs:
           path: "${{ github.repository }}"
       - name: Molecule
         uses: gofrolist/molecule-action@v2
-        env:
-          ARTIFACTORY_TOKEN: ${{ secrets.ARTIFACTORY_TOKEN }}
-          ARTIFACTORY_REPO: ${{ secrets.ARTIFACTORY_REPO }}
-          ARTIFACTORY_URL: ${{ secrets.ARTIFACTORY_URL }}
         with:
           molecule_options: --debug --base-config molecule/_shared/base.yml
           molecule_command: test
