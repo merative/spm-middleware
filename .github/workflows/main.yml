@@ -31,9 +31,9 @@ jobs:
       - name: Molecule
         uses: gofrolist/molecule-action@v2
         env:
-          ARTIFACTORY_TOKEN: ${{ Building.ARTIFACTORY_TOKEN}}
-          ARTIFACTORY_REPO: ${{ Building.ARTIFACTORY_REPO}}
-          ARTIFACTORY_URL: ${{ Building.ARTIFACTORY_URL}}
+          ARTIFACTORY_TOKEN: ${{ secrets.ARTIFACTORY_TOKEN}}
+          ARTIFACTORY_REPO: ${{ secrets.ARTIFACTORY_REPO}}
+          ARTIFACTORY_URL: ${{ secrets.ARTIFACTORY_URL}}
         with:
           molecule_options: --debug --base-config molecule/_shared/base.yml
           molecule_command: test
