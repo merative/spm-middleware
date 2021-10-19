@@ -54,7 +54,7 @@
 
 - name: check oracle_family
   ansible.builtin.debug:
-    msg: oracle_family is: {{ oracle_family }}
+    msg: "oracle_family is: {{ oracle_family }}"
 
 - name: Check Installer File Exists
   stat:
