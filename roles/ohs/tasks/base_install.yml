@@ -52,22 +52,14 @@
     group: "{{ ohs_group }}"
     mode: 0755
 
+- name: check oracle_family
+  ansible.builtin.debug:
+    msg: "oracle_family is: {{ oracle_family }}"
+
 - name: Check Installer File Exists
   stat:
     path: "{{ ohs_installer_loc }}/{{ base_installer_path }}"
   register: installer
-
-- name: check  ohs_installer_loc
-  ansible.builtin.debug:
-    msg: "base_installer_path is: {{ base_installer_path }}"
-
-- name: check base_installer_path
-  ansible.builtin.debug:
-    msg: "base_installer_path is: {{ base_installer_path }}"
-
-- name: check oracle_family
-  ansible.builtin.debug:
-    msg: "oracle_family is: {{ oracle_family }}"
 
 - name: Download base installer
   get_url:
