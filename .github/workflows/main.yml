@@ -20,9 +20,9 @@ on:
 jobs:
   molecule:
     env:
-      ARTIFACTORY_TOKEN: ${{ secrets.ARTIFACTORY_TOKEN }}
-      ARTIFACTORY_REPO: ${{ secrets.ARTIFACTORY_REPO }}
-      ARTIFACTORY_URL: ${{ secrets.ARTIFACTORY_URL }}
+      ARTIFACTORY_TOKEN: "${{ secrets.ARTIFACTORY_TOKEN }}"
+      ARTIFACTORY_REPO: "${{ secrets.ARTIFACTORY_REPO }}"
+      ARTIFACTORY_URL: "${{ secrets.ARTIFACTORY_URL }}"
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
