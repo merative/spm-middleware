@@ -65,12 +65,8 @@ before_script:
 script:
   # Ansible Molecule tests
   - chmod +x ./scripts/*
-  # Only download installers and execute molecule tests if secure env vars are available (ie not a fork)
-  - |
-    if [ "$TRAVIS_SECURE_ENV_VARS" == "true" ]; then
-      ./scripts/downloadInstaller.sh $SCENARIO;
-      molecule test -s $SCENARIO;
-    fi
+  - molecule test -s $SCENARIO
+
 jobs:
   include:
     - stage: Ansible Tests

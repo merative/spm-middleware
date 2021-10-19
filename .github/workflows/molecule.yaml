@@ -15,9 +15,20 @@ jobs:
       fail-fast: false
       matrix:
         scenario:
-          - db2-111-centos-7
-          - db2-115-centos-8
+          - websphere-v90-centos-8
+          - websphere-v85-centos-7
+          - db2111
+          - db2115
+          - oracle12cR1-centos-7
+          - oracle12cR2-centos-7
+          - oracle19c-centos-8
           - iim-191-centos-8
+          - ihs-v90-centos-8
+          - ihs-v80-centos-7
+          - liberty-centos-7
+          - liberty-centos-8
+          - weblogic-centos-7
+          - weblogic-centos-8
     runs-on: ubuntu-latest
     env:
       python_ver: 3.8
@@ -58,10 +69,10 @@ jobs:
           ln -s ansible_collections/${{ env.collection_namespace }}/${{ env.collection_name }} ~/.ansible/collections/${{ env.collection_namespace }}/${{ env.collection_name }}
           chmod -v +x ./scripts/*
 
-      - name: Download installers
-        run: |
-          ./scripts/downloadInstaller.sh ${{ matrix.scenario }}
-
       - name: Run Molecule test
         run: |
           molecule test -s ${{ matrix.scenario }}
+        env:
+          ARTIFACTORY_TOKEN: "${{ secrets.ARTIFACTORY_TOKEN }}"
+          ARTIFACTORY_REPO: "${{ secrets.ARTIFACTORY_REPO }}"
+          ARTIFACTORY_URL: "${{ secrets.ARTIFACTORY_URL }}"
