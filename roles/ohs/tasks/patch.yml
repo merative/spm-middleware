@@ -14,18 +14,18 @@
     path: "{{ ohs_installer_loc }}/java-repo.zip"
   register: stat_result
 
-- name: Copy Java repo
-  copy:
-    src: "{{ java_zip_path }}"
-    dest: "{{ ohs_installer_loc }}/java-repo.zip"
-  when: download_url is not defined
-
 - name: Download Java repo
   get_url:
     url: "{{ download_url }}/{{ java_zip_path }}"
     dest: "{{ ohs_installer_loc }}/java-repo.zip"
     headers: "{{ download_header }}"
   when: download_url is defined
+
+- name: Copy Java repo
+  copy:
+    src: "{{ java_zip_path }}"
+    dest: "{{ ohs_installer_loc }}/java-repo.zip"
+  when: download_url is not defined
 
 - name: Extract Java installer
   unarchive:
