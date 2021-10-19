@@ -1,0 +1,35 @@
+---
+- debug:
+    msg: "Weblogic Version is {{ weblogic_version }}"
+
+- name: Distribution major version
+  debug: msg="OS version is {{ ansible_distribution_major_version }}"
+
+- name: "Include based on OS version variables"
+  include_vars: "os_{{ ansible_distribution_major_version }}.yml"
+
+- name: "Include version specifc variables"
+  include_vars: "v{{ weblogic_version }}.yml"
+
+- name: Check if weblogic already installed
+  stat:
+    path: "{{ weblogic_home }}/inventory/registry.xml"
+  register: weblogic_installed
+
+- include_tasks: prereqs.yml
+  when: not weblogic_installed.stat.exists
+
+- include_tasks: install.yml
+  when: not weblogic_installed.stat.exists
+
+- name: Check if Patch already applied
+  become: yes
+  become_user: "{{ weblogic_user }}"
+  shell: "{{ weblogic_home }}/OPatch/opatch lspatches | grep -i {{ patch_number }}"
+  register: weblogic_version_status
+  changed_when: False
+  ignore_errors: True
+  when: patch is defined
+
+- include_tasks: patch.yml
+  when: (patch is defined) and (weblogic_version_status.rc != 0)

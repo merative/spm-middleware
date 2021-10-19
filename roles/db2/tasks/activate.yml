@@ -3,6 +3,16 @@
   copy:
     src: "{{ db2_license_path }}"
     dest: /tmp/db2/db2server.lic
+  when: download_url is not defined
+  register: target_lic_file
+
+- name: Download license to target
+  get_url:
+    url: "{{ download_url }}/{{ db2_license_path }}"
+    dest: /tmp/db2server.lic
+    headers:
+      "{{ download_header }}"
+  when: download_url is defined
   register: target_lic_file
 
 - name: Apply license

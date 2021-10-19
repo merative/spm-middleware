@@ -1,0 +1,82 @@
+---
+- name: Create zip directory
+  file:
+    path: /tmp/repo-zips
+    mode: 0755
+    state: directory
+  register: installer_dir
+
+- name: Create IHS fixpack repo directories
+  file:
+    path: "/tmp/repo/{{ index }}"
+    state: directory
+  loop: "{{ ihs_fp_installer_archive_list }}"
+  loop_control:
+    index_var: index
+
+- name: Download IHS Fix Pack repo
+  get_url:
+    dest: "{{ installer_dir.path }}{{ item }}"
+    url: "{{ download_url }}/{{ ihs_fp_installer_path }}/{{ item }}"
+    headers: "{{ download_header }}"
+  loop: "{{ ihs_fp_installer_archive_list }}"
+  when: download_url is defined
+
+- name: Copy fixpack installers
+  copy:
+    directory_mode: yes
+    remote_src: no
+    src: "{{ ihs_fp_installer_path }}"
+    dest: "{{ installer_dir.path }}"
+  when: download_url is not defined
+
+- name: Extract IHS fixpack installers
+  unarchive:
+    src: "{{ installer_dir.path }}{{ item }}"
+    dest: "/tmp/repo/{{ index }}"
+    remote_src: yes
+  loop: "{{ ihs_fp_installer_archive_list }}"
+  loop_control:
+    index_var: index
+
+- name: Build fixpack repo list
+  set_fact:
+    repo_list: "{{ repo_list | default([]) + ['/tmp/repo/' + index|string]}}"
+  loop: "{{ ihs_fp_installer_archive_list }}"
+  loop_control:
+    index_var: index
+
+- name: Set up-to-date facts
+  set_fact:
+    have_exact_ihs: "'com.ibm.websphere.IHS.{{ ihs_pid }}' in iim_info.packages"
+    have_exact_plg: "'com.ibm.websphere.PLG.{{ ihs_pid }}' in iim_info.packages"
+    have_exact_wct: "'com.ibm.websphere.WCT.{{ ihs_pid }}' in iim_info.packages"
+
+- name: Upgrade IHS
+  iim_package:
+    iim_path: "{{ iim_install_path }}"
+    product_id: "com.ibm.websphere.IHS.{{ ihs_pid }}"
+    path: "{{ ihs_install_path }}"
+    repo: "{{ repo_list }}"
+    properties:
+      "user.ihs.httpPort": 80
+    state: present
+  when: not (have_exact_ihs|bool)
+
+- name: Upgrade PLG
+  iim_package:
+    iim_path: "{{ iim_install_path }}"
+    product_id: "com.ibm.websphere.PLG.{{ ihs_pid }}"
+    path: "{{ plg_install_path }}"
+    repo: "{{ repo_list }}"
+    state: present
+  when: not (have_exact_plg|bool)
+
+- name: Upgrade WCT
+  iim_package:
+    iim_path: "{{ iim_install_path }}"
+    product_id: "com.ibm.websphere.WCT.{{ ihs_pid }}"
+    path: "{{ wct_install_path }}"
+    repo: "{{ repo_list }}"
+    state: present
+  when: not (have_exact_wct|bool)

@@ -25,6 +25,13 @@ Contributions must meet a minimum criteria:
   * Can be installed using `pip install -r ci-requirements.txt`
 * Repository cloned to `.../ansible_collections/<collection_namespace>/<collection_name>`
 
+## Dev Environment
+
+We use Molecule for testing our roles and have written converge playbooks and tests for all roles. We have developed a molecule image that can be used for development. Follow the instructions on Docker Hub:
+https://hub.docker.com/r/spmdevops/molecule
+
+The Dockerfile that was used to create this image is located in the root directory.
+
 ## Creating a new role
 
 The role must have a minimum of
@@ -50,7 +57,7 @@ These playbooks may be run using the `molecule [converge|verify] -s scenario_nam
 
 ### Python venv
 
-Using a python virtual environment is recommended for running molecule tests locally. Create it in the collection root (the root of your repository) with the `venv` command. 
+Using a python virtual environment is recommended for running molecule tests locally. Create it in the collection root (the root of your repository) with the `venv` command.
 
 Using a venv lets you keep all the packages and requirements for your molecule tests in an isolated environment that can be cleaned easily from your machine.
 

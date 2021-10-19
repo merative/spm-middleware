@@ -1,0 +1,41 @@
+---
+- name: Download repo
+  get_url:
+    dest: /tmp/repo.zip
+    url: "{{ download_url }}/{{ liberty_fp_path }}"
+    headers: "{{ download_header }}"
+  when: download_url is defined
+
+- name: Create repo directory
+  file:
+    path: /tmp/repo
+    state: directory
+
+- name: Copy Liberty fixpack repo
+  copy:
+    src: "{{ liberty_fp_path }}"
+    dest: "/tmp/repo.zip"
+  when: download_url is not defined
+
+- name: Extract repo
+  unarchive:
+    src: /tmp/repo.zip
+    dest: /tmp/repo
+    remote_src: yes
+    creates: /tmp/repo/repository.config
+
+- name: Install package
+  iim_package:
+    iim_path: "{{ iim_install_path }}"
+    product_id: "{{ pack_id }}"
+    path: "{{ liberty_install_path }}"
+    repo: /tmp/repo
+    state: present
+
+- name: Cleanup
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /tmp/repo
+    - /tmp/repo.zip

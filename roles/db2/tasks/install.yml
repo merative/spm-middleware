@@ -11,6 +11,15 @@
   copy:
     src: "{{ db2_installer_path }}"
     dest: "{{ tmp_dir.path }}/db2_installer.tar.gz"
+  when: download_url is not defined
+  register: db2_installer
+
+- name: Download installer
+  get_url:
+    url: "{{ download_url }}/{{ db2_installer_path }}"
+    dest: "{{ tmp_dir.path }}/db2_installer.tar.gz"
+    headers: "{{ download_header }}"
+  when: download_url is defined
   register: db2_installer
 
 - name: Create tmp directory

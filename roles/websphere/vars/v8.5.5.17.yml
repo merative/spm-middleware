@@ -1,0 +1,15 @@
+---
+websphere_pid: v85_8.5.5017.20200205_1450
+
+websphere_base_pid: com.ibm.websphere.ND.v85
+websphere_base_path: WAS/8.5.5ND
+websphere_base_archive_list:
+  - WAS_ND_V8.5.5_1_OF_3.zip
+  - WAS_ND_V8.5.5_2_OF_3.zip
+  - WAS_ND_V8.5.5_3_OF_3.zip
+
+websphere_fp_path: WAS/8.5.5Fixpacks/FP17
+websphere_fp_archive_list:
+  - 8.5.5-WS-WAS-FP017-part1.zip
+  - 8.5.5-WS-WAS-FP017-part2.zip
+  - 8.5.5-WS-WAS-FP017-part3.zip

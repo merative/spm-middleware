@@ -5,18 +5,25 @@
     state: directory
   register: tmp_dir
 
-
 - name: Copy installer
-  copy:
+  win_copy:
     src: "{{ iim_installer_path }}"
-    dest: "{{tmp_dir.path}}/iim_installer.tar.gz"
+    dest: "{{ tmp_dir.path }}/"
+  when: download_url is not defined
+  register: iim_zip
+
+- name: Download IIM installer
+  win_get_url:
+    url: "{{ download_url }}/{{ iim_installer_path }}"
+    dest: "{{ tmp_dir.path }}/"
+    headers: "{{ download_header }}"
+  when: download_url is defined
   register: iim_zip
 
 - name: Extract IIM installer
   win_unzip:
     src: "{{ iim_zip.dest }}"
     dest: "{{ tmp_dir.path }}"
-    remote_src: yes
     creates: "{{ tmp_dir.path }}/installc.exe"
 
 - name: Run IIM installer

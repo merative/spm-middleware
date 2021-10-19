@@ -1,0 +1,17 @@
+---
+# FP Vars
+websphere_pid: v90_9.0.5003.20200226_0941
+websphere_fp_path: WAS/9.0.5Fixpacks
+websphere_fp_archive_list:
+  - 9.0.5-WS-WAS-FP003.zip
+
+# Base Vars
+websphere_base_pid: com.ibm.websphere.ND.v90
+websphere_base_path: WAS/9.0.5ND
+websphere_base_archive_list:
+  - was.repo.90500.nd.zip
+
+# Java Vars
+websphere_java_path: Java/IBM/ibm-java-sdk-8.0-6.26-linux-x64-installmgr.zip
+websphere_java_pid: com.ibm.java.jdk.v8
+websphere_java_home: java/8.0
