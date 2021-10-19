@@ -29,6 +29,7 @@ jobs:
       matrix:
         scenario:
           - weblogic-centos-8
+          - weblogic-centos-7
     steps:
       - name: Checkout
         uses: actions/checkout@v2
