@@ -12,8 +12,7 @@ patches:
   - filename: "OHS/{{ ohs_version_folder }}/p31046788_121300_Linux-x86-64.zip"
     number: 31046788
 # Add OPatch values when bundled OPatch needs to be upgraded
-opatch_filename: "{{ ohs_version_folder }}/p28186730_139426_Generic.zip"
-opatch_filename_path: "OHS/{{ opatch_filename }}"
+opatch_filename_path: "OHS/{{ ohs_version_folder }}/p28186730_139426_Generic.zip"
 opatch_version: 13.9.4.2.6
 opatch_folder: 6880880
 

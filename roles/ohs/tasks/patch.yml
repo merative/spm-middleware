@@ -41,10 +41,10 @@
     owner: "{{ ohs_user }}"
     group: "{{ ohs_group }}"
 
-- name: "Download OPatch tool {{ opatch_filename_path }}"
+- name: "Download OPatch tool"
   get_url:
     url: "{{ download_url }}/{{ opatch_filename_path }}"
-    dest: "/tmp/{{ opatch_filename_path }}"
+    dest: "/tmp/patch-repo.zip"
     owner: "{{ ohs_user }}"
     group: "{{ ohs_group }}"
     headers: "{{ download_header }}"
@@ -61,7 +61,7 @@
 - name: "Extract {{ opatch_filename_path }} "
   unarchive:
     remote_src: yes
-    src: "/tmp/{{ opatch_filename_path }}"
+    src: "/tmp/patch-repo.zip"
     dest: "{{ ohs_installer_loc }}"
     owner: "{{ ohs_user }}"
     group: "{{ ohs_group }}"
@@ -93,7 +93,7 @@
   loop: "{{ patches }}"
   when: download_url is not defined
 
-- name: "Extract Patch {{ patch_filename }}"
+- name: "Extract Patches"
   unarchive:
     remote_src: yes
     src: "/tmp/{{ item.filename }}"
@@ -109,3 +109,8 @@
   args:
     chdir: "/tmp/{{ item.number }}"
   loop: "{{ patches }}"
+
+- name: Cleanup
+  file:
+    path: "/tmp/repo.zip"
+    state: absent

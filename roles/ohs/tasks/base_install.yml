@@ -60,7 +60,6 @@
 - name: Download base installer
   get_url:
     url: "{{ download_url }}/{{ base_installer_path }}"
-    # dest: "{{ ohs_installer_loc }}/{{ base_installer_path }}"
     dest: "{{ ohs_installer_loc }}/repo.zip"
     owner: "{{ ohs_user }}"
     group: "{{ ohs_group }}"
@@ -72,7 +71,7 @@
 - name: Copy installer
   copy:
     src: "{{ ohs_installer_loc }}"
-    dest: "{{ ohs_installer_loc }}/{{ base_installer_path }}"
+    dest: "{{ ohs_installer_loc }}/repo.zip"
     owner: "{{ ohs_user }}"
     group: "{{ ohs_group }}"
     mode: 0755
@@ -114,3 +113,8 @@
   become: yes
   become_user: "{{ ohs_user }}"
   command: "{{ ohs_installer_loc }}/repo.zip -ignoreSysPrereqs -silent -responseFile {{ ohs_installer_loc }}/ohs_install.rsp"
+
+- name: Cleanup
+  file:
+    path: {{ ohs_installer_loc }}/repo.zip
+    state: absent
