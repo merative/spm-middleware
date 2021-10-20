@@ -34,10 +34,10 @@
     remote_src: yes
     extra_opts: [--strip-components=1]
 
-- name: Create folder "/tmp/{{ ohs_version_folder }}"
+- name: Create patches folder
   file:
     state: directory
-    path: "/tmp/{{ ohs_version_folder }}"
+    path: "/tmp/OHS/{{ ohs_version_folder }}"
     owner: "{{ ohs_user }}"
     group: "{{ ohs_group }}"
 
@@ -73,6 +73,11 @@
   become_user: "{{ ohs_user }}"
   when: opatch_version is defined and opatch_status.rc != 0
 
+  - name: Create patch directory
+    file:
+      path: /tmp/ohsPatches
+      state: directory
+
 - name: "Download OHS Patches"
   get_url:
     url: "{{ download_url }}/{{ item.filename }}"
@@ -87,7 +92,7 @@
 - name: "Copy OHS Patches"
   copy:
     src: "/tmp/{{ item.filename }}"
-    dest: /tmp/
+    dest: /tmp/{{ item.filename }}
     owner: "{{ ohs_user }}"
     group: "{{ ohs_group }}"
   loop: "{{ patches }}"
@@ -110,7 +115,15 @@
     chdir: "/tmp/{{ item.number }}"
   loop: "{{ patches }}"
 
+# - name: Cleanup
+#   file:
+#     path: "/tmp/repo.zip"
+#     state: absent
+
 - name: Cleanup
   file:
-    path: "/tmp/repo.zip"
+    path: "{{ item }}"
     state: absent
+  loop:
+    - /tmp/OHS
+    - /tmp/repo.zip
