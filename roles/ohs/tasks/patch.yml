@@ -115,11 +115,6 @@
     chdir: "/tmp/{{ item.number }}"
   loop: "{{ patches }}"
 
-# - name: Cleanup
-#   file:
-#     path: "/tmp/repo.zip"
-#     state: absent
-
 - name: Cleanup
   file:
     path: "{{ item }}"
