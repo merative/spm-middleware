@@ -73,10 +73,10 @@
   become_user: "{{ ohs_user }}"
   when: opatch_version is defined and opatch_status.rc != 0
 
-  - name: Create patch directory
-    file:
-      path: /tmp/ohsPatches
-      state: directory
+- name: Create patch directory
+  file:
+    path: /tmp/ohsPatches
+    state: directory
 
 - name: "Download OHS Patches"
   get_url:
