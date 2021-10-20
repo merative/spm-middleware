@@ -76,4 +76,3 @@ jobs:
       - name: Molecule
         run: |
           molecule test -s ${{ matrix.scenario }}
-
