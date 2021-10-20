@@ -9,11 +9,6 @@
     - name: include default
       include_vars: "../../roles/ohs/defaults/main.yml"
 
-    - name: Check Installer File Exists
-      stat:
-        path: "/tmp/OHSInstaller/{{ base_installer }}"
-      register: installer
-
     - name: Check opatch version
       shell: "grep {{ opatch_version }} {{ ohs_home }}/OPatch/version.txt"
       ignore_errors: True
@@ -37,10 +32,6 @@
       when: opatch_version is defined
 
   tasks:
-    - name: Check that installer exists
-      assert:
-        that: installer.stat.exists
-
     - name: Check Patch Number Matched
       assert:
         that: opatch_version_flag.rc == 0

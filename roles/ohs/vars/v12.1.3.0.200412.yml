@@ -1,10 +1,8 @@
 ---
 # Base installer values
-ohs_version_folder: 12.1.3  # we can derive this later
-# oracle_rsp_filename: "install_{{ oracle_family }}R2.rsp.j2"
+ohs_version_folder: 12.1.3
 base_version: 12.1.3.0.0
 base_installer: fmw_12.1.3.0.0_ohs_linux64.bin
-# base_installer_path: "OHS/{{ ohs_version }}/{{ oracle_rsp_filename }}"
 base_installer_path: "OHS/12.1.3/fmw_12.1.3.0.0_ohs_linux64.bin"
 # Patches information
 ohs_version: 12.2.1.4.210324
