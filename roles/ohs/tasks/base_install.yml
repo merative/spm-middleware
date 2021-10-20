@@ -116,5 +116,5 @@
 
 - name: Cleanup
   file:
-    path: {{ ohs_installer_loc }}/repo.zip
+    path: "{{ ohs_installer_loc }}/repo.zip"
     state: absent
