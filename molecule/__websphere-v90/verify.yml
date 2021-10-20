@@ -1,8 +1,6 @@
 ---
 - name: Verify
   hosts: all
-  collections:
-    - ibm.spm_middleware
   pre_tasks:
     - name: Check packages
       iim_info:

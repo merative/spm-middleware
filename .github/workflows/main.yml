@@ -23,6 +23,8 @@ jobs:
       ARTIFACTORY_TOKEN: "${{ secrets.ARTIFACTORY_TOKEN }}"
       ARTIFACTORY_REPO: "${{ secrets.ARTIFACTORY_REPO }}"
       ARTIFACTORY_URL: "${{ secrets.ARTIFACTORY_URL }}"
+      collection_namespace: ibm
+      collection_name: spm_middleware
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -42,18 +44,36 @@ jobs:
           - liberty-centos-8
           - weblogic-centos-7
           - weblogic-centos-8
+    defaults:
+      run:
+        working-directory: ansible_collections/${{ env.collection_namespace }}/${{ env.collection_name }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          path: "${{ github.repository }}"
-      - name: Molecule
-        uses: gofrolist/molecule-action@v2
+          path: ansible_collections/${{ env.collection_namespace }}/${{ env.collection_name }}
+      - name: Setup Python v${{ env.python_ver }}
+        uses: actions/setup-python@v2
         with:
-          molecule_options: --debug --base-config molecule/_shared/base.yml
-          molecule_command: test
-          molecule_args: --scenario-name ${{ matrix.scenario }}
-      - name: Run a multi-line script
+          python-version: ${{ env.python_ver }}
+
+      - name: Setup Python Cache
+        uses: actions/cache@v2
+        with:
+          key: pip-${{ matrix.scenario }}-${{ hashFiles('ci-requirements.txt') }}
+          path: |
+            ~/.cache/pip
+            !~/.cache/pip/log/debug.log
+      - name: Install dependencies
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          python -m pip install -U pip
+          python -m pip install -r ci-requirements.txt
+      - name: Prepare environment
+        run: |
+          mkdir -pv ~/.ansible/collections/${{ env.collection_namespace }}
+          ln -s ansible_collections/${{ env.collection_namespace }}/${{ env.collection_name }} ~/.ansible/collections/${{ env.collection_namespace }}/${{ env.collection_name }}
+          chmod -v +x ./scripts/*
+      - name: Molecule
+        run: |
+          molecule test -s ${{ matrix.scenario }}
+
