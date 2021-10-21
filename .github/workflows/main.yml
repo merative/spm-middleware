@@ -25,6 +25,7 @@ jobs:
       ARTIFACTORY_URL: "${{ secrets.ARTIFACTORY_URL }}"
       collection_namespace: ibm
       collection_name: spm_middleware
+      python_ver: 3.8
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
