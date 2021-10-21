@@ -70,7 +70,7 @@
 
 - name: Copy installer
   copy:
-    src: "{{ ohs_installer_loc }}"
+    src: "{{ base_installer_path }}"
     dest: "{{ ohs_installer_loc }}/repo.zip"
     owner: "{{ ohs_user }}"
     group: "{{ ohs_group }}"

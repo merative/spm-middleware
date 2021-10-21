@@ -50,15 +50,15 @@
     headers: "{{ download_header }}"
   when: opatch_filename_path is defined and download_url is defined
 
-- name: "Copy OPatch tool {{ opatch_filename_path }}"
+- name: "Copy OPatch tool"
   copy:
-    src: "/tmp/{{ opatch_filename_path }}"
-    dest: "/tmp/{{ opatch_filename_path }}"
+    src: "{{ opatch_filename_path }}"
+    dest: "/tmp/patch-repo.zip"
     owner: "{{ ohs_user }}"
     group: "{{ ohs_group }}"
-  when: download_url is not defined
+  when: opatch_filename_path and download_url is not defined
 
-- name: "Extract {{ opatch_filename_path }} "
+- name: "Extract OPatch"
   unarchive:
     remote_src: yes
     src: "/tmp/patch-repo.zip"
@@ -91,7 +91,7 @@
 
 - name: "Copy OHS Patches"
   copy:
-    src: "/tmp/{{ item.filename }}"
+    src: "{{ item.filename }}"
     dest: /tmp/{{ item.filename }}
     owner: "{{ ohs_user }}"
     group: "{{ ohs_group }}"
