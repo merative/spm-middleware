@@ -8,9 +8,12 @@ on:
   # Triggers the workflow on push or pull request events
   # but only for the main branch
   push:
-    branches: [testAction, ro_ohs]
+    branches:
+      - main
   pull_request:
-    branches: [testAction, ro_ohs]
+    branches:
+      - testAction
+      - ro_ohs
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -18,7 +21,7 @@ on:
 # A workflow run is made up of one or more jobs
 # that can run sequentially or in parallel
 jobs:
-  molecule:
+  ci:
     env:
       ARTIFACTORY_TOKEN: "${{ secrets.ARTIFACTORY_TOKEN }}"
       ARTIFACTORY_REPO: "${{ secrets.ARTIFACTORY_REPO }}"
@@ -76,6 +79,25 @@ jobs:
           mkdir -pv ~/.ansible/collections/${{ env.collection_namespace }}
           ln -s ansible_collections/${{ env.collection_namespace }}/${{ env.collection_name }} ~/.ansible/collections/${{ env.collection_namespace }}/${{ env.collection_name }}
           chmod -v +x ./scripts/*
+      - name: Sanity checks
+        run: |
+          ansible-test sanity --docker -v --color --python ${{ env.python_ver }}
       - name: Molecule
         run: |
           molecule test -s ${{ matrix.scenario }}
+      # - name: Publish to Galaxy
+      #   env:
+      #     ANSIBLE_GALAXY_SERVER_LIST: release
+      #     ANSIBLE_GALAXY_SERVER_RELEASE_URL: https://galaxy.ansible.com/
+      #     ANSIBLE_GALAXY_SERVER_RELEASE_TOKEN: "${{ secrets.GALAXY_TOKEN }}"
+      #   run: |
+      #     ansible-galaxy collection build
+      #     ls -l *.tar.gz
+      #     ansible-galaxy collection publish -c -vvv "./${{ env.collection_namespace }}-${{ env.collection_name }}-*.tar.gz"
+      # - name: Create GitHub Release
+      #   uses: marvinpinto/action-automatic-releases@latest
+      #   with:
+      #     repo_token: "${{ secrets.GITHUB_TOKEN }}"
+      #     prerelease: false
+      #     files: |
+      #       ${{ env.collection_namespace }}-${{ env.collection_name }}-*.tar.gz
