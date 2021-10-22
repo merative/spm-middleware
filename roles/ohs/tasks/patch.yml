@@ -1,0 +1,124 @@
+---
+- name: "Check OPatch version matches {{ opatch_version }}"
+  become: yes
+  become_user: "{{ ohs_user }}"
+  shell: "grep {{ opatch_version }} {{ ohs_home }}/OPatch/version.txt"
+  ignore_errors: true
+  register: opatch_status
+  changed_when: False
+  when: opatch_version is defined
+
+# ==> install java
+- name: Check if the Java download exists
+  stat:
+    path: "{{ ohs_installer_loc }}/java-repo.zip"
+  register: stat_result
+
+- name: Download Java repo
+  get_url:
+    url: "{{ download_url }}/{{ java_zip_path }}"
+    dest: "{{ ohs_installer_loc }}/java-repo.zip"
+    headers: "{{ download_header }}"
+  when: download_url is defined
+
+- name: Copy Java repo
+  copy:
+    src: "{{ java_zip_path }}"
+    dest: "{{ ohs_installer_loc }}/java-repo.zip"
+  when: download_url is not defined
+
+- name: Extract Java installer
+  unarchive:
+    src: "{{ ohs_installer_loc }}/java-repo.zip"
+    dest: "{{ jdk_folder }}"
+    remote_src: yes
+    extra_opts: [--strip-components=1]
+
+- name: Create patches folder
+  file:
+    state: directory
+    path: "/tmp/OHS/{{ ohs_version_folder }}"
+    owner: "{{ ohs_user }}"
+    group: "{{ ohs_group }}"
+
+- name: "Download OPatch tool"
+  get_url:
+    url: "{{ download_url }}/{{ opatch_filename_path }}"
+    dest: "/tmp/patch-repo.zip"
+    owner: "{{ ohs_user }}"
+    group: "{{ ohs_group }}"
+    headers: "{{ download_header }}"
+  when: opatch_filename_path is defined and download_url is defined
+
+- name: "Copy OPatch tool"
+  copy:
+    src: "{{ opatch_filename_path }}"
+    dest: "/tmp/patch-repo.zip"
+    owner: "{{ ohs_user }}"
+    group: "{{ ohs_group }}"
+  when: opatch_filename_path and download_url is not defined
+
+- name: "Extract OPatch"
+  unarchive:
+    remote_src: yes
+    src: "/tmp/patch-repo.zip"
+    dest: "{{ ohs_installer_loc }}"
+    owner: "{{ ohs_user }}"
+    group: "{{ ohs_group }}"
+  when: opatch_version is defined and opatch_status.rc != 0
+
+- name: Patch OPatch tool
+  command: "{{ ohs_home }}/oracle_common/jdk/bin/java -jar {{ ohs_installer_loc }}/{{ opatch_folder }}/opatch_generic.jar -silent oracle_home={{ ohs_home }}"
+  become: yes
+  become_user: "{{ ohs_user }}"
+  when: opatch_version is defined and opatch_status.rc != 0
+
+- name: Create patch directory
+  file:
+    path: /tmp/ohsPatches
+    state: directory
+
+- name: "Download OHS Patches"
+  get_url:
+    url: "{{ download_url }}/{{ item.filename }}"
+    dest: "/tmp/{{ item.filename }}"
+    force: no
+    owner: "{{ ohs_user }}"
+    group: "{{ ohs_group }}"
+    headers: "{{ download_header }}"
+  loop: "{{ patches }}"
+  when: download_url is defined
+
+- name: "Copy OHS Patches"
+  copy:
+    src: "{{ item.filename }}"
+    dest: /tmp/{{ item.filename }}
+    owner: "{{ ohs_user }}"
+    group: "{{ ohs_group }}"
+  loop: "{{ patches }}"
+  when: download_url is not defined
+
+- name: "Extract Patches"
+  unarchive:
+    remote_src: yes
+    src: "/tmp/{{ item.filename }}"
+    dest: /tmp/
+    owner: "{{ ohs_user }}"
+    group: "{{ ohs_group }}"
+  loop: "{{ patches }}"
+
+- name: "Apply Patches"
+  become: yes
+  become_user: "{{ ohs_user }}"
+  command: "{{ ohs_home }}/OPatch/opatch apply -silent"
+  args:
+    chdir: "/tmp/{{ item.number }}"
+  loop: "{{ patches }}"
+
+- name: Cleanup
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /tmp/OHS
+    - /tmp/repo.zip
