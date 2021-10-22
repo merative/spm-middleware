@@ -21,7 +21,6 @@ jobs:
       collection_name: spm_middleware
       python_ver: 3.8
     runs-on: ubuntu-latest
-    
     defaults:
       run:
         working-directory: ansible_collections/${{ env.collection_namespace }}/${{ env.collection_name }}
