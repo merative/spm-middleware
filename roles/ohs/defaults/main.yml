@@ -1,0 +1,29 @@
+---
+# OHS config
+ohs_version: 12.2.1.4.210324
+ohs_user: oracle
+ohs_admin_password: Password1
+ohs_group: oinstall
+ohs_base: /home/oracle
+ohs_home: "{{ ohs_base }}/Oracle/Middleware/HTTP_Oracle_Home"
+ohs_port: 7002
+ohs_inventory: /opt/Oracle/oraInventory
+ohs_installer_loc: /tmp/OHSInstaller
+ohs_install_type: Standalone HTTP Server (Managed independently of WebLogic server)
+ohs_scripts_loc: "{{ ohs_base }}/scripts"
+ohs_moduleconf_loc: "{{ ohs_home }}/ohs/templates/conf/moduleconf"
+
+# Weblogic
+weblogic_user: weblogic
+weblogic_password: Password1
+wallet_path: "{{ ohs_home }}/user_projects/domains/ohs_{{ ansible_hostname }}/config/fmwconfig/components/OHS/instances/ohs1/keystores"
+keystore_password: 'Passw0rd'
+
+# Common
+profiled_path: /opt/profile.d
+cert_organization_unit_name: "Watson Health SPM"
+cert_organization_name: "FrontCert"
+
+# Server info for downloading installers / repos directly, leave blank to copy
+# download_url:   # e.g. https://artifactory/repo
+# download_header:  # e.g. X-JFrog-Art-Api: "{{ lookup('env', 'MYTOKEN') }}"

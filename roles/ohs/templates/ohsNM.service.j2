@@ -1,0 +1,13 @@
+[Unit]
+Description=Oracle HTTP Server service
+
+[Service]
+User={{ ohs_user }}
+Group={{ ohs_group }}
+Environment="ORACLE_HOME={{ ohs_home }}"
+ExecStart={{ ohs_home }}/user_projects/domains/ohs_{{ ansible_hostname }}/bin/startNodeManager.sh
+ExecStop={{ ohs_home }}/user_projects/domains/ohs_{{ ansible_hostname }}/bin/stopNodeManager.sh
+Restart=always
+
+[Install]
+WantedBy=default.target

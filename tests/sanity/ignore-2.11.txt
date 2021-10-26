@@ -7,3 +7,11 @@ roles/db2/files/databaseUtil.sh shellcheck:SC2039
 roles/db2/files/databaseUtil.sh shellcheck:SC2086
 roles/db2/files/databaseUtil.sh shellcheck:SC2103
 roles/db2/files/databaseUtil.sh shellcheck:SC2166
+roles/ohs/files/configOHS.py pep8!skip
+roles/ohs/files/plugin.py pep8!skip
+roles/ohs/files/configOHS.py pylint!skip
+roles/ohs/files/plugin.py pylint!skip
+roles/ohs/files/configOHS.py future-import-boilerplate!skip
+roles/ohs/files/plugin.py future-import-boilerplate!skip
+roles/ohs/files/configOHS.py metaclass-boilerplate!skip
+roles/ohs/files/plugin.py metaclass-boilerplate!skip
