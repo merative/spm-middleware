@@ -54,8 +54,11 @@ jobs:
     steps:
       - name: Maximize build space
         run: |
-          sudo ls /usr/share/
-          sudo rm -rf /usr/share/dotnet # will release about 20GB if you don't need .NET
+          sudo swapoff -a
+          sudo rm -f /swapfile
+          sudo apt clean
+          docker rmi $(docker image ls -aq)
+          df -h
       - name: Checkout
         uses: actions/checkout@v2
         with:
