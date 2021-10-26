@@ -52,10 +52,6 @@ jobs:
       run:
         working-directory: ansible_collections/${{ env.collection_namespace }}/${{ env.collection_name }}
     steps:
-      - name: Maximize build space
-        run: |
-          env
-          pwd
       - name: Checkout
         uses: actions/checkout@v2
         with:
@@ -64,7 +60,10 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ env.python_ver }}
-
+      - name: Maximize build space
+        run: |
+          env
+          pwd
       - name: Setup Python Cache
         uses: actions/cache@v2
         with:
