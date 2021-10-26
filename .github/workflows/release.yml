@@ -26,11 +26,9 @@ jobs:
         working-directory: ansible_collections/${{ env.collection_namespace }}/${{ env.collection_name }}
     steps:
       - name: Maximize build space
-        uses: easimon/maximize-build-space@master
-        with:
-          root-reserve-mb: 512
-          swap-size-mb: 1024
-          remove-dotnet: 'true'
+        run: |
+          sudo rm -rf "/usr/local/share/boost"
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
       - name: Checkout
         uses: actions/checkout@v2
         with:
