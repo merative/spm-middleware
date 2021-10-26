@@ -54,7 +54,8 @@ jobs:
     steps:
       - name: Maximize build space
         run: |
-          ls -al /usr/local/lib/
+          env
+          pwd
       - name: Checkout
         uses: actions/checkout@v2
         with:
