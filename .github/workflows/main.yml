@@ -54,8 +54,7 @@ jobs:
     steps:
       - name: Maximize build space
         run: |
-          sudo apt clean
-          docker rmi $(docker image ls -aq)
+          sudo rm -rf /usr/local/lib/android
           df -h
       - name: Checkout
         uses: actions/checkout@v2
