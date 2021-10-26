@@ -62,8 +62,10 @@ jobs:
           python-version: ${{ env.python_ver }}
       - name: Maximize build space
         run: |
-          env
-          pwd
+          df -h
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /usr/share/dotnet
+          df -h
       - name: Setup Python Cache
         uses: actions/cache@v2
         with:
