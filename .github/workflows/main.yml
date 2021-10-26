@@ -54,10 +54,7 @@ jobs:
     steps:
       - name: Maximize build space
         run: |
-          df -h
-          ls /usr/local/lib/
-          rm -rf /usr/local/lib/android
-          df -h
+          ls -al /usr/local/lib/
       - name: Checkout
         uses: actions/checkout@v2
         with:
