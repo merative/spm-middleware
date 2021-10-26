@@ -56,11 +56,11 @@ jobs:
         uses: actions/checkout@v2
         with:
           path: ansible_collections/${{ env.collection_namespace }}/${{ env.collection_name }}
-      # remove android and dotnet to gain more spaces for oracle installation
       - name: Setup Python v${{ env.python_ver }}
         uses: actions/setup-python@v2
         with:
           python-version: ${{ env.python_ver }}
+      # remove android and dotnet to gain more spaces for oracle installation
       - name: Maximize build space
         run: |
           df -h
