@@ -25,10 +25,6 @@ jobs:
       run:
         working-directory: ansible_collections/${{ env.collection_namespace }}/${{ env.collection_name }}
     steps:
-      - name: Maximize build space
-        run: |
-          sudo rm -rf "/usr/local/share/boost"
-          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
       - name: Checkout
         uses: actions/checkout@v2
         with:
