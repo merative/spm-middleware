@@ -12,7 +12,7 @@
     src: "{{ iim_installer_path }}"
     dest: "{{ tmp_dir.path }}/"
   when: download_url is not defined
-  register: iim_zip
+  # register: iim_zip
 
 - name: Download installer
   get_url:
@@ -20,11 +20,12 @@
     dest: "{{ tmp_dir.path }}/"
     headers: "{{ download_header }}"
   when: download_url is defined
-  register: iim_zip
+  # register: iim_zip
 
 - name: Extract IIM installer
   unarchive:
-    src: "{{ iim_zip.dest }}"
+    # src: "{{ iim_zip.dest }}"
+    src: "{{ tmp_dir.path }}"
     dest: "{{ tmp_dir.path }}"
     remote_src: yes
     mode: 0755
