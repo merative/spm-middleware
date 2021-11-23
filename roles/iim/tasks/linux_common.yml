@@ -25,7 +25,7 @@
 - name: Extract IIM installer
   unarchive:
     # src: "{{ iim_zip.dest }}"
-    src: "{{ tmp_dir.path }}"
+    src: "{{ tmp_dir }}"
     dest: "{{ tmp_dir.path }}"
     remote_src: yes
     mode: 0755
@@ -40,6 +40,6 @@
 
 - name: Delete temporary directory
   file:
-    path: "{{ tmp_dir.path }}"
+    path: "{{ tmp_dir }}"
     state: absent
   become: yes
