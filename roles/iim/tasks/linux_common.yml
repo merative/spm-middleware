@@ -5,14 +5,12 @@
     recurse: yes
     mode: 0755
     state: directory
-  # register: tmp_dir
 
 - name: Copy installer
   copy:
     src: "{{ iim_installer_path }}"
     dest: /tmp/iim/iimInstaller.zip
   when: download_url is not defined
-  # register: iim_zip
 
 - name: Download installer
   get_url:
@@ -20,11 +18,9 @@
     dest: /tmp/iim/iimInstaller.zip
     headers: "{{ download_header }}"
   when: download_url is defined
-  # register: iim_zip
 
 - name: Extract IIM installer
   unarchive:
-    # src: "{{ iim_zip.dest }}"
     src: /tmp/iim/iimInstaller.zip
     dest: /tmp/iim/
     remote_src: yes
