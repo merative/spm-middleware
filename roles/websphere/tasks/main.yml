@@ -40,4 +40,4 @@
     state: absent
   loop:
     - /tmp/repo
-    - /tmp/repo-zips
+    - {{ temp_dir }}

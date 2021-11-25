@@ -1,19 +1,19 @@
 ---
 - name: Create zip directory
   file:
-    path: /tmp/repo-zips
+    path: {{ temp_dir }}
     state: directory
 
 - name: Copy WAS repo
   copy:
     src: "{{ websphere_base_path }}/{{ item }}"
-    dest: "/tmp/repo-zips/{{ item }}"
+    dest: "{{ temp_dir }}/{{ item }}"
   loop: "{{ websphere_base_archive_list }}"
   when: download_url is not defined
 
 - name: Download WAS repo
   get_url:
-    dest: "/tmp/repo-zips/{{ item }}"
+    dest: "{{ temp_dir }}/{{ item }}"
     url: "{{ download_url }}/{{ websphere_base_path }}/{{ item }}"
     headers: "{{ download_header }}"
   loop: "{{ websphere_base_archive_list }}"
@@ -22,13 +22,13 @@
 - name: Copy Java repo
   copy:
     src: "{{ websphere_java_path }}"
-    dest: "/tmp/repo-zips/java-repo.zip"
+    dest: "{{ temp_dir }}/java-repo.zip"
   when: download_url is not defined
 
 - name: Download Java repo
   get_url:
     url: "{{ download_url }}/{{ websphere_java_path }}"
-    dest: "/tmp/repo-zips/java-repo.zip"
+    dest: "{{ temp_dir }}/java-repo.zip"
     headers: "{{ download_header }}"
   when: download_url is defined
 
@@ -47,7 +47,7 @@
 
 - name: Extract WAS installers
   unarchive:
-    src: "/tmp/repo-zips/{{ item }}"
+    src: "{{ temp_dir }}/{{ item }}"
     dest: "/tmp/repo/{{ index }}"
     remote_src: yes
     creates: "/tmp/repo/{{ index }}/repository.config"
@@ -57,7 +57,7 @@
 
 - name: Extract Java installer
   unarchive:
-    src: /tmp/repo-zips/java-repo.zip
+    src: {{ temp_dir }}/java-repo.zip
     dest: /tmp/repo/java
     remote_src: yes
     creates: /tmp/repo/java/repository.config
@@ -86,4 +86,4 @@
     state: absent
   loop:
     - /tmp/repo
-    - /tmp/repo-zips
+    - {{ temp_dir }}
