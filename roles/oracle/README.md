@@ -27,10 +27,11 @@ The `oracle` role will install Oracle Database EE Single Instance.
 | `bootstrap_dmx_locale`    | `en_US`                                             |
 | ------------------------- | --------------------------------------------------- |
 | `oracle_installer_path`   | # Either local controller path or relative to `download_url`  |
+| `profiled_path`           | `/opt/profile.d`                                    |
+| ------------------------- | --------------------------------------------------- |
 | `download_url`            | # set this if license and installer is being downloaded from a http server|
 | `download_header`         | # Use this in conjunction with `download_url`       |
 | ------------------------- | --------------------------------------------------- |
-| `profiled_path`           | `/opt/profile.d`                                    |
 
 ## Dependencies
 
@@ -39,10 +40,19 @@ None
 ## Example Playbook
 
 ```
-- hosts: servers
+---
+- name: Deploy Oracle DB
+  hosts: servers
+  collections:
+    - ibm.spm_middleware
+
+  vars:
+    oracle_version: 19.11.0.0.0
+    download_url: "https://myserver.com/ora/repos"
+    download_header: { 'Authorization': 'Basic EncodedString'}
+
   roles:
     - role: ibm.spm_middleware.oracle
-      oracle_version: 19.11.0.0.0
 
 ## License
 

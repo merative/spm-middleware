@@ -14,7 +14,6 @@ NOTE: ihs_admin_pass should be changed after first installation.
 | `plg_install_path`      | `/opt/IBM/WebSphere/Plugins`                        |
 | `wct_install_path`      | `/opt/IBM/WebSphere/Toolbox`                        |
 | `ihs_version`           | `9.0.5.8`                                           |
-| `ihs_config_type`       | `local_distributed`                                 |
 | `ihs_admin_user`        | `wasadmin`                                          |
 | `ihs_admin_pass`        | `wasadmin`                                          |
 | ----------------------- | --------------------------------------------------- |
@@ -44,7 +43,7 @@ ibm.spm_middleware.iim
 ```
 ---
 - name: Deploy IHS
-  hosts: all
+  hosts: servers
 
   collections:
     - ibm.spm_middleware
@@ -52,10 +51,10 @@ ibm.spm_middleware.iim
   roles:
     - ibm.spm_middleware.iim
     - ibm.spm_middleware.ihs
-      vars:
-        - ihs_version: 8.5.5.17
-        - download_url: "https://myserver.com/IHS/repos"
-        - download_header: { 'Authorization': 'Basic EncodedString'}
+  vars:
+    ihs_version: 8.5.5.17
+    download_url: "https://myserver.com/ihs/repos"
+    download_header: { 'Authorization': 'Basic EncodedString'}
 ```
 
 ## License

@@ -29,4 +29,4 @@
   loop:
     - /tmp/fp
     - /tmp/wct
-    - /tmp/repo-zips
+    - {{ temp_dir }}

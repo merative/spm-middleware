@@ -1,23 +1,22 @@
 ---
 - name: Create temporary directory
   file:
-    path: /tmp/db2/
+    path: {{ temp_dir }}
     recurse: yes
     mode: 0755
     state: directory
-  register: tmp_dir
 
 - name: Copy installer
   copy:
     src: "{{ db2_installer_path }}"
-    dest: "{{ tmp_dir.path }}/db2_installer.tar.gz"
+    dest: "{{ temp_dir }}/db2_installer.tar.gz"
   when: download_url is not defined
   register: db2_installer
 
 - name: Download installer
   get_url:
     url: "{{ download_url }}/{{ db2_installer_path }}"
-    dest: "{{ tmp_dir.path }}/db2_installer.tar.gz"
+    dest: "{{ temp_dir }}/db2_installer.tar.gz"
     headers: "{{ download_header }}"
   when: download_url is defined
   register: db2_installer

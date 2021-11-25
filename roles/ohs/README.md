@@ -24,9 +24,10 @@ NOTE: Update these default usernames and passwords after the initial installatio
 | `weblogic_user`           | `weblogic`                                          |
 | `weblogic_password`       | `Password1`                                         |
 | ------------------------- | --------------------------------------------------- |
+| `profiled_path`           | `/opt/profile.d`                                    |
+| ------------------------- | --------------------------------------------------- |
 | `download_url`            | # set this if license and installer is being downloaded from a http server|
 | `download_header`         | # Use this in conjunction with `download_url`       |
-| `profiled_path`           | `/opt/profile.d`                                    |
 | ------------------------- | --------------------------------------------------- |
 
 ## Dependencies
@@ -36,10 +37,20 @@ Although the role can be used independently, it is expected that Weblogic is alr
 ## Example Playbook
 
 ```
-- hosts: all
+---
+- name: Deploy OHS
+  hosts: servers
+  collections:
+    - ibm.spm_middleware
+
+  vars:
+    ohs_version: 12.2.1.4.210324
+    download_url: "https://myserver.com/ohs/repos"
+    download_header: { 'Authorization': 'Basic EncodedString'}
+
   roles:
     - role: ibm.spm_middleware.ohs
-      ohs_version: 12.2.1.4.210324
+
 ```
 ## License
 
