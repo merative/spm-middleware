@@ -1,0 +1,25 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  pre_tasks:
+    - name: Check packages
+      iim_info:
+        iim_path: /opt/IBM/InstallationManager
+      register: iim_info
+    - name: Get jvm.options
+      slurp:
+        src: /opt/IBM/WebSphere/Liberty/usr/shared/jvm.options
+      register: jvm_options
+
+  tasks:
+    - name: Check that the correct packages are installed
+      assert:
+        that:
+          - "iim_info.packages | select('match', 'com.ibm.websphere.liberty.ND.*') | list | length > 0"
+          - "iim_info.packages | select('match', 'com.ibm.java.jdk.v8.*') | list | length > 0"
+    - name: Check that jvm.options contains the expected content
+      assert:
+        that:
+          - "'-Xmx1024m' in (jvm_options['content'] | b64decode)"
