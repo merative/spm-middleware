@@ -1,7 +1,7 @@
 ---
 - name: Create zip directory
   file:
-    path: {{ temp_dir }}
+    path: "{{ temp_dir }}"
     mode: 0755
     state: directory
 
