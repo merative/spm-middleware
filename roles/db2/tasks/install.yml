@@ -1,7 +1,7 @@
 ---
 - name: Create temporary directory
   file:
-    path: {{ temp_dir }}
+    path: "{{ temp_dir }}"
     recurse: yes
     mode: 0755
     state: directory
