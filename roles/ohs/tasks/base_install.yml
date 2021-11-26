@@ -52,10 +52,6 @@
     group: "{{ ohs_group }}"
     mode: 0755
 
-- name: check oracle_family
-  ansible.builtin.debug:
-    msg: "oracle_family is: {{ oracle_family }}"
-
 - name: Check Installer File Exists
   stat:
     path: "{{ ohs_installer_loc }}/{{ base_installer_path }}"
@@ -64,7 +60,7 @@
 - name: Download base installer
   get_url:
     url: "{{ download_url }}/{{ base_installer_path }}"
-    dest: "{{ ohs_installer_loc }}/{{ base_installer_path }}"
+    dest: "{{ ohs_installer_loc }}/baseInstaller"
     owner: "{{ ohs_user }}"
     group: "{{ ohs_group }}"
     mode: 0755
@@ -74,8 +70,8 @@
 
 - name: Copy installer
   copy:
-    src: "{{ ohs_installer_loc }}"
-    dest: "{{ ohs_installer_loc }}/{{ base_installer_path }}"
+    src: "{{ base_installer_path }}"
+    dest: "{{ ohs_installer_loc }}/baseInstaller"
     owner: "{{ ohs_user }}"
     group: "{{ ohs_group }}"
     mode: 0755
@@ -116,4 +112,9 @@
 - name: Install OHS
   become: yes
   become_user: "{{ ohs_user }}"
-  command: "{{ ohs_installer_loc }}/{{ base_installer }} -ignoreSysPrereqs -silent -responseFile {{ ohs_installer_loc }}/ohs_install.rsp"
+  command: "{{ ohs_installer_loc }}/baseInstaller -ignoreSysPrereqs -silent -responseFile {{ ohs_installer_loc }}/ohs_install.rsp"
+
+- name: Cleanup
+  file:
+    path: "{{ ohs_installer_loc }}/baseInstaller"
+    state: absent

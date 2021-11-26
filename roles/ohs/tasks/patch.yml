@@ -14,18 +14,18 @@
     path: "{{ ohs_installer_loc }}/java-repo.zip"
   register: stat_result
 
-- name: Copy Java repo
-  copy:
-    src: "{{ java_zip_path }}"
-    dest: "{{ ohs_installer_loc }}/java-repo.zip"
-  when: download_url is not defined
-
 - name: Download Java repo
   get_url:
     url: "{{ download_url }}/{{ java_zip_path }}"
     dest: "{{ ohs_installer_loc }}/java-repo.zip"
     headers: "{{ download_header }}"
   when: download_url is defined
+
+- name: Copy Java repo
+  copy:
+    src: "{{ java_zip_path }}"
+    dest: "{{ ohs_installer_loc }}/java-repo.zip"
+  when: download_url is not defined
 
 - name: Extract Java installer
   unarchive:
@@ -34,34 +34,34 @@
     remote_src: yes
     extra_opts: [--strip-components=1]
 
-- name: Create folder "/tmp/{{ ohs_version_folder }}"
+- name: Create patches folder
   file:
     state: directory
-    path: "/tmp/{{ ohs_version_folder }}"
+    path: "/tmp/OHS/{{ ohs_version_folder }}"
     owner: "{{ ohs_user }}"
     group: "{{ ohs_group }}"
 
-- name: "Download OPatch tool {{ opatch_filename_path }}"
+- name: "Download OPatch tool"
   get_url:
     url: "{{ download_url }}/{{ opatch_filename_path }}"
-    dest: "/tmp/{{ opatch_filename_path }}"
+    dest: "/tmp/patch-repo.zip"
     owner: "{{ ohs_user }}"
     group: "{{ ohs_group }}"
     headers: "{{ download_header }}"
   when: opatch_filename_path is defined and download_url is defined
 
-- name: "Copy OPatch tool {{ opatch_filename_path }}"
+- name: "Copy OPatch tool"
   copy:
-    src: "/tmp/{{ opatch_filename_path }}"
-    dest: "/tmp/{{ opatch_filename_path }}"
+    src: "{{ opatch_filename_path }}"
+    dest: "/tmp/patch-repo.zip"
     owner: "{{ ohs_user }}"
     group: "{{ ohs_group }}"
-  when: download_url is not defined
+  when: opatch_filename_path and download_url is not defined
 
-- name: "Extract {{ opatch_filename_path }} "
+- name: "Extract OPatch"
   unarchive:
     remote_src: yes
-    src: "/tmp/{{ opatch_filename_path }}"
+    src: "/tmp/patch-repo.zip"
     dest: "{{ ohs_installer_loc }}"
     owner: "{{ ohs_user }}"
     group: "{{ ohs_group }}"
@@ -72,6 +72,11 @@
   become: yes
   become_user: "{{ ohs_user }}"
   when: opatch_version is defined and opatch_status.rc != 0
+
+- name: Create patch directory
+  file:
+    path: /tmp/ohsPatches
+    state: directory
 
 - name: "Download OHS Patches"
   get_url:
@@ -86,14 +91,14 @@
 
 - name: "Copy OHS Patches"
   copy:
-    src: "/tmp/{{ item.filename }}"
-    dest: /tmp/
+    src: "{{ item.filename }}"
+    dest: /tmp/{{ item.filename }}
     owner: "{{ ohs_user }}"
     group: "{{ ohs_group }}"
   loop: "{{ patches }}"
   when: download_url is not defined
 
-- name: "Extract Patch {{ patch_filename }}"
+- name: "Extract Patches"
   unarchive:
     remote_src: yes
     src: "/tmp/{{ item.filename }}"
@@ -109,3 +114,11 @@
   args:
     chdir: "/tmp/{{ item.number }}"
   loop: "{{ patches }}"
+
+- name: Cleanup
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /tmp/OHS
+    - /tmp/repo.zip

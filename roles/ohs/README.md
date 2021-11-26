@@ -50,7 +50,6 @@ Although the role can be used independently, it is expected that Weblogic is alr
 
   roles:
     - role: ibm.spm_middleware.ohs
-
 ```
 ## License
 
