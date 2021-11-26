@@ -86,4 +86,4 @@
     state: absent
   loop:
     - /tmp/repo
-    - {{ temp_dir }}
+    - "{{ temp_dir }}"
