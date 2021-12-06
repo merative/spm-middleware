@@ -33,8 +33,9 @@ jobs:
         scenario:
           - websphere-v90-centos-8
           - websphere-v85-centos-7
-          - db2111
-          - db2115
+          - db21145
+          - db21146
+          - db21155
           - oracle12cR1-centos-7
           - oracle12cR2-centos-7
           - oracle19c-centos-8

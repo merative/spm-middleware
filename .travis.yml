@@ -41,9 +41,10 @@ env:
   matrix:
     - SCENARIO=websphere-v90-centos-8
     - SCENARIO=websphere-v85-centos-7
-    - SCENARIO=db2111
-    - SCENARIO=db2115
-    - SCENARIO=oracle12cR1-centos-7
+    - SCENARIO=db21145
+    - SCENARIO=db21146
+    - SCENARIO=db21155
+    # - SCENARIO=oracle12cR1-centos-7 //timeout issues at installer download
     - SCENARIO=oracle12cR2-centos-7
     - SCENARIO=oracle19c-centos-8
     - SCENARIO=iim-191-centos-8
