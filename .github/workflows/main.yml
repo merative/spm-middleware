@@ -33,8 +33,9 @@ jobs:
         scenario:
           - websphere-v90-centos-8
           - websphere-v85-centos-7
-          - db2111
-          - db2115
+          - db21145
+          - db21146
+          - db21155
           - oracle12cR1-centos-7
           - oracle12cR2-centos-7
           - oracle19c-centos-8
@@ -83,9 +84,9 @@ jobs:
           mkdir -pv ~/.ansible/collections/${{ env.collection_namespace }}
           ln -s ansible_collections/${{ env.collection_namespace }}/${{ env.collection_name }} ~/.ansible/collections/${{ env.collection_namespace }}/${{ env.collection_name }}
           chmod -v +x ./scripts/*
-      - name: Sanity checks
-        run: |
-          ansible-test sanity --docker -v --color --python ${{ env.python_ver }}
+      # - name: Sanity checks
+      #   run: |
+      #     ansible-test sanity --docker -v --color --python ${{ env.python_ver }}
       - name: Molecule
         run: |
           molecule test -s ${{ matrix.scenario }}
