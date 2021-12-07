@@ -84,7 +84,7 @@ jobs:
     - stage: Ansible Tests
       script:
         # Ansible sanity checks
-        # - ansible-test sanity --docker -v --color --python $TRAVIS_PYTHON_VERSION 
+        # - ansible-test sanity --docker -v --color --python $TRAVIS_PYTHON_VERSION
         # Ansible integration tests
         - ansible-test integration --docker -v --color --retry-on-error --python $TRAVIS_PYTHON_VERSION --continue-on-error --diff --coverage
         - ansible-test coverage xml -v --requirements --group-by command --group-by version
