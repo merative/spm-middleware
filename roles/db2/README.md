@@ -40,10 +40,18 @@ None
 ## Example Playbook
 
 ```
-- hosts: servers
+---
+- name: Deploy DB2
+  hosts: servers
+  collections:
+    - ibm.spm_middleware
+
   roles:
     - role: ibm.spm_middleware.db2
-      db2_version: 11.5.5.0
+  vars:
+    db2_version: 11.5.5.0
+    download_url: "https://myserver.com/db2/repos"
+    download_header: { 'Authorization': 'Basic EncodedString'}
 ```
 
 ## License

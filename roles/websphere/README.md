@@ -28,20 +28,21 @@ ibm.spm_middleware.iim
 
 ```
 ---
-- name: Converge
-  hosts: all
+- name: Deploy WAS
+  hosts: servers
 
   collections:
     - ibm.spm_middleware
+
+  roles:
+    - ibm.spm_middleware.iim
+    - ibm.spm_middleware.websphere
 
   vars:
     websphere_version: 9.0.5.8
     download_url: "https://myserver.com/was/repos"
     download_header: { 'Authorization': 'Basic EncodedString'}
 
-  roles:
-    - ibm.spm_middleware.iim
-    - ibm.spm_middleware.websphere
 ```
 
 ## License

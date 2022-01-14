@@ -18,6 +18,7 @@ bootstrap_dmx_locale: 'en_US'
 
 # Common
 profiled_path: /opt/profile.d
+temp_dir: /tmp/db2/
 # Server info for downloading installers / licenses directly, leave blank to copy
-download_url:   # e.g. https://artifactory/repo
-download_header:  # e.g. X-JFrog-Art-Api: "{{ lookup('env', 'MYTOKEN') }}"
+# download_url:   # e.g. https://artifactory/repo
+# download_header:  # e.g. X-JFrog-Art-Api: "{{ lookup('env', 'MYTOKEN') }}"

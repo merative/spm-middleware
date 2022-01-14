@@ -13,17 +13,18 @@ The `weblogc` role will install Weblogic.
 | `weblogic_base`           | `/home/oracle`                                      |
 | `weblogic_home`           | `/home/oracle/Oracle/Middleware/Oracle_Home`        |
 | `server_port`             | `7001`                                              |
-| `download_url`            | # Set this if license and installer is being downloaded from a http server|
-| `download_header`         | # Use this in conjunction with `download_url` |
 | `weblogic_installer_path` | Controller local path or relative to download_url |
 | `weblogic_patch_path`     | Controller local path or relative to download_url |
 | `java_zip_path`           | Controller local path or relative to download_url |
-
 | ------------------------- | --------------------------------------------------- |
 | ** `weblogic_version` **  | `12.1.3.0.2`                                        |
 |                           | `12.1.3.0.210720`                                   |
 |                           | `12.2.1.4.210716`                                   |
 |                           | `14.1.1.0.210716`                                   |
+| ------------------------- | --------------------------------------------------- |
+| `download_url`            | # Set this if license and installer is being downloaded from a http server|
+| `download_header`         | # Use this in conjunction with `download_url` |
+| ------------------------- | --------------------------------------------------- |
 
 ...
 
@@ -46,10 +47,19 @@ will be installed by including the run_opatch.yml task file.
 The version of the OPatch tool itself is also handed by the above tasks file.
 
 ```
-- hosts: servers
+---
+- name: Deploy WLS
+  hosts: servers
+  collections:
+    - ibm.spm_middleware
+
   roles:
     - role: ibm.spm_middleware.weblogic
-      weblogic_version: 14.1.1.0.210716
+
+  vars:
+    weblogic_version: 14.1.1.0.210716
+    download_url: "https://myserver.com/was/repos"
+    download_header: { 'Authorization': 'Basic EncodedString'}
 ```
 
 ## Note
