@@ -3,7 +3,7 @@
 websphere_pid: v90_9.0.5010.20211108_1200
 websphere_fp_path: WAS/9.0.5Fixpacks
 websphere_fp_archive_list:
-  - 9.0.5-WS-WAS-FP008.zip
+  - 9.0.5-WS-WAS-FP010.zip
 
 # Base Vars
 websphere_base_pid: com.ibm.websphere.ND.v90
