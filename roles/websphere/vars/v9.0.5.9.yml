@@ -12,6 +12,6 @@ websphere_base_archive_list:
   - was.repo.90500.nd.zip
 
 # Java Vars
-websphere_java_path: Java/IBM/ibm-java-sdk-8.0-6.26-linux-x64-installmgr.zip
+websphere_java_path: Java/IBM/ibm-java-sdk-8.0-7.0-linux-x64-installmgr.zip
 websphere_java_pid: com.ibm.java.jdk.v8
 websphere_java_home: java/8.0
