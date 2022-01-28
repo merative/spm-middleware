@@ -9,6 +9,6 @@
     - db2
 
   vars:
-    db2_version: "11.5.5.0"
+    db2_version: "11.5.7.0"
     download_url: "{{ lookup('env', 'ARTIFACTORY_URL') }}/{{ lookup('env', 'ARTIFACTORY_REPO') }}/SoftwareInstallers"
     download_header: { 'X-JFrog-Art-Api': "{{ lookup('env', 'ARTIFACTORY_TOKEN') }}"}
