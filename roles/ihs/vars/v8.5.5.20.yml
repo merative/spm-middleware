@@ -1,0 +1,19 @@
+---
+ihs_installer_path: WAS/8.5.5ND
+ihs_installer_archive_list:
+  - WAS_V8.5.5_SUPPL_1_OF_3.zip
+  - WAS_V8.5.5_SUPPL_2_OF_3.zip
+  - WAS_V8.5.5_SUPPL_3_OF_3.zip
+
+ihs_fp_installer_path: WAS/8.5.5Fixpacks/FP20
+ihs_fp_installer_archive_list:
+  - 8.5.5-WS-WASSupplements-FP020-part1.zip
+  - 8.5.5-WS-WASSupplements-FP020-part2.zip
+  - 8.5.5-WS-WASSupplements-FP020-part3.zip
+
+ihs_wct_installer_list:
+  - 8.5.5-WS-WCT-FP020-part1.zip
+  - 8.5.5-WS-WCT-FP020-part2.zip
+
+ihs_pid: v85_8.5.5020.20210708_1826
+ihs_base_pid: v85_8.5.5000.20130514_1044

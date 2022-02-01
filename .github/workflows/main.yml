@@ -35,7 +35,7 @@ jobs:
           - websphere-v85-centos-7
           - db21145
           - db21146
-          - db21155
+          - db21157
           - oracle12cR1-centos-7
           - oracle12cR2-centos-7
           - oracle19c-centos-8
