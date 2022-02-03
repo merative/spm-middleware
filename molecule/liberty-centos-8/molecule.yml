@@ -10,7 +10,7 @@ lint: |
 
 platforms:
   - name: centos-8
-    image: centos:8
+    image: dokken/centos-stream-8
     dockerfile: ../_resources/Dockerfile.j2
     pre_build_image: False
     privileged: True
