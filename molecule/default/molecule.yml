@@ -20,7 +20,7 @@ platforms:
   #   environment:
   #     container: docker
   - name: centos-8
-    image: dokken/centos-stream-8
+    image: dokken/centos-8
     dockerfile: ../_resources/Dockerfile.j2
     pre_build_image: false
     privileged: true
