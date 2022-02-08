@@ -8,6 +8,7 @@
   package:
     name: ['glibc.i686', 'gtk2.i686', 'libXtst.i686', 'libXft.i686']
     state: present
+    allowerasing: yes
 
 - name: Install compat-libstdc++-33.i686
   package:
