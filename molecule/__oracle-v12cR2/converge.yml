@@ -6,7 +6,7 @@
     - ibm.spm_middleware
 
   vars:
-    oracle_version: 12.2.0.1.210720
+    oracle_version: 12.2.0.1.220118
     download_url: "{{ lookup('env', 'ARTIFACTORY_URL') }}/{{ lookup('env', 'ARTIFACTORY_REPO') }}/SoftwareInstallers"
     download_header: { 'X-JFrog-Art-Api': "{{ lookup('env', 'ARTIFACTORY_TOKEN') }}"}
 
