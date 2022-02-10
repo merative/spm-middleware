@@ -9,5 +9,5 @@ base_installer:
 patch_filename: p33477199_121020_Linux-x86-64.zip
 patch_number: 33477199  # used for directory
 # Add OPatch values when bundled OPatch needs to be upgraded
-opatch_filename: p6880880_190000_Linux-x86-64_12.2.0.1.25.zip
-opatch_version: 12.2.0.1.25
+opatch_filename: p6880880_190000_Linux-x86-64.zip
+opatch_version: 12.2.0.1.29
