@@ -6,7 +6,7 @@
   vars:
     oracle_home: /opt/oracle/product/12c/dbhome_1
     oracle_sid: orcl
-    patch_number: 33583921
+    patch_number: 33587128
 
   pre_tasks:
     - name: Check if DB exists
