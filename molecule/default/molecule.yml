@@ -10,7 +10,7 @@ driver:
 
 platforms:
   # - name: centos-7
-  #   image: centos:7
+  #   image: dokken/centos-7
   #   dockerfile: ../_resources/Dockerfile.j2
   #   pre_build_image: False
   #   privileged: True
@@ -20,7 +20,7 @@ platforms:
   #   environment:
   #     container: docker
   - name: centos-8
-    image: centos:8
+    image: dokken/centos-stream-8
     dockerfile: ../_resources/Dockerfile.j2
     pre_build_image: false
     privileged: true

@@ -9,8 +9,9 @@ lint: |
   yamllint .
 
 platforms:
-  - name: centos-8
-    image: centos:8
+  - name: centos-7
+    # image: dokken/centos-stream-8
+    image: dokken/centos-7
     dockerfile: ../_resources/Dockerfile.j2
     pre_build_image: false
     privileged: true
