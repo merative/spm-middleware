@@ -310,6 +310,12 @@
         src: ohsNM.service.j2
         dest: /etc/systemd/system/ohsNM.service
 
+    - name: chcon folder
+      command: "chcon -R -t bin_t {{ ohs_home }}/user_projects/domains/ohs_{{ ansible_hostname }}/bin/ "
+      # sudo_user: '{{ weblogic_user }}'
+      become: yes
+      become_user: root
+      
     - name: Start service
       systemd:
         name: ohsNM.service
