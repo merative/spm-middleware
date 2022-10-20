@@ -25,7 +25,6 @@ jobs:
       ARTIFACTORY_URL: "${{ secrets.ARTIFACTORY_URL }}"
       collection_namespace: ibm
       collection_name: spm_middleware
-      version: 1.1.6
       python_ver: 3.8
     runs-on: ubuntu-latest
     strategy:
@@ -90,21 +89,3 @@ jobs:
       - name: Molecule
         run: |
           molecule test -s ${{ matrix.scenario }}
-      - name: Publish to Galaxy
-        if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
-        env:
-          ANSIBLE_GALAXY_SERVER_LIST: release
-          ANSIBLE_GALAXY_SERVER_RELEASE_URL: https://galaxy.ansible.com/
-          ANSIBLE_GALAXY_SERVER_RELEASE_TOKEN: "${{ secrets.GALAXY_TOKEN }}"
-        run: |
-          ansible-galaxy collection build
-          ls -l *.tar.gz
-          ansible-galaxy collection publish -c -vvv "./${{ env.collection_namespace }}-${{ env.collection_name }}-${{ env.version }}.tar.gz"
-      - name: Create GitHub Release
-        if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
-        uses: marvinpinto/action-automatic-releases@latest
-        with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          prerelease: false
-          files: |
-            ${{ env.collection_namespace }}-${{ env.collection_name }}-${{ env.version }}.tar.gz
