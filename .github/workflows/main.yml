@@ -33,7 +33,6 @@ jobs:
         scenario:
           - websphere-v90-centos-8
           - websphere-v85-centos-7
-          - db21145
           - db21146
           - db21157
           - oracle12cR1-centos-7
@@ -97,11 +96,11 @@ jobs:
           ANSIBLE_GALAXY_SERVER_RELEASE_URL: https://galaxy.ansible.com/
           ANSIBLE_GALAXY_SERVER_RELEASE_TOKEN: "${{ secrets.GALAXY_TOKEN }}"
           version: 1.1.5
-          COLLECTION_VERSION: $(yq r ../../galaxy.yml version)
         run: |
+          export COLLECTION_VERSION=$(grep ^version ../../galaxy.yaml | cut-d: -f2 | xargs)
           ansible-galaxy collection build
           ls -l *.tar.gz
-          ansible-galaxy collection publish -c -vvv "./${{ env.collection_namespace }}-${{ env.collection_name }}-${{ env.COLLECTION_VERSION }}.tar.gz"
+          ansible-galaxy collection publish -c -vvv "./${{ env.collection_namespace }}-${{ env.collection_name }}-${COLLECTION_VERSION}.tar.gz"
       - name: Create GitHub Release
         uses: marvinpinto/action-automatic-releases@latest
         with:
