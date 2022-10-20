@@ -90,17 +90,16 @@ jobs:
         run: |
           molecule test -s ${{ matrix.scenario }}
       - name: Publish to Galaxy
-        # if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
+        if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
         env:
           ANSIBLE_GALAXY_SERVER_LIST: release
           ANSIBLE_GALAXY_SERVER_RELEASE_URL: https://galaxy.ansible.com/
           ANSIBLE_GALAXY_SERVER_RELEASE_TOKEN: "${{ secrets.GALAXY_TOKEN }}"
-          version: 1.1.5
+          version: 1.1.6
         run: |
-          export COLLECTION_VERSION=$(grep ^version ../../galaxy.yaml | cut-d: -f2 | xargs)
           ansible-galaxy collection build
           ls -l *.tar.gz
-          ansible-galaxy collection publish -c -vvv "./${{ env.collection_namespace }}-${{ env.collection_name }}-${COLLECTION_VERSION}.tar.gz"
+          ansible-galaxy collection publish -c -vvv "./${{ env.collection_namespace }}-${{ env.collection_name }}-${{ env.version }}.tar.gz"
       - name: Create GitHub Release
         uses: marvinpinto/action-automatic-releases@latest
         with:
