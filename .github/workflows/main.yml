@@ -95,14 +95,16 @@ jobs:
           ANSIBLE_GALAXY_SERVER_LIST: release
           ANSIBLE_GALAXY_SERVER_RELEASE_URL: https://galaxy.ansible.com/
           ANSIBLE_GALAXY_SERVER_RELEASE_TOKEN: "${{ secrets.GALAXY_TOKEN }}"
+          # version: 1.1.5
+          config_variables_file_path: ../galaxy.yml
         run: |
           ansible-galaxy collection build
           ls -l *.tar.gz
-          ansible-galaxy collection publish -c -vvv "./${{ env.collection_namespace }}-${{ env.collection_name }}-1.1.5.tar.gz"
+          ansible-galaxy collection publish -c -vvv "./${{ env.collection_namespace }}-${{ env.collection_name }}-${{ env.version }}.tar.gz"
       - name: Create GitHub Release
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
           files: |
-            ${{ env.collection_namespace }}-${{ env.collection_name }}-*.tar.gz
+            ${{ env.collection_namespace }}-${{ env.collection_name }}-${{ env.version }}.tar.gz
