@@ -2,7 +2,6 @@
 instance_id: inst1
 
 instance_port: 50000
-instance_fcm_port: 60000
 
 db2_install_path: /opt/IBM/db2
 db2_version: 11.1.4.6
