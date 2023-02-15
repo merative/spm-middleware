@@ -6,9 +6,9 @@
     state: directory
   when: ansible_os_family != "Windows"
 
-- name: "Create {{ profiled_path }}/db2.sh"
+- name: "Create {{ profiled_path }}/{{ db2_db_username }}.sh"
   copy:
-    dest: "{{ profiled_path }}/db2.sh"
+    dest: "{{ profiled_path }}/{{ db2_db_username }}.sh"
     content: |
       #!/bin/bash
       . /home/{{ db2_db_username }}/sqllib/db2profile
@@ -45,6 +45,7 @@
     path: /opt/Props
     state: directory
 
+# backward compatible for single db2copy servers (last install wins)
 - name: Render Bootstrap.properties
   template:
     src: Bootstrap.properties.j2
@@ -54,3 +55,14 @@
   template:
     src: BootstrapSeed.properties.j2
     dest: /opt/Props/BootstrapSeed.properties
+
+# specific bootstrap per intance
+- name: "Render {{ db2_db_username }} Bootstrap.properties"
+  template:
+    src: Bootstrap.properties.j2
+    dest: "/opt/Props/{{ db2_db_username }}_Bootstrap.properties"
+
+- name: "Render {{ db2_db_username }} BootstrapSeed.properties"
+  template:
+    src: BootstrapSeed.properties.j2
+    dest: "/opt/Props/{{ db2_db_username }}_BootstrapSeed.properties"

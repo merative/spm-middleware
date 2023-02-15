@@ -70,6 +70,7 @@ usage() {
       echo "     -u | --user-name <user-name>           - Specify the DB2 username (default: db2admin)"
       echo "     -p | --password <password>             - Specify the DB2 user password (default)"
       echo "     -f | --backup-restore-folder <folder-name> - Specify the folder for a backup or restore (default is the current directory)."
+      echo "     -po | --port                         - Specify the TCP/IP client connection port number for the instance."
       echo ""
       echo "     -v | --verbose                         - Turn on verbose output (i.e., set -x)"
       echo " "
@@ -290,7 +291,7 @@ dbcomm () {
   echo "$0 `date '+%0k:%0M:%0S'` INFO - DB2COMM set completed with: $lastRC"
   echo
 
-  db2 -v -ec update dbm cfg using svcename 50000
+  db2 -v -ec update dbm cfg using svcename $PORT
   lastRC=$?
 	echo
   echo "$0 `date '+%0k:%0M:%0S'` INFO - DB2 port configuration completed with: $lastRC"
@@ -574,6 +575,7 @@ VERBOSE="false"
 APPLHEAPSZ="AUTOMATIC"
 # This is the setting in the official post-install db configuration setps
 HIGHMEM="50"
+PORT="50000"
 IBMDEFAULTBP="AUTOMATIC"
 FOLDER="$(pwd)"
 TIMESTAMP=""
@@ -596,6 +598,10 @@ while [ $# -gt 0 ] ; do
       HIGHMEM="${2,,}"
       shift
       ;;
+    '-po'|'--port')
+      PORT="${2}"
+      shift
+      ;;      
     '-x'|'--drop')
       DROP="true"
       ;;

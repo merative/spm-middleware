@@ -1,4 +1,9 @@
 ---
+instance_id: inst1
+
+instance_port: 50000
+instance_fcm_port: 60000
+
 db2_install_path: /opt/IBM/db2
 db2_version: 11.1.4.6
 db2_product: DB2_SERVER_EDITION
@@ -8,7 +13,11 @@ db2_activate: True
 db2_db_create: True
 db2_db_name: DATABASE
 db2_db_username: db2admin
+db2_db_groupname: db2iadm1
 db2_db_password: db2admin
+db2_fenced_username: db2fenc1
+db2_fenced_groupname: db2fadm1
+
 db2_db_spm_enc: dummyPassword
 db2_db_drop_required: False
 
