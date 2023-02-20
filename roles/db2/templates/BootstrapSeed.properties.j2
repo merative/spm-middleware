@@ -4,7 +4,7 @@ input.db.username={{ db2_db_username }}
 input.db.password={{ db2_db_password }}
 
 input.db.dist.servername={{ ansible_fqdn }}
-input.db.dist.serverport=50000
+input.db.dist.serverport={{ instance_port }}
 input.db.dist.name={{ db2_db_name }}
 
 input.db.zos.servername=

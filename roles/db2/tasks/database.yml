@@ -21,7 +21,7 @@
       when: db2_db_drop_required
 
     - name: Create database
-      command: "{{ util_file.dest }} -c -d {{ db2_db_name }} -u {{ db2_db_username }} -p {{ db2_db_password }}"
+      command: "{{ util_file.dest }} -c -d {{ db2_db_name }} -po {{ instance_port }} -u {{ db2_db_username }} -p {{ db2_db_password }}"
       register: db_create_job
       async: 1800
       poll: 0

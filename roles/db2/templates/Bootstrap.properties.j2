@@ -48,7 +48,7 @@ curam.db.zos.dbname=
 curam.db.servername={{ ansible_fqdn }}
 
 # The Database server's port
-curam.db.serverport=50000
+curam.db.serverport={{ instance_port }}
 
 # Specifies whether the bindings file generation should be overridden or
 #         not.
