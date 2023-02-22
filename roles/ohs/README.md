@@ -40,7 +40,7 @@ Although the role can be used independently, it is expected that Weblogic is alr
 ```
 - hosts: all
   roles:
-    - role: ibm.spm_middleware.ohs
+    - role: merative.spm_middleware.ohs
       ohs_version: 12.2.1.4.210324
 ```
 ## License

@@ -48,7 +48,7 @@ The version of the OPatch tool itself is also handed by the above tasks file.
 ```
 - hosts: servers
   roles:
-    - role: ibm.spm_middleware.weblogic
+    - role: merative.spm_middleware.weblogic
       weblogic_version: 14.1.1.0.210716
 ```
 

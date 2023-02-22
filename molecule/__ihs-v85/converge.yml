@@ -3,7 +3,7 @@
   hosts: all
 
   collections:
-    - ibm.spm_middleware
+    - merative.spm_middleware
 
   vars:
     ihs_version: 8.5.5.20
