@@ -27,7 +27,7 @@ None
 ```
 - hosts: servers
   roles:
-    - role:  ibm.spm_middleware.iim
+    - role:  merative.spm_middleware.iim
 ```
 
 ## License

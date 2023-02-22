@@ -3,7 +3,7 @@
   hosts: all
 
   collections:
-    - ibm.spm_middleware
+    - merative.spm_middleware
 
   vars:
     oracle_version: 12.2.0.1.220118

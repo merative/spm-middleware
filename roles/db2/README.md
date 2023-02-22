@@ -42,7 +42,7 @@ None
 ```
 - hosts: servers
   roles:
-    - role: ibm.spm_middleware.db2
+    - role: merative.spm_middleware.db2
       db2_version: 11.5.5.0
 ```
 

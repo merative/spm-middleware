@@ -36,7 +36,7 @@ None
 ```
 - hosts: servers
   roles:
-    - role: ibm.spm_middleware.liberty
+    - role: merative.spm_middleware.liberty
       liberty_version: 19.0.0.12
 ```
 

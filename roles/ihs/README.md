@@ -37,7 +37,7 @@ NOTE: ihs_admin_pass should be changed after first installation.
 ## Dependencies
 
 IBM Installation Manager (iim)
-ibm.spm_middleware.iim
+merative.spm_middleware.iim
 
 ## Example Playbook
 
@@ -47,11 +47,11 @@ ibm.spm_middleware.iim
   hosts: all
 
   collections:
-    - ibm.spm_middleware
+    - merative.spm_middleware
 
   roles:
-    - ibm.spm_middleware.iim
-    - ibm.spm_middleware.ihs
+    - merative.spm_middleware.iim
+    - merative.spm_middleware.ihs
       vars:
         - ihs_version: 8.5.5.17
         - download_url: "https://myserver.com/IHS/repos"
