@@ -41,7 +41,7 @@ None
 ```
 - hosts: servers
   roles:
-    - role: ibm.spm_middleware.oracle
+    - role: merative.spm_middleware.oracle
       oracle_version: 19.11.0.0.0
 
 ## License

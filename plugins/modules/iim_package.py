@@ -87,7 +87,7 @@ import re
 import sys
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.ibm.spm_middleware.plugins.module_utils.iim import IIMAgent
+from ansible_collections.merative.spm_middleware.plugins.module_utils.iim import IIMAgent
 
 logger = logging.getLogger(sys.argv[0])
 

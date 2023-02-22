@@ -22,7 +22,7 @@ IBM Installation Manager (1.9.x) must already be installed in the target environ
 
 ## Dependencies
 
-ibm.spm_middleware.iim
+merative.spm_middleware.iim
 
 ## Example Playbook
 
@@ -32,7 +32,7 @@ ibm.spm_middleware.iim
   hosts: all
 
   collections:
-    - ibm.spm_middleware
+    - merative.spm_middleware
 
   vars:
     websphere_version: 9.0.5.8
@@ -40,8 +40,8 @@ ibm.spm_middleware.iim
     download_header: { 'Authorization': 'Basic EncodedString'}
 
   roles:
-    - ibm.spm_middleware.iim
-    - ibm.spm_middleware.websphere
+    - merative.spm_middleware.iim
+    - merative.spm_middleware.websphere
 ```
 
 ## License
