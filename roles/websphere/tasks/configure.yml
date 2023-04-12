@@ -3,5 +3,5 @@
   replace:
     path: "{{ websphere_install_path }}/bin/JspBatchCompiler.sh"
     regexp: "-Xmx256m"
-    replace: "-Xmx1024m"
+    replace: "-Xmx1600m"
     mode: 0755
