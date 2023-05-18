@@ -31,7 +31,7 @@ jobs:
       matrix:
         scenario:
           - websphere-v90-centos-8
-          - db21157        
+          - db21157
           - oracle19c-centos-8
           - iim-191-centos-8
           - ihs-v90-centos-8
