@@ -14,7 +14,7 @@ applications_home: '{{ weblogic_base }}/config/applications'
 mw_installer_folder: '{{ weblogic_base }}/installer'
 domain_username: 'weblogic'
 domain_password: 'weblogic'
-encrypted_password: 'dummypassword'
+encrypted_password: 'weblogic1'
 server_name: 'CuramServer'
 server_port: 7001
 
