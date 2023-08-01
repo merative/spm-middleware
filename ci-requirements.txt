@@ -8,5 +8,7 @@ yamllint
 passlib
 jmespath
 # Downgrade these while rest is incompatible
+cython<3.0.0
+--no-build-isolation pyyaml==6.0
 Jinja2<3.0.0
 MarkupSafe<2.0.0
