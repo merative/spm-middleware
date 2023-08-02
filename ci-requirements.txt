@@ -7,6 +7,7 @@ ansible-lint >= 5.1.1, < 6.0.0 # only for the prerun functionality
 yamllint
 passlib
 jmespath
+wheel
 # Downgrade these while rest is incompatible
 cython<3.0.0
 pyyaml==5.4.1
