@@ -11,7 +11,7 @@ name: spm_middleware
 
 # The version of the collection. Must be compatible with semantic versioning
 # Please note. version also exists in /github/workflows/release.yml and will need to be update also
-version: 1.2.5
+version: 1.2.6
 
 # The path to the Markdown (.md) readme file. This path is relative to the root of the collection
 readme: README.md
