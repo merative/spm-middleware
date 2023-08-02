@@ -1,6 +1,6 @@
 ansible
 pywinrm
-molecule==3.3.0
+molecule==5.1.0
 molecule-docker
 docker
 ansible-lint >= 5.1.1, < 6.0.0 # only for the prerun functionality
