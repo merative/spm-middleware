@@ -1,12 +1,10 @@
 ansible
 pywinrm
-molecule==3.3.0
+molecule
 molecule-docker
 docker
-ansible-lint >= 5.1.1, < 6.0.0 # only for the prerun functionality
+ansible-lint
 yamllint
 passlib
 jmespath
-# Downgrade these while rest is incompatible
-Jinja2<3.0.0
-MarkupSafe<2.0.0
+
