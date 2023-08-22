@@ -1,0 +1,19 @@
+[Unit]
+Description=Service to start Oracle {{ oracle_family }} Database
+After=syslog.target network.target
+
+[Service]
+#LimitNOFILE=1024:65536
+#LimitNPROC=2047:16384
+#LimitSTACK=10485760:33554432
+#LimitMEMLOCK=infinity
+#Type=forking
+User=oracle
+Group=oinstall
+RemainAfterExit=True
+Restart=no
+ExecStart=/opt/oracle/product/{{ oracle_family }}/dbhome_1/bin/dbstart /opt/oracle/product/{{ oracle_family }}/dbhome_1
+ExecStop=/opt/oracle/product/{{ oracle_family }}/dbhome_1/bin/dbshut /opt/oracle/product/{{ oracle_family }}/dbhome_1
+
+[Install]
+WantedBy=multi-user.target
