@@ -7,4 +7,3 @@ ansible-lint
 yamllint
 passlib
 jmespath
-
