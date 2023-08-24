@@ -75,3 +75,8 @@
     - name: Verify that stop script exists
       assert:
         that: stop_script.stat.exists
+
+    - name: Check if service file exists
+      stat:
+        path: /etc/systemd/system/oracle.service
+      register: service_file
