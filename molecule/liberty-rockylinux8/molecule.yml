@@ -9,8 +9,8 @@ lint: |
   yamllint .
 
 platforms:
-  - name: centos-7
-    image: dokken/centos-7
+  - name: rockylinux8
+    image: rockylinux:8
     dockerfile: ../_resources/Dockerfile.j2
     pre_build_image: False
     privileged: True
@@ -30,5 +30,5 @@ provisioner:
   env:
     ANSIBLE_FORCE_COLOR: 'true'
   playbooks:
-    converge: ../__oracle-v12cR2/converge.yml
-    verify: ../__oracle-v12cR2c/verify.yml
+    converge: ../__liberty/converge.yml
+    verify: ../__liberty/verify.yml

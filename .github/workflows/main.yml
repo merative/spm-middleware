@@ -30,14 +30,14 @@ jobs:
       fail-fast: false
       matrix:
         scenario:
-          - websphere-v90-centos-8
+          - websphere-v90-rockylinux8
           - db21157
-          - oracle19c-centos-8
-          - iim-191-centos-8
-          - ihs-v90-centos-8
-          - ohs-v12.2.1-centos-8
-          - liberty-centos-8
-          - weblogic-centos-8
+          - oracle19c-rockylinux8
+          - iim-191-rockylinux8
+          - ihs-v90-rockylinux8
+          - ohs-v12.2.1-rockylinux8
+          - liberty-rockylinux8
+          - weblogic-rockylinux8
     steps:
       - name: Checkout
         uses: actions/checkout@v2

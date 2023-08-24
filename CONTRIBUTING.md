@@ -1,3 +1,115 @@
+# Molecule Dev environment using python virtual environment
+
+Ensure docker is running
+
+Example using Artifactory
+
+```
+export ARTIFACTORY_URL=https://artifactory.mycompany.com/artifactory
+export ARTIFACTORY_REPO=software-installers-repo
+export ARTIFACTORY_TOKEN=abcdefghijklmnopqrstuvwxyz
+
+python3 -m venv ~/venv/molecule
+. ~/venv/molecule/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+
+
+destroy, create, converge, test, destroy
+```
+molecule test -s ihs-v90-rockylinux8
+```
+destroy, create, converge, test (keep container alive)
+```
+molecule test -s ihs-v90-rockylinux8 --destroy never
+```
+
+See next section for more examples or use `molecule --help`
+
+
+
+# Molecule Dev Environment using Container (DinD)
+
+## How to build
+
+```
+docker build -t molecule:latest .
+```
+
+## How to run
+
+```
+docker run --privileged -d \
+         --name molly \
+         -v [localPath/projectName:/opt/[projectName] \
+         -w /opt/[projectName] molecule:latest
+```
+
+**Examples:**
+
+Example 1. Using local installers
+
+```
+docker run --privileged -d \
+          --name molly \
+          -v /Users/devops/spm-middleware:/opt/spm-middleware \
+          -w /opt/spm-middleware molecule:latest
+```
+
+Example 2. Using installers from Artifactory
+
+```
+export ARTIFACTORY_URL=https://artifactory.mycompany.com/artifactory
+export ARTIFACTORY_REPO=software-installers-repo
+export ARTIFACTORY_TOKEN=abcdefghijklmnopqrstuvwxyz
+export LOCAL_PATH=/Users/devops/git/spm-middleware
+
+docker run --privileged -d \
+          --name molly \
+          -v $LOCAL_PATH:/opt/spm-middleware \
+          -e ARTIFACTORY_TOKEN=$ARTIFACTORY_TOKEN \
+          -e ARTIFACTORY_URL=$ARTIFACTORY_URL \
+          -e ARTIFACTORY_REPO=$ARTIFACTORY_REPO \
+          -w /opt/spm-middleware molecule:latest
+```
+
+## How to use
+
+**Create alias**
+```
+alias modo='docker exec -it molly'
+```
+
+**Run molecule test on single scenario**
+
+```
+modo molecule test -s db2-115-rockylinux8
+```
+
+**Run molecule test on single scenario - keep container**
+
+```
+modo molecule test -s db2-115-rockylinux8 --destroy never
+```
+
+**Run molecule in verbose mode**
+
+```
+modo molecule test -s db2115 --destroy never -- -vvv
+```
+**Check running containers within molecule container**
+
+```
+modo docker ps
+```
+
+**Connect to test container within running molecule container**
+```
+modo docker exec -it rockylinux8 /bin/bash
+```
+
+
+
 # Contributing
 
 New roles, playbooks, and modules are always welcome.
@@ -65,7 +177,7 @@ Using a venv lets you keep all the packages and requirements for your molecule t
 python3 -m venv myenv (running this in the root of your repo will create a myenv folder)
 source myenv/bin/activate (your command line will indicate you are venv. "deactivate" will exit the venv)
 brew install yamllint
-python3 -m pip install --upgrade setuptools python3 -m pip install "molecule[ansible]"
+python3 -m pip install --upgrade setuptoolspython3 -m pip install "molecule[ansible]"
 python3 -m pip install "molecule[docker,lint]"
 molecule test -s ihs-v85-centos-7 --destroy never (destroy never tag keeps the docker environment, useful if you have a large download or similar in your test)
 ```
