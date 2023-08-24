@@ -98,4 +98,4 @@
       systemd:
         name: oracle.service
         enabled: yes
-        state: restarted
+        state: started
