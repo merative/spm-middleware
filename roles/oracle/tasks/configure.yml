@@ -92,6 +92,7 @@
   become: yes
   become_user: oracle
   shell: $ORACLE_HOME/bin/lsnrctl stop
+  ignore_errors: true
   environment:
     ORACLE_HOME: "{{ oracle_home }}"
     ORACLE_SID: "{{ oracle_sid }}"
