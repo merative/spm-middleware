@@ -88,15 +88,6 @@
   tags:
     - post
 
-- name: Stop the listener
-  become: yes
-  become_user: oracle
-  shell: $ORACLE_HOME/bin/lsnrctl stop
-  ignore_errors: true
-  environment:
-    ORACLE_HOME: "{{ oracle_home }}"
-    ORACLE_SID: "{{ oracle_sid }}"
-
 - name: Creating service
   block:
     - name: Copy oracle.service
@@ -107,4 +98,4 @@
       systemd:
         name: oracle.service
         enabled: yes
-        state: started
+        state: restarted
