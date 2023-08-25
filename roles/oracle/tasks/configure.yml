@@ -1,16 +1,4 @@
 ---
-- name: Starting service
-  block:
-    - name: Copy oracle.service
-      template:
-        src: oracle.service.j2
-        dest: /etc/systemd/system/oracle.service
-    - name: Start service
-      systemd:
-        name: oracle.service
-        enabled: yes
-        state: started
-
 - name: Check listener status
   become: yes
   become_user: oracle
@@ -99,3 +87,15 @@
   when: db_config_status.rc != 0
   tags:
     - post
+
+- name: Creating service
+  block:
+    - name: Copy oracle.service
+      template:
+        src: oracle.service.j2
+        dest: /etc/systemd/system/oracle.service
+    - name: Start service
+      systemd:
+        name: oracle.service
+        enabled: yes
+        state: started
