@@ -2,24 +2,32 @@
 
 Ensure docker is running
 
-Example using Artifactory
+```
+python3 -m venv ~/venv/molecule
+. ~/venv/molecule/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+If using Artifactory, set the following environment variables
 
 ```
 export ARTIFACTORY_URL=https://artifactory.mycompany.com/artifactory
 export ARTIFACTORY_REPO=software-installers-repo
 export ARTIFACTORY_TOKEN=abcdefghijklmnopqrstuvwxyz
+```
 
-python3 -m venv ~/venv/molecule
-. ~/venv/molecule/bin/activate
-pip install --upgrade pip
-pip install -r requirements.txt
+Molecule examples see `molecule --help` for full details
 
 
-destroy, create, converge, test, destroy
+dependency, cleanup, destroy, syntax, create, prepare, converge, idempotence, side_effect, verify, cleanup, destroy
+
 ```
 molecule test -s ihs-v90-rockylinux8
 ```
-destroy, create, converge, test (keep container alive)
+
+dependency, cleanup, destroy, syntax, create, prepare, converge, idempotence, side_effect, verify, cleanup, ~~destroy~~
+
 ```
 molecule test -s ihs-v90-rockylinux8 --destroy never
 ```
