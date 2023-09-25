@@ -33,10 +33,11 @@
   when: ansible_os_family != "Windows"
 
 - name: Copy AppServer.properties
-  copy:
-    src: AppServer.properties
+  template:
     dest: /opt/Props/AppServer.properties
+    src: AppServer.properties.j2
     mode: 0644
+    force: no
 
 - name: Create environment files
   include_tasks: env.yml

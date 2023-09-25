@@ -6,7 +6,7 @@ websphere_install_path: /opt/IBM/WebSphere/AppServer
 websphere_version: 9.0.5.10
 security_username: websphere
 # use encrypted password
-security_password: websphere
+security_password: dummypassword
 # Common
 profiled_path: /opt/profile.d
 # Server info for downloading installers / repos directly, leave blank to copy
