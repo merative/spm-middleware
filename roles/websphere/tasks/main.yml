@@ -31,7 +31,7 @@
   template:
     dest: /opt/Props/AppServer.properties
     src: AppServer.properties.j2
-    mode: 0755
+    mode: 0644
     force: no
 
 - name: Cleanup

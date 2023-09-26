@@ -9,6 +9,9 @@ liberty_version: 23.0.0.6
 liberty_default_heapsize: 1024m
 liberty_enable_verbose_gc: false
 liberty_extra_jvm_options: []
+security_username: websphere
+# use encrypted password
+security_password: dummypassword
 
 # Common
 profiled_path: /opt/profile.d
