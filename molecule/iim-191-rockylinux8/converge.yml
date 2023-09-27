@@ -9,6 +9,6 @@
     - iim
 
   vars:
-    iim_agent_version: 1.9.1001.20191112_1525
+    iim_agent_version: 1.9.2005.20230718_1844
     download_url: "{{ lookup('env','ARTIFACTORY_URL') }}/{{ lookup('env','ARTIFACTORY_REPO') }}/SoftwareInstallers"
     download_header: {'X-JFrog-Art-Api': "{{ lookup('env','ARTIFACTORY_TOKEN' )}}"}

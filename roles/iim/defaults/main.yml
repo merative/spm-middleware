@@ -1,5 +1,5 @@
 ---
-iim_agent_version: 1.9.1001.20191112_1525
+iim_agent_version: 1.9.2005.20230718_1844
 # Server info for downloading installers / repos directly, leave blank to copy
 download_url:  # e.g. https://artifactory/repo
 download_header:  # e.g. X-JFrog-Art-Api: "{{ lookup('env', 'MYTOKEN') }}"
