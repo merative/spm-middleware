@@ -5,11 +5,10 @@
   collections:
     - merative.spm_middleware
 
+  roles:
+    - db2
+
   vars:
-    ihs_version: 9.0.5.17
+    db2_version: "11.5.8.0"
     download_url: "{{ lookup('env', 'ARTIFACTORY_URL') }}/{{ lookup('env', 'ARTIFACTORY_REPO') }}/SoftwareInstallers"
     download_header: { 'X-JFrog-Art-Api': "{{ lookup('env', 'ARTIFACTORY_TOKEN') }}"}
-
-  roles:
-    - iim
-    - ihs

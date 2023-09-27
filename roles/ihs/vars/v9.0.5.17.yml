@@ -7,10 +7,10 @@ ihs_installer_archive_list:
 
 ihs_fp_installer_path: WAS/9.0.5Fixpacks
 ihs_fp_installer_archive_list:
-  - 9.0.5-WS-IHSPLG-FP007.zip
-  - 9.0.5-WS-WCT-FP007.zip
+  - 9.0.5-WS-IHSPLG-FP017.zip
+  - 9.0.5-WS-WCT-FP017.zip
 
-ihs_pid: v90_9.0.5007.20210301_1241
+ihs_pid: v90_9.0.5017.20230818_1035
 
-ihs_java_zip_path: Java/IBM/ibm-java-sdk-8.0-6.26-linux-x64-installmgr.zip
+ihs_java_zip_path: Java/IBM/ibm-java-sdk-8.0-8.10-linux-x64-installmgr.zip
 ihs_java_pid: com.ibm.java.jdk.v8
