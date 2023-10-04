@@ -10,5 +10,5 @@ base_installer: oracle-database-ee-19c-1.0-1.x86_64.rpm
 patch_filename: p35320081_190000_LINUX.zip
 patch_number: 35320081  # used for directory
 # Add OPatch values when bundled OPatch needs to be upgraded
-opatch_filename: p6880880_190000_Linux-x86-64.zip
+opatch_filename: p6880880_190000_LINUX.zip
 opatch_version: 12.2.0.1.39
