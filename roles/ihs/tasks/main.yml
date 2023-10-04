@@ -1,4 +1,9 @@
 ---
+- name: Ensure /opt/Props dir exists
+  file:
+    path: /opt/Props
+    state: directory
+
 - name: Include version variables
   include_vars: "v{{ ihs_version }}.yml"
 
