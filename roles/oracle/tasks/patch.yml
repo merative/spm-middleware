@@ -20,14 +20,14 @@
     - download_url is defined
     - opatch_filename is defined
 
-# - name: "Check OPatch version matches {{ opatch_version }}"
-#   become: yes
-#   become_user: oracle
-#   shell: "grep {{ opatch_version }} {{ oracle_home }}/OPatch/version.txt -jdk $ORACLE_HOME/jdk"
-#   ignore_errors: true
-#   register: opatch_status
-#   changed_when: False
-#   when: opatch_version is defined
+- name: "Check OPatch version matches {{ opatch_version }}"
+  become: yes
+  become_user: oracle
+  shell: "grep {{ opatch_version }} {{ oracle_home }}/OPatch/version.txt -jdk $ORACLE_HOME/jdk"
+  ignore_errors: true
+  register: opatch_status
+  changed_when: False
+  when: opatch_version is defined
 
 - name: "Extract {{ opatch_filename }} replace bundled Opatch tool"
   unarchive:
