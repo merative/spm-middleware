@@ -6,7 +6,7 @@
   vars:
     oracle_home: /opt/oracle/product/19c/dbhome_1
     oracle_sid: orcl
-    oracle_version: 19.14.0.0.0
+    oracle_version: 19.20.0.0.0
 
   pre_tasks:
     - name: Check if DB exists

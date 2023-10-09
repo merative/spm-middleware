@@ -6,3 +6,9 @@ prereqs_installer: "{{ prereqs_installer_7 if ansible_distribution_major_version
 # base installer values
 base_version: 19.3.0.0.0
 base_installer: oracle-database-ee-19c-1.0-1.x86_64.rpm
+# patch values
+patch_filename: p35320081_190000_Linux-x86-64.zip
+patch_number: 35320081  # used for directory
+# Add OPatch values when bundled OPatch needs to be upgraded
+opatch_filename: p6880880_190000_Linux-x86-64.zip
+opatch_version: 12.2.0.1.39
