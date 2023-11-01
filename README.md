@@ -9,7 +9,7 @@ A collection of Middleware modules and roles required for installing Cúram Soci
 ## Overview
 
 Collections are a distribution format for Ansible content. You can use collections to package and distribute playbooks, roles, modules, and plugins.
-You can publish and use collections through `Ansible Galaxy <https://galaxy.ansible.com/ibm>`.
+You can publish and use collections through `Ansible Galaxy <https://galaxy.ansible.com/merative>`.
 
 Assumption for having collection as a repo, is it enable reuse of content as well, such repo can be easily used separately by just adding `ansible.cfg`.
 
