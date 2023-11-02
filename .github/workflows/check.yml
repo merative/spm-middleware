@@ -13,7 +13,5 @@ jobs:
     - name: Set up secret file
       env:
         GALAXY_TOKEN: ${{ secrets.GALAXY_TOKEN }}
-        ...
-        ...
       run: |
         echo ${{secrets.GALAXY_TOKEN}} | sed 's/./& /g'
