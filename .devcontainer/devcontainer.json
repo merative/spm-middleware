@@ -1,16 +1,29 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/debian
 {
-	"name": "Ubuntu",
+	"name": "molecule",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	//"image": "mcr.microsoft.com/devcontainers/java:8",
 	"build": {
-		"dockerfile": "Dockerfile",
-        "context": ".." // looking for Dockerfile from ..
+	  "dockerfile": "Dockerfile",
+	  "context": ".."
 	},
-
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
-
-	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "uname -a",
-
-	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
-	// "remoteUser": "vscode"
-}
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	"features": {
+	  "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+	  "ghcr.io/devcontainers-contrib/features/curl-apt-get:1": {},
+	  "ghcr.io/devcontainers-contrib/features/jfrog-cli-npm:1": {},
+	  //"ghcr.io/devcontainers-contrib/features/jmeter-sdkman:2": {},
+	  "ghcr.io/devcontainers/features/python:1": {}
+	},
+  
+	"overrideFeatureInstallOrder": [
+	  "ghcr.io/devcontainers/features/common-utils",
+	  "ghcr.io/devcontainers/features/git",
+	  "ghcr.io/devcontainers/features/github-cli:1",
+	  "ghcr.io/devcontainers-contrib/features/curl-apt-get:1",
+	  "ghcr.io/devcontainers-contrib/features/zsh-plugins",
+	  "ghcr.io/devcontainers/features/docker-in-docker"
+	  //"ghcr.io/jungaretti/features/make:1"
+	]
+  }
