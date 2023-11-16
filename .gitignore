@@ -115,4 +115,5 @@ play.yml
 ansible_collections
 .DS_Store
 bin/
+.devcontainer/.env
 

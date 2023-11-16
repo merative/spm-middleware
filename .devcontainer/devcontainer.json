@@ -4,6 +4,9 @@
 	"name": "molecule",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	//"image": "mcr.microsoft.com/devcontainers/java:8",
+	"runArgs": [
+        "--env-file", "${localWorkspaceFolder}/.devcontainer/.env"
+    ],
 	"build": {
 	  "dockerfile": "Dockerfile",
 	  "context": ".."
