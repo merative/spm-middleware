@@ -44,9 +44,9 @@ and other tools need in order to package, build and publish the collection::
 
 ### Use Dev Container
 
-If you have install docker and VS Code on your machine, please add extension **Dev Containers** to VS Code, then you can use it to quickly setup your local development environment.
+If you have installed docker and VS Code on your machine, please add extension **Dev Containers** to VS Code, then you can use it to quickly setup your local development environment.
 
-1. Add **.env** file under foler **.devcontainer** , you can put environment variables in it, these env vars will appear in the docker container. And **.env** has been put in the .gitignore, so you can put secrets in it, it will not be merge to github repo. Content of it:
+1. Add **.env** file under folder **.devcontainer** , you can put environment variables in it, these env vars will appear in the docker container. And **.env** has been put in the .gitignore, so you can put secrets in it, it will not be merge to github repo. Content of it:
 
 ```
 ARTIFACTORY_URL=[artifactory url]
@@ -54,7 +54,7 @@ ARTIFACTORY_REPO=[repo contains software installer]
 ARTIFACTORY_TOKEN=[token of artifactory]
 LOCAL_PATH=/workspaces/spm-middleware
 ```
-2. After dev container startup, you need to:
+2. After the dev container startup, you need to:
     
     a. install python packages
     ```
