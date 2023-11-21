@@ -1,0 +1,30 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/debian
+{
+	"name": "molecule",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	//"image": "mcr.microsoft.com/devcontainers/java:8",
+	"runArgs": [
+        "--env-file", "${localWorkspaceFolder}/.devcontainer/.env"
+    ],
+	"build": {
+	  "dockerfile": "Dockerfile",
+	  "context": ".."
+	},
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	"features": {
+	  "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+	  "ghcr.io/devcontainers-contrib/features/curl-apt-get:1": {},
+	  "ghcr.io/devcontainers-contrib/features/jfrog-cli-npm:1": {},
+	  "ghcr.io/devcontainers/features/python:1": {}
+	},
+  
+	"overrideFeatureInstallOrder": [
+	  "ghcr.io/devcontainers/features/common-utils",
+	  "ghcr.io/devcontainers/features/git",
+	  "ghcr.io/devcontainers/features/github-cli:1",
+	  "ghcr.io/devcontainers-contrib/features/curl-apt-get:1",
+	  "ghcr.io/devcontainers-contrib/features/zsh-plugins",
+	  "ghcr.io/devcontainers/features/docker-in-docker"
+	]
+  }
