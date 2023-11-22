@@ -6,6 +6,5 @@
     state: present
 
 - name: Linux common
-  # include: "linux_common.yml"
   include_tasks:
     file: "linux_common.yml"
