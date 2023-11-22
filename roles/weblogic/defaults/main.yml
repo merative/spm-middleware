@@ -27,4 +27,4 @@ weblogic_installer_path: WLS
 # Local controller path relative to weblogic_installer_path OR relative path to download_url/weblogic_installer_path
 weblogic_patch_path: Patches
 # Local controller path OR relative path to download_url
-java_zip_path: 'Java'
+java_zip_path: 'WLS'

@@ -17,7 +17,7 @@ opatch_version: 13.9.4.2.6
 opatch_folder: 6880880
 
 # Full jdk is needed to update OPatch
-java_zip_path: 'Java/jdk-8u251-linux-x64.tar.gz'
+java_zip_path: 'WLS/jdk-8u251-linux-x64.tar.gz'
 java_version_path: 'jdk1.8.0_251'
 jdk_folder: "{{ ohs_home }}/oracle_common/jdk"
 
