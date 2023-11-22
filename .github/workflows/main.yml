@@ -88,4 +88,4 @@ jobs:
         run: |
           cd ${{ env.NEW_REPO_LOC }}
           ls -la
-          molecule test -s ${{ matrix.scenario }}
+          molecule test -s ${{ matrix.scenario }} -vvv
