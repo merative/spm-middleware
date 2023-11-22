@@ -15,5 +15,7 @@
   when: ansible_os_family == "Windows"
 
 - name: Install IIM
-  include: "{{ ansible_os_family | lower }}.yml"
+  # include: "{{ ansible_os_family | lower }}.yml"
+  include_tasks:
+        file: "{{ ansible_os_family | lower }}.yml"
   when: (linux_iim_dir.stat is defined and not linux_iim_dir.stat.exists) or (win_iim_dir.stat is defined and not win_iim_dir.stat.exists)
