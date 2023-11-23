@@ -18,4 +18,4 @@
 
 - name: Linux common
   include_tasks:
-      file: "linux_common.yml"
+    file: "linux_common.yml"
