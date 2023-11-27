@@ -7,5 +7,5 @@ patch: 'p33727619_141100_Generic.zip'
 patch_number: 33727619
 napply: false
 patch_folder: '33727619'
-java_archive_file: jdk-8u191-linux-x64.tar.gz
-java_version_path: 'jdk1.8.0_191'
+java_archive_file: jdk-8u251-linux-x64.tar.gz
+java_version_path: 'jdk1.8.0_251'

@@ -10,5 +10,5 @@ patch_number: 33059296
 napply: true
 patch_folder: 'WLS_SPB_12.2.1.4.210716'
 # Local controller path OR relative path to download_url
-java_archive_file: jdk-8u191-linux-x64.tar.gz
-java_version_path: 'jdk1.8.0_191'
+java_archive_file: jdk-8u251-linux-x64.tar.gz
+java_version_path: 'jdk1.8.0_251'
