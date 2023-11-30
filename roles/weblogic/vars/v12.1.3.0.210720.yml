@@ -10,5 +10,5 @@ patch_number: 32832660
 napply: false
 patch_folder: '32832660'
 # Local controller path OR relative path to download_url
-java_archive_file: jdk-8u191-linux-x64.tar.gz
-java_version_path: 'jdk1.8.0_191'
+java_archive_file: jdk-8u251-linux-x64.tar.gz
+java_version_path: 'jdk1.8.0_251'

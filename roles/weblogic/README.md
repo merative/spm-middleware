@@ -54,7 +54,7 @@ The version of the OPatch tool itself is also handed by the above tasks file.
 
 ## Note
 
-1. Default JDK version is 1.8.0_191. Required by Dev Team.
+1. Default JDK version is 1.8.0_251. Required by Dev Team.
 2. We keep 12.1.3.0.2. This is not the latest version. Required by Dev Team.
 
 ## License
