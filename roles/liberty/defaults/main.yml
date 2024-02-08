@@ -3,7 +3,7 @@ iim_install_path: /opt/IBM/InstallationManager
 
 liberty_install_path: /opt/IBM/WebSphere/Liberty
 
-liberty_version: 23.0.0.9
+liberty_version: 23.0.0.12
 
 # Default JVM Options
 liberty_default_heapsize: 1024m
