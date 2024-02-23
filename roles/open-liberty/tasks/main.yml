@@ -1,0 +1,75 @@
+---
+- name: Include version variables
+  include_vars: "v{{ liberty_version }}.yml"
+
+- name: Download Liberty repo
+  get_url:
+    dest: /tmp/liberty.zip
+    url: "{{ download_url }}/{{ liberty_installers_path }}"
+    headers: "{{ download_header }}"
+  when: download_url is defined
+
+- name: Download Liberty repo
+  get_url:
+    dest: /tmp/jdk.zip
+    url: "{{ download_url }}/{{ liberty_java_zip_path }}"
+    headers: "{{ download_header }}"
+  when: download_url is defined
+
+- name: Prepare Open Liberty Folder
+  file:
+    path: "{{ liberty_install_path }}"
+    state: directory
+    owner: root
+    group: root
+
+- name: Prepare Open Liberty Server Folder
+  file:
+    path: "{{ liberty_install_path }}/wlp/usr/shared"
+    state: directory
+    owner: root
+    group: root
+
+- name: Install Open-Liberty
+  unarchive:
+    src: /tmp/liberty.zip
+    dest: "{{ liberty_install_path }}"
+    creates: "{{ liberty_install_path }}/repository.config"
+    remote_src: yes
+
+- name: Prepare Open JDK Folder
+  file:
+    path: "{{ jdk_install_path }}"
+    state: directory
+    owner: root
+    group: root
+
+- name: Install OpenJDK
+  unarchive:
+    src: /tmp/jdk.zip
+    dest: "{{ jdk_install_path }}"
+    creates: "{{ jdk_install_path }}/repository.config"
+    remote_src: yes
+
+- name: Create /opt/Props
+  file:
+    path: /opt/Props
+    mode: 0755
+    state: directory
+  when: ansible_os_family != "Windows"
+
+- name: Copy AppServer.properties
+  template:
+    dest: /opt/Props/AppServer.properties
+    src: AppServer.properties.j2
+    mode: 0644
+    force: no
+
+- name: Create environment files
+  include_tasks: env.yml
+
+- name: Render jvm.options
+  template:
+    src: jvm.options.j2
+    dest: "{{ liberty_install_path }}/wlp/usr/shared/jvm.options"
+    mode: 0644
