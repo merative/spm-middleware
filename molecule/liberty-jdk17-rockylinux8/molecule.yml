@@ -30,5 +30,5 @@ provisioner:
   env:
     ANSIBLE_FORCE_COLOR: 'true'
   playbooks:
-    converge: ../__open-liberty/converge.yml
-    verify: ../__open-liberty/verify.yml
+    converge: ../__liberty17/converge.yml
+    verify: ../__liberty17/verify.yml
