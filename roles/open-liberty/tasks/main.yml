@@ -73,11 +73,3 @@
     src: jvm.options.j2
     dest: "{{ liberty_install_path }}/wlp/usr/shared/jvm.options"
     mode: 0644
-
-- name: Clean up
-  file:
-    path: "{{ item }}"
-    state: absent
-  loop:
-    - /tmp/liberty.zip
-    - /tmp/jdk.zip
