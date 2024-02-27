@@ -1,0 +1,31 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  # The pre_tasks section is used to perform some tasks before the main tasks run.
+  # It's a good place for setup tasks or data collection.
+  pre_tasks:
+    - name: Check packages
+      # Assuming 'iim_info' module is part of the 'iim' role or a custom module.
+      # If it's a custom module, ensure that it's properly located in the 'library' directory inside the role.
+      iim_info:
+        iim_path: /opt/IBM/InstallationManager
+      register: iim_info
+    - name: Get jvm.options
+      slurp:
+        src: /opt/IBM/WebSphere/Liberty/usr/shared/jvm.options
+      register: jvm_options
+
+  tasks:
+    - name: Check that the correct packages are installed
+      # Using 'assert' module to validate conditions.
+      assert:
+        that:
+          - "iim_info.packages | select('match', 'com.ibm.websphere.liberty.ND.*') | list | length > 0"
+          - "iim_info.packages | select('match', 'com.ibm.java.jdk.v17.*') | list | length > 0"
+    - name: Check that jvm.options contains the expected content
+      # Using 'assert' module to check if '-Xmx1024m' is present in 'jvm.options' file.
+      assert:
+        that:
+          - "'-Xmx1024m' in (jvm_options['content'] | b64decode)"
