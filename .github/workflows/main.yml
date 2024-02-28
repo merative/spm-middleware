@@ -38,6 +38,7 @@ jobs:
           - ohs-v12.2.1-rockylinux8
           - liberty-rockylinux8
           - liberty-jdk17-rockylinux8
+          - liberty-jdk21-rockylinux8
           - weblogic-rockylinux8
     steps:
       - name: Checkout
