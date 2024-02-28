@@ -18,12 +18,36 @@
     pack_id: "com.ibm.websphere.liberty.ND_{{ liberty_pid }}"
   when: not iim_info.exact_installed
 
-- name: Install Java
+- name: Install Java (iim way)
   include_tasks: fixpack_install.yml
   vars:
     liberty_fp_path: "{{ liberty_java_zip_path }}"
     pack_id: "{{ liberty_java_pid }}"
-  when: not iim_info.exact_installed
+  when: (not iim_info.exact_installed) and ( jdk_installation_way is undefined )
+
+- name: Download JDK (unzip way)
+  get_url:
+    dest: /tmp/jdk.zip
+    url: "{{ download_url }}/{{ liberty_java_zip_path }}"
+    headers: "{{ download_header }}"
+  when: (download_url is defined) and ( jdk_installation_way is defined )
+
+- name: Prepare Open JDK Folder (unzip way)
+  file:
+    path: "{{ liberty_install_path }}/java/{{ jdk_version }}"
+    state: directory
+    owner: root
+    group: root
+  when: jdk_installation_way is defined
+
+- name: Install Java (unzip way)
+  unarchive:
+    src: /tmp/jdk.zip
+    dest: "{{ liberty_install_path }}/java/{{ jdk_version }}"
+    creates: "{{ liberty_install_path }}/java/{{ jdk_version }}/repository.config"
+    extra_opts: [--strip-components=1]
+    remote_src: yes
+  when: jdk_installation_way is defined
 
 - name: Create /opt/Props
   file:

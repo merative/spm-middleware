@@ -1,0 +1,7 @@
+---
+liberty_fp_path: WLP/23.0.0.12-WS-LIBERTY-ND-FP.zip
+liberty_installers_path: WLP/was.repo.16002.liberty.nd.zip
+liberty_pid: 23.0.12.20231127_1901
+jdk_version: 21.0
+jdk_installation_way: unzip
+liberty_java_zip_path: Java/IBM/ibm-semeru-open-jdk_x64_linux_21.0.2_13_openj9-0.43.0.tar.gz
