@@ -7,5 +7,5 @@ patch: 'p33125254_141100_Generic.zip'
 patch_number: 33069656
 napply: true
 patch_folder: 'WLS_SPB_14.1.1.0.210716'
-java_archive_file: jdk-8u251-linux-x64.tar.gz
-java_version_path: 'jdk1.8.0_251'
+java_archive_file: jdk-8u401-linux-x64.tar.gz
+java_version_path: 'jdk1.8.0_401'
