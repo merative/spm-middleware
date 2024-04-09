@@ -5,7 +5,7 @@
     - name: include defaults
       include_vars: "../../roles/weblogic/defaults/main.yml"
     - name: include vars
-      include_vars: "../../roles/weblogic/vars/v14.1.1.0.220105.yml"
+      include_vars: "../../roles/weblogic/vars/v14.1.1.0.231220.yml"
     - stat:
         path: /opt/Props/AppServer.properties
       register: boot_props
