@@ -14,10 +14,10 @@ oracle_home: "/opt/oracle/product/{{ oracle_family }}/dbhome_1"
 oracle_inventory: /opt/Oracle/oraInventory  # only used for 12c
 oracle_global_name: "orcl.{{ ansible_domain }}"
 oracle_sid: orcl
-oracle_admin_password: dummyPassword
+oracle_admin_password: dummyPassword0
 sql_username: curam
-sql_password: dummyPassword
-enc_sql_password: dummyPassword
+sql_password: dummyPassword0
+enc_sql_password: dummyPassword0
 
 # Bootstrap config
 bootstrap_dateformat: 'dd MM yyyy'
