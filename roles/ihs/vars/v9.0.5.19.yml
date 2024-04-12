@@ -12,5 +12,5 @@ ihs_fp_installer_archive_list:
 
 ihs_pid: v90_9.0.5019.20240304_1205
 
-ihs_java_zip_path: Java/IBM/ibm-java-sdk-8.0-8.15-linux-x64-installmgr.zip
+ihs_java_zip_path: Java/IBM/ibm-java-sdk-8.0-8.20-linux-x64-installmgr.zip
 ihs_java_pid: com.ibm.java.jdk.v8
