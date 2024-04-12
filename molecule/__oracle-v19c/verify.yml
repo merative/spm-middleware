@@ -80,3 +80,15 @@
       stat:
         path: /etc/systemd/system/oracle.service
       register: service_file
+
+    - name: Check if all /etc/oratab entries end with 'Y'
+      shell: "grep -v '^#' /etc/oratab | awk -F':' '{print $NF}' | grep -vx 'Y'"
+      register: oratab_check
+      ignore_errors: true
+
+    - name: Assert all entries end with 'Y'
+      assert:
+        that:
+          - oratab_check.stdout == ""
+        success_msg: "All /etc/oratab entries correctly end with 'Y'."
+        fail_msg: "Some /etc/oratab entries do not end with 'Y'."
