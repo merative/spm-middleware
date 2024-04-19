@@ -18,6 +18,7 @@
 	  "ghcr.io/devcontainers-contrib/features/jfrog-cli-npm:1": {},
 	  "ghcr.io/devcontainers/features/python:1": {}
 	},
+	"postCreateCommand": "mkdir -p /home/vscode/.ansible/plugins/ && cp -r plugins/* /home/vscode/.ansible/plugins/ && pip install -r requirements.txt",
   
 	"overrideFeatureInstallOrder": [
 	  "ghcr.io/devcontainers/features/common-utils",
