@@ -1,0 +1,24 @@
+---
+# Base installer values
+ohs_version_folder: 12.2.1
+base_version: 12.2.1.4.0
+base_installer: fmw_12.2.1.4.0_ohs_linux64.bin
+base_installer_path: "OHS/12.2.1/fmw_12.2.1.4.0_ohs_linux64.bin"
+# Patches information
+ohs_version: 12.2.1.4.240115
+patches:
+  - filename: "OHS/{{ ohs_version_folder }}/p36187026_122140_Linux-x86-64.zip"
+    number: 36187026
+  - filename: "OHS/{{ ohs_version_folder }}/p31101341_122140_Generic.zip"
+    number: 31101341
+# Add OPatch values when bundled OPatch needs to be upgraded
+opatch_filename_path: "WLS/Patches/p28186730_1394215_Generic.zip"
+opatch_version: 13.9.4.2.15
+opatch_folder: 28186730
+
+# Full jdk is needed to update OPatch
+java_zip_path: 'WLS/jdk-8u411-linux-x64.tar.gz'
+java_version_path: 'jdk1.8.0_411'
+jdk_folder: "{{ ohs_home }}/oracle_common/jdk"
+
+template_jar: "ohs_standalone_template.jar"
