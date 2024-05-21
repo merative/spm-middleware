@@ -14,7 +14,7 @@ patches:
 # Add OPatch values when bundled OPatch needs to be upgraded
 opatch_filename_path: "WLS/Patches/p28186730_1394215_Generic.zip"
 opatch_version: 13.9.4.2.15
-opatch_folder: 28186730
+opatch_folder: 6880880
 
 # Full jdk is needed to update OPatch
 java_zip_path: 'WLS/jdk-8u411-linux-x64.tar.gz'
