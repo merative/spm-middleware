@@ -7,3 +7,4 @@ ansible-lint
 yamllint
 passlib
 jmespath
+requests==2.31.0
