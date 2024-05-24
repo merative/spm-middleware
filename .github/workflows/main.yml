@@ -36,6 +36,7 @@ jobs:
           - iim-191-rockylinux8
           - ihs-v90-rockylinux8
           - ohs-v12.2.1-rockylinux8
+          - ohs-v12.2.1.4-rockylinux8
           - liberty-rockylinux8
           - liberty-jdk17-rockylinux8
           - liberty-jdk21-rockylinux8
