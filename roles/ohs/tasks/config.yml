@@ -318,18 +318,18 @@
 - name: Copy NodeManager Start
   become: yes
   become_user: root
-  remote_src: true
   copy:
     src: "{{ ohs_home }}/user_projects/domains/ohs_{{ ansible_hostname }}/bin/startNodeManager.sh"
     dest: /usr/local/bin/startNodeManager.sh
+    remote_src: true
 
 - name: Copy NodeManager Stop
   become: yes
   become_user: root
-  remote_src: true
   copy:
     src: "{{ ohs_home }}/user_projects/domains/ohs_{{ ansible_hostname }}/bin/stopNodeManager.sh"
     dest: /usr/local/bin/stopNodeManager.sh
+    remote_src: true
 
 - name: Starting and authenticating NM
   block:
