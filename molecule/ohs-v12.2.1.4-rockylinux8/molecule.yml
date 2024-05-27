@@ -30,5 +30,5 @@ provisioner:
   env:
     ANSIBLE_FORCE_COLOR: 'true'
   playbooks:
-    converge: ../__ohs-v12.2.1/converge.yml
-    verify: ../__ohs-v12.2.1/verify.yml
+    converge: ../__ohs-v12.2.1.4/converge.yml
+    verify: ../__ohs-v12.2.1.4/verify.yml
