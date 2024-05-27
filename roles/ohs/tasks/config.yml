@@ -302,6 +302,21 @@
   ignore_errors: True
   changed_when: False
 
+- name: Find Nodemanager all directories, exclude nginx and mysql
+  ansible.builtin.find:
+    paths: "{{ ohs_home }}/user_projects/domains/ohs_{{ ansible_hostname }}/bin/"
+    recurse: no
+    file_type: file
+
+  - name: Check if NodeManager exists
+  stat:
+    path: "{{ ohs_home }}/user_projects/domains/ohs_{{ ansible_hostname }}/bin/startNodeManager.sh"
+  register: startNodeManager
+  ignore_errors: True
+  changed_when: False
+
+
+
 - name: Copy NodeManager Start
   become: yes
   become_user: root
@@ -318,10 +333,12 @@
 
 - name: Starting and authenticating NM
   block:
+
     - name: Copy ohsNM.service
       template:
         src: ohsNM.service.j2
         dest: /etc/systemd/system/ohsNM.service
+
     - name: Start service
       systemd:
         name: ohsNM.service
