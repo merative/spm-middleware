@@ -308,14 +308,12 @@
     recurse: no
     file_type: file
 
-  - name: Check if NodeManager exists
+- name: Check if NodeManager exists
   stat:
     path: "{{ ohs_home }}/user_projects/domains/ohs_{{ ansible_hostname }}/bin/startNodeManager.sh"
   register: startNodeManager
   ignore_errors: True
   changed_when: False
-
-
 
 - name: Copy NodeManager Start
   become: yes
