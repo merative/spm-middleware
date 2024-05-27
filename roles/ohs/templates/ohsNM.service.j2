@@ -5,8 +5,8 @@ Description=Oracle HTTP Server service
 User={{ ohs_user }}
 Group={{ ohs_group }}
 Environment="ORACLE_HOME={{ ohs_home }}"
-ExecStart={{ ohs_home }}/user_projects/domains/ohs_{{ ansible_hostname }}/bin/startNodeManager.sh
-ExecStop={{ ohs_home }}/user_projects/domains/ohs_{{ ansible_hostname }}/bin/stopNodeManager.sh
+ExecStart=/usr/local/bin/startNodeManager.sh
+ExecStop=/usr/local/bin/stopNodeManager.sh
 Restart=always
 
 [Install]
