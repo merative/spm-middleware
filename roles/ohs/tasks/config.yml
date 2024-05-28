@@ -305,13 +305,13 @@
 - name: Copy NodeManager Start
   copy:
     src: "{{ ohs_home }}/user_projects/domains/ohs_{{ ansible_hostname }}/bin/startNodeManager.sh"
-    dest: /opt/oracle/startNodeManager.sh
+    dest: /opt/Oracle/startNodeManager.sh
     remote_src: true
 
 - name: Copy NodeManager Stop
   copy:
     src: "{{ ohs_home }}/user_projects/domains/ohs_{{ ansible_hostname }}/bin/stopNodeManager.sh"
-    dest: /opt/oracle/stopNodeManager.sh
+    dest: /opt/Oracle/stopNodeManager.sh
     remote_src: true
 
 - name: Starting and authenticating NM
