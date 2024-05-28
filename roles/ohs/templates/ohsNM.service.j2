@@ -5,8 +5,8 @@ Description=Oracle HTTP Server service
 User={{ ohs_user }}
 Group={{ ohs_group }}
 Environment="ORACLE_HOME={{ ohs_home }}"
-ExecStart=/usr/local/bin/startNodeManager.sh
-ExecStop=/usr/local/bin/stopNodeManager.sh
+ExecStart=/opt/oracle/startNodeManager.sh
+ExecStop=/opt/oracle/stopNodeManager.sh
 Restart=always
 
 [Install]
