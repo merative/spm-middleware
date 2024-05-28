@@ -294,6 +294,14 @@
 
   when: not keystore.stat.exists
 
+# if startComponent.sh successfully, will create /home/oracle/.wlst
+- name: Check if .wlst exists
+  stat:
+    path: "{{ ohs_base }}/.wlst"
+  register: wlst
+  ignore_errors: True
+  changed_when: False
+
 - name: Copy NodeManager Start
   become: yes
   become_user: root
@@ -309,14 +317,6 @@
     src: "{{ ohs_home }}/user_projects/domains/ohs_{{ ansible_hostname }}/bin/stopNodeManager.sh"
     dest: /usr/local/bin/stopNodeManager.sh
     remote_src: true
-
-# if startComponent.sh successfully, will create /home/oracle/.wlst
-- name: Check if .wlst exists
-  stat:
-    path: "{{ ohs_base }}/.wlst"
-  register: wlst
-  ignore_errors: True
-  changed_when: False
 
 - name: Starting and authenticating NM
   block:
