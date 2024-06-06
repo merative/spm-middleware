@@ -328,7 +328,7 @@
     - name: Stop Component
       become: yes
       become_user: "{{ ohs_user }}"
-      shell: "./stopComponent.sh ohs1"
+      shell: "echo {{ weblogic_password }} | ./stopComponent.sh ohs1"
       args:
         chdir: "{{ ohs_home }}/user_projects/domains/ohs_{{ ansible_hostname }}/bin"
       environment:
