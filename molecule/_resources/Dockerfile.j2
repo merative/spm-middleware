@@ -7,8 +7,8 @@ FROM --platform=linux/amd64 {{ item.image }}
 {% endif %}
 
 RUN if [ $(command -v apt-get) ]; then apt-get update && apt-get install -y python sudo bash ca-certificates && apt-get clean; \
-  elif [ $(command -v dnf) ]; then dnf makecache && dnf --assumeyes install -y python3.11.x86_64 python3.11-pip sudo python3.11-devel python3-dnf bash findutils which unzip zip procps python3-libselinux && ln -sf /usr/bin/python3.11 /etc/alternatives/python3 && dnf clean all; \
-  elif [ $(command -v yum) ]; then yum makecache fast && yum install -y python3.11.x86_64 sudo yum-plugin-ovl bash findutils which unzip zip procps && sed -i 's/plugins=0/plugins=1/g' /etc/yum.conf && yum clean all; \
+  elif [ $(command -v dnf) ]; then dnf makecache && dnf --assumeyes install python3 python3-pip sudo python3-devel python3-dnf bash findutils which unzip zip procps python3-libselinux && dnf clean all; \
+  elif [ $(command -v yum) ]; then yum makecache fast && yum install -y python sudo yum-plugin-ovl bash findutils which unzip zip procps && sed -i 's/plugins=0/plugins=1/g' /etc/yum.conf && yum clean all; \
   elif [ $(command -v zypper) ]; then zypper refresh && zypper install -y python sudo bash python-xml && zypper clean -a; \
   elif [ $(command -v apk) ]; then apk update && apk add --no-cache python sudo bash ca-certificates; \
   elif [ $(command -v xbps-install) ]; then xbps-install -Syu && xbps-install -y python sudo bash ca-certificates && xbps-remove -O; fi
