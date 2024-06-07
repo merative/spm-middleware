@@ -6,7 +6,7 @@ driver:
 
 platforms:
   - name: rockylinux8
-    image: rockylinux:8
+    image: rockylinux:8.8.20230518
     dockerfile: ../_resources/Dockerfile.j2
     pre_build_image: false
     privileged: true
