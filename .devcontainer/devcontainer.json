@@ -15,7 +15,6 @@
 	"features": {
 	  "ghcr.io/devcontainers/features/docker-in-docker:2": {},
 	  "ghcr.io/devcontainers-contrib/features/curl-apt-get:1": {},
-	  "ghcr.io/devcontainers-contrib/features/jfrog-cli-npm:1": {},
 	  "ghcr.io/devcontainers/features/python:1": {}
 	},
 	"postCreateCommand": "mkdir -p /home/vscode/.ansible/plugins/ && cp -r plugins/* /home/vscode/.ansible/plugins/ && pip install -r requirements.txt",
