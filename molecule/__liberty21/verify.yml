@@ -9,7 +9,7 @@
     - name: Check packages
       # Assuming 'iim_info' module is part of the 'iim' role or a custom module.
       # If it's a custom module, ensure that it's properly located in the 'library' directory inside the role.
-      iim_info:
+      spm-middleware.iim_info:
         iim_path: /opt/IBM/InstallationManager
       register: iim_info
     - name: Get jvm.options
