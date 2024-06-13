@@ -102,6 +102,7 @@ jobs:
           echo "NEW_REPO_LOC:"
           echo ${{ env.NEW_REPO_LOC }}
           export DEFAULT_MODULE_PATH=${{ env.NEW_REPO_LOC }}/plugins/modules
+          export DEFAULT_MODULE_PATH=/home/runner/work/spm-middleware/spm-middleware/ansible_collections/merative/spm_middleware/plugins/modules
           echo "LS DEFAULT_MODULE_PATH"
           ls $DEFAULT_MODULE_PATH
           cat DEFAULT_MODULE_PATH/iim_info.py
