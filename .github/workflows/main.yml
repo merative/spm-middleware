@@ -85,6 +85,10 @@ jobs:
       # - name: Sanity checks
       #   run: |
       #     ansible-test sanity --docker -v --color --python ${{ env.python_ver }}
+
+        #  echo "MODULE DOCS:"
+        #   ansible localhost -m iim_info
+
       - name: Molecule
         run: |
           cd ${{ env.NEW_REPO_LOC }}
@@ -100,10 +104,6 @@ jobs:
           export DEFAULT_MODULE_PATH=${{ env.NEW_REPO_LOC }}/plugins/modules
           echo "MODULE PATH:"
           echo $DEFAULT_MODULE_PATH
-          echo "MODULE DOCS:"
-          ansible localhost -m iim_info
-          
-
 
           ls -la
           molecule test -s ${{ matrix.scenario }}
