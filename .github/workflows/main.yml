@@ -93,8 +93,6 @@ jobs:
           ansible-config dump |grep DEFAULT_MODULE_PATH
           echo "PWD DIR:"
           pwd
-          echo "MODULE DOCS:"
-          ansible localhost -m iim_info
           echo "LS COMMAND"
           ls
           echo "NEW_REPO_LOC:"
@@ -102,6 +100,8 @@ jobs:
           export DEFAULT_MODULE_PATH=${{ env.NEW_REPO_LOC }}/plugins/modules
           echo "MODULE PATH:"
           echo $DEFAULT_MODULE_PATH
+          echo "MODULE DOCS:"
+          ansible localhost -m iim_info
           
 
 
