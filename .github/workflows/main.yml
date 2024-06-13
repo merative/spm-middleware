@@ -82,12 +82,28 @@ jobs:
           # Fake install cloned collection (required for molecule)
           mkdir -p $HOME/.ansible/collections/$COLLECTION_NAMESPACE
           ln -s ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME $HOME/.ansible/collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
-
       # - name: Sanity checks
       #   run: |
       #     ansible-test sanity --docker -v --color --python ${{ env.python_ver }}
       - name: Molecule
         run: |
           cd ${{ env.NEW_REPO_LOC }}
+
+          echo "LIST EXISTING CONFIG:"
+          ansible-config dump |grep DEFAULT_MODULE_PATH
+          echo "PWD DIR:"
+          pwd
+          echo "MODULE DOCS:"
+          ansible localhost -m iim_info
+          echo "LS COMMAND"
+          ls
+          echo "NEW_REPO_LOC:"
+          echo ${{ env.NEW_REPO_LOC }}
+          export DEFAULT_MODULE_PATH=${{ env.NEW_REPO_LOC }}/plugins/modules
+          echo "MODULE PATH:"
+          echo $DEFAULT_MODULE_PATH
+          
+
+
           ls -la
           molecule test -s ${{ matrix.scenario }}
