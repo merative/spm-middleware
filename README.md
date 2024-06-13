@@ -1,4 +1,4 @@
-# Test ansible Collection for SPM Middleware
+# Ansible Collection for SPM Middleware
 
 A collection of Middleware modules and roles required for installing Cúram Social Program Management. **SUITABLE FOR INTERNAL TEST AND DEVELOPMENT ONLY**
 
