@@ -1,0 +1,51 @@
+---
+- name: Verify
+  hosts: all
+
+  pre_tasks:
+    - name: include vars
+      include_vars: "../../roles/ohs/vars/v12.1.3.0.200412.yml"
+
+    - name: include default
+      include_vars: "../../roles/ohs/defaults/main.yml"
+
+    - name: Check opatch version
+      shell: "grep {{ opatch_version }} {{ ohs_home }}/OPatch/version.txt"
+      ignore_errors: True
+      register: opatch_version_flag
+      when: opatch_version is defined
+
+    - name: Check Shell File Exists
+      stat:
+        path: "{{ profiled_path }}/ohs.sh"
+      register: shell
+
+    - name: Check Profile File Exists
+      stat:
+        path: /opt/.profile
+      register: profile
+
+    - name: Check Domain Created
+      shell: "grep ohs_{{ ansible_hostname }} {{ ohs_home }}/domain-registry.xml"
+      ignore_errors: True
+      register: domain_created
+      when: opatch_version is defined
+
+  tasks:
+    - name: Check Patch Number Matched
+      assert:
+        that: opatch_version_flag.rc == 0
+      when: opatch_version is defined
+
+    - name: Check that shell exists
+      assert:
+        that: shell.stat.exists
+
+    - name: Check that profile exists
+      assert:
+        that: profile.stat.exists
+
+    - name: Check Domain Created
+      assert:
+        that: domain_created.rc == 0
+      when: opatch_version is defined

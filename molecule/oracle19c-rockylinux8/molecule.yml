@@ -1,0 +1,34 @@
+---
+driver:
+  name: docker
+  provider:
+    name: docker
+
+lint: |
+  set -e
+  yamllint .
+
+platforms:
+  - name: rockylinux8
+    image: rockylinux:8
+    dockerfile: ../_resources/Dockerfile.j2
+    pre_build_image: False
+    privileged: True
+    volume_mounts:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:rw"
+    command: "/usr/sbin/init"
+    environment:
+      container: docker
+
+provisioner:
+  name: ansible
+  log: true
+  config_options:
+    defaults:
+      stderr_callback: debug
+      stdout_callback: debug
+  env:
+    ANSIBLE_FORCE_COLOR: 'true'
+  playbooks:
+    converge: ../__oracle-v19c/converge.yml
+    verify: ../__oracle-v19c/verify.yml

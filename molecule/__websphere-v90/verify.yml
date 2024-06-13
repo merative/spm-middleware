@@ -1,0 +1,40 @@
+---
+- name: Verify
+  hosts: all
+  pre_tasks:
+    - name: Check packages
+      iim_info:
+        iim_path: /opt/IBM/InstallationManager
+      register: iim_info
+
+    - name: Slurp JspBatchCompiler.sh
+      slurp:
+        src: /opt/IBM/WebSphere/AppServer/bin/JspBatchCompiler.sh
+      register: jsp_compiler_sh
+
+    - name: Slurp websphere.sh
+      slurp:
+        src: /opt/profile.d/websphere.sh
+      register: env_websphere_sh
+
+  tasks:
+    - name: Check that the correct packages are installed
+      assert:
+        that:
+          - "iim_info.packages | \
+          select('match', 'com.ibm.websphere.ND.v90.*') | list | length > 0"
+          - "iim_info.packages | \
+          select('match', 'com.ibm.java.jdk.v8.*') | list | length > 0"
+
+    - name: Check that JspBatchCompiler has been patched
+      assert:
+        that:
+          - "{{ '-Xmx1600m' in (jsp_compiler_sh['content'] | b64decode) }}"
+
+    - name: Check that environment file has been created correctly
+      assert:
+        that:
+          - "{{ 'WAS_HOME=/opt/IBM/WebSphere/AppServer' \
+          in (env_websphere_sh['content'] | b64decode) }}"
+          - "{{ 'JAVA_HOME=$WAS_HOME/java/8.0\n' \
+          in (env_websphere_sh['content'] | b64decode) }}"

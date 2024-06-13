@@ -1,0 +1,77 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  vars:
+    oracle_home: /opt/oracle/product/12c/dbhome_1
+    oracle_sid: orcl
+    patch_number: 33477199
+
+  pre_tasks:
+    - name: Check if DB exists
+      stat:
+        path: /opt/oracle/oradata/orcl
+      register: db_dir
+
+    - name: Check Bootstrap Files
+      stat:
+        path: /opt/Props/Bootstrap.properties
+      register: bootstrap_properties
+
+    - name: Check if correct version installed
+      become: yes
+      become_user: oracle
+      shell: "$ORACLE_HOME/OPatch/opatch lspatches | grep -i {{ patch_number }}"
+      register: oracle_version_status
+      changed_when: False
+      ignore_errors: True
+      environment:
+        ORACLE_HOME: "{{ oracle_home }}"
+        ORACLE_SID: "{{ oracle_sid }}"
+
+    - name: Check if DB Configured
+      become: yes
+      become_user: oracle
+      shell: "echo \"SELECT USERNAME FROM DBA_USERS WHERE USERNAME='CURAM';\" | $ORACLE_HOME/bin/sqlplus / as sysdba | grep -i curam"
+      register: db_config_status
+      changed_when: False
+      ignore_errors: True
+      environment:
+        ORACLE_HOME: "{{ oracle_home }}"
+        ORACLE_SID: "{{ oracle_sid }}"
+
+    - name: Check if start script exists
+      stat:
+        path: /home/oracle/scripts/start_all.sh
+      register: start_script
+
+    - name: Check if stop script exists
+      stat:
+        path: /home/oracle/scripts/stop_all.sh
+      register: stop_script
+
+  tasks:
+    - name: Check that db_inst.rsp exists
+      assert:
+        that: db_dir.stat.exists
+
+    - name: Check that Bootstrap.properties exists
+      assert:
+        that: bootstrap_properties.stat.exists
+
+    - name: Verify correct version installed
+      assert:
+        that: oracle_version_status.rc == 0
+
+    - name: Check db is configured
+      assert:
+        that: db_config_status.rc == 0
+
+    - name: Verify that start script exists
+      assert:
+        that: start_script.stat.exists
+
+    - name: Verify that stop script exists
+      assert:
+        that: stop_script.stat.exists

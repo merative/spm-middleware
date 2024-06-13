@@ -23,6 +23,7 @@
       assert:
         that:
           - "iim_info.packages | select('match', 'com.ibm.websphere.liberty.ND.*') | list | length > 0"
+          - "iim_info.packages | select('match', 'com.ibm.java.jdk.v8.*') | list | length > 0"
     - name: Check that jvm.options contains the expected content
       # Using 'assert' module to check if '-Xmx1024m' is present in 'jvm.options' file.
       assert:

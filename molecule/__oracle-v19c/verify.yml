@@ -1,0 +1,94 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  vars:
+    oracle_home: /opt/oracle/product/19c/dbhome_1
+    oracle_sid: orcl
+    oracle_version: 19.23.0.0.0
+
+  pre_tasks:
+    - name: Check if DB exists
+      stat:
+        path: /opt/oracle/oradata/ORCL
+      register: db_dir
+
+    - name: Check Bootstrap Files
+      stat:
+        path: /opt/Props/Bootstrap.properties
+      register: bootstrap_properties
+
+    - name: Check if correct version installed
+      become: yes
+      become_user: oracle
+      shell: "echo 'SELECT * FROM v$version;' | $ORACLE_HOME/bin/sqlplus / as sysdba | grep -i {{ oracle_version }}"
+      register: oracle_version_status
+      changed_when: False
+      ignore_errors: True
+      environment:
+        ORACLE_HOME: "{{ oracle_home }}"
+        ORACLE_SID: "{{ oracle_sid }}"
+
+    - name: Check if DB Configured
+      become: yes
+      become_user: oracle
+      shell: "echo 'SELECT USERNAME FROM DBA_USERS;' | $ORACLE_HOME/bin/sqlplus / as sysdba | grep CURAM"
+      register: db_config_status
+      changed_when: False
+      ignore_errors: True
+      environment:
+        ORACLE_HOME: "{{ oracle_home }}"
+        ORACLE_SID: "{{ oracle_sid }}"
+
+    - name: Check if start script exists
+      stat:
+        path: /home/oracle/scripts/start_all.sh
+      register: start_script
+
+    - name: Check if stop script exists
+      stat:
+        path: /home/oracle/scripts/stop_all.sh
+      register: stop_script
+
+  tasks:
+    - name: Check that db_inst.rsp exists
+      assert:
+        that: db_dir.stat.exists
+
+    - name: Check that Bootstrap.properties exists
+      assert:
+        that: bootstrap_properties.stat.exists
+
+    - name: Verify correct version installed
+      assert:
+        that: oracle_version_status.rc == 0
+
+    - name: Check db is configured
+      assert:
+        that: db_config_status.rc == 0
+
+    - name: Verify that start script exists
+      assert:
+        that: start_script.stat.exists
+
+    - name: Verify that stop script exists
+      assert:
+        that: stop_script.stat.exists
+
+    - name: Check if service file exists
+      stat:
+        path: /etc/systemd/system/oracle.service
+      register: service_file
+
+    - name: Check if all /etc/oratab entries end with 'Y'
+      shell: "grep -v '^#' /etc/oratab | awk -F':' '{print $NF}' | grep -vx 'Y'"
+      register: oratab_check
+      ignore_errors: true
+
+    - name: Assert all entries end with 'Y'
+      assert:
+        that:
+          - oratab_check.stdout == ""
+        success_msg: "All /etc/oratab entries correctly end with 'Y'."
+        fail_msg: "Some /etc/oratab entries do not end with 'Y'."

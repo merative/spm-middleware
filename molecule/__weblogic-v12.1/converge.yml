@@ -1,0 +1,14 @@
+---
+- name: Converge
+  hosts: all
+
+  collections:
+    - merative.spm_middleware
+
+  vars:
+    weblogic_version: "12.1.3.0.210720"
+    # weblogic_installer_path: /opt/IBM/weblogic/WLS
+    download_url: "{{ lookup('env','ARTIFACTORY_URL') }}/{{ lookup('env','ARTIFACTORY_REPO') }}/SoftwareInstallers"
+    download_header: {'X-JFrog-Art-Api': "{{ lookup('env','ARTIFACTORY_TOKEN' )}}"}
+  roles:
+    - weblogic
