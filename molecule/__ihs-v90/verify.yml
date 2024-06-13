@@ -3,7 +3,7 @@
   hosts: all
   pre_tasks:
     - name: Check packages
-      iim_info:
+      merative.spm_middleware.iim_info:
         iim_path: /opt/IBM/InstallationManager
       register: iim_info
 
