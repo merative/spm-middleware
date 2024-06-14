@@ -82,6 +82,7 @@ jobs:
           # Fake install cloned collection (required for molecule)
           mkdir -p $HOME/.ansible/collections/$COLLECTION_NAMESPACE
           ln -s ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME $HOME/.ansible/collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
+          
       # - name: Sanity checks
       #   run: |
       #     ansible-test sanity --docker -v --color --python ${{ env.python_ver }}
@@ -90,12 +91,7 @@ jobs:
         run: |
           cd ${{ env.NEW_REPO_LOC }}
 
-          export TESTTEST=/home/runner/work/spm-middleware/spm-middleware/ansible_collections/merative/spm_middleware/plugins/modules
           export DEFAULT_MODULE_PATH=$(pwd)/plugins/modules
-          echo "$DEFAULT_MODULE_PATH"
-          echo "LS DEFAULT_MODULE_PATH"
-          ls $DEFAULT_MODULE_PATH
-          cat $DEFAULT_MODULE_PATH/iim_info.py
-
+          echo "DEFAULT_MODULE_PATH: $DEFAULT_MODULE_PATH"
           ls -la
           molecule test -s ${{ matrix.scenario }}
