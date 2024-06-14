@@ -81,8 +81,8 @@ jobs:
           ls -la
           # Fake install cloned collection (required for molecule)
           mkdir -p $HOME/.ansible/collections/$COLLECTION_NAMESPACE
-          ln -s ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME $HOME/.ansible/collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
-          
+          ln -s ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME $HOME/.ansible/collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME  
+    
       # - name: Sanity checks
       #   run: |
       #     ansible-test sanity --docker -v --color --python ${{ env.python_ver }}
