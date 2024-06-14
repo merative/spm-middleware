@@ -30,16 +30,16 @@ jobs:
       fail-fast: false
       matrix:
         scenario:
-          # - websphere-v90-rockylinux8
-          # - db21158
-          # - oracle19c-rockylinux8
-          # - iim-191-rockylinux8
+          - websphere-v90-rockylinux8
+          - db21158
+          - oracle19c-rockylinux8
+          - iim-191-rockylinux8
           - ihs-v90-rockylinux8
-          # - ohs-v12.2.1.4-rockylinux8
-          # - liberty-rockylinux8
-          # - liberty-jdk17-rockylinux8
+          - ohs-v12.2.1.4-rockylinux8
+          - liberty-rockylinux8
+          - liberty-jdk17-rockylinux8
           - liberty-jdk21-rockylinux8
-          # - weblogic-rockylinux8
+          - weblogic-rockylinux8
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -86,23 +86,13 @@ jobs:
       #   run: |
       #     ansible-test sanity --docker -v --color --python ${{ env.python_ver }}
 
-        #  echo "MODULE DOCS:"
-        #   ansible localhost -m iim_info
-
       - name: Molecule
         run: |
           cd ${{ env.NEW_REPO_LOC }}
 
-          echo "LIST EXISTING CONFIG:"
-          ansible-config dump |grep DEFAULT_MODULE_PATH
-          echo "PWD DIR:"
-          pwd
-          echo "LS hardcoded modules dir"
-          ls plugins/modules
-          echo "NEW_REPO_LOC:"
-          echo ${{ env.NEW_REPO_LOC }}
-          export DEFAULT_MODULE_PATH=${{ env.NEW_REPO_LOC }}/plugins/modules
-          export DEFAULT_MODULE_PATH=/home/runner/work/spm-middleware/spm-middleware/ansible_collections/merative/spm_middleware/plugins/modules
+          export TESTTEST=/home/runner/work/spm-middleware/spm-middleware/ansible_collections/merative/spm_middleware/plugins/modules
+          export DEFAULT_MODULE_PATH=$(pwd)/plugins/modules
+          echo "$DEFAULT_MODULE_PATH"
           echo "LS DEFAULT_MODULE_PATH"
           ls $DEFAULT_MODULE_PATH
           cat $DEFAULT_MODULE_PATH/iim_info.py
