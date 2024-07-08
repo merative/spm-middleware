@@ -6,7 +6,7 @@
     - merative.spm_middleware
 
   vars:
-    iim_agent_version: 1.9.2008.20240227_0018
+    iim_agent_version: 1.9.2009.20240621_1105
     iim_install_path: /opt/IBM/InstallationManager
     websphere_version: 9.0.5.20
     download_url: "{{ lookup('env', 'ARTIFACTORY_URL') }}/{{ lookup('env', 'ARTIFACTORY_REPO') }}/SoftwareInstallers"
