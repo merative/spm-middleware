@@ -6,7 +6,7 @@
     - merative.spm_middleware
 
   vars:
-    websphere_version: 8.5.5.20
+    websphere_version: 8.5.5.25
     download_url: "{{ lookup('env', 'ARTIFACTORY_URL') }}/{{ lookup('env', 'ARTIFACTORY_REPO') }}/SoftwareInstallers"
     download_header: { 'X-JFrog-Art-Api': "{{ lookup('env', 'ARTIFACTORY_TOKEN') }}"}
 
