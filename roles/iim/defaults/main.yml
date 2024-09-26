@@ -1,5 +1,5 @@
 ---
-iim_agent_version: 1.9.2009.20240621_1105
+iim_agent_version: 1.9.3000.20240905_1526
 
 # Server info for downloading installers / repos directly, leave blank to copy
 download_url:  # e.g. https://artifactory/repo
