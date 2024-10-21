@@ -6,7 +6,7 @@
     - merative.spm_middleware
 
   vars:
-    oracle_version: 19.24.0.0.0
+    oracle_version: 19.25.0.0.0
     download_url: "{{ lookup('env', 'ARTIFACTORY_URL') }}/{{ lookup('env', 'ARTIFACTORY_REPO') }}/SoftwareInstallers"
     download_header: { 'X-JFrog-Art-Api': "{{ lookup('env', 'ARTIFACTORY_TOKEN') }}"}
 
