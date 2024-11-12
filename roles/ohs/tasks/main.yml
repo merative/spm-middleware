@@ -41,7 +41,7 @@
 
 - name: Patch OHS
   include_tasks: "patch.yml"
-  when: ohs_version is defined
+  when: ohs_version is defined and ohs_version_status.results | selectattr('rc','greaterthan',0) | list | count > 0
 
 - name: Set up properties file
   include_tasks: "config.yml"
