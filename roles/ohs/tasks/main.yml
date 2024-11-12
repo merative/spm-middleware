@@ -37,10 +37,11 @@
 - name: Print ohs_version_status
   debug:
     msg: "{{ ohs_version_status }}"
+  when: ohs_version is defined
 
 - name: Patch OHS
   include_tasks: "patch.yml"
-  when: ohs_version_status.results | selectattr('rc','greaterthan',0) | list | count > 0
+  when: ohs_version is defined
 
 - name: Set up properties file
   include_tasks: "config.yml"
