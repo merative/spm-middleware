@@ -33,6 +33,7 @@
   changed_when: False
   ignore_errors: True
   loop: "{{ patches }}"
+  when: ohs_version is defined
 
 - name: Print ohs_version_status
   debug:
@@ -41,7 +42,10 @@
 
 - name: Patch OHS
   include_tasks: "patch.yml"
-  when: ohs_version is defined and ohs_version_status.results | selectattr('rc','greaterthan',0) | list | count > 0
+  when: 
+    - patches | length > 0
+    - ohs_version is defined
+    - ohs_version_status.results | selectattr('rc', 'greaterthan', 0) | list | count > 0
 
 - name: Set up properties file
   include_tasks: "config.yml"
