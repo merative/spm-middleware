@@ -43,7 +43,7 @@
 - name: Patch OHS
   include_tasks: "patch.yml"
   when: 
-    - patches | length > 0
+    - patches | default([]) | length > 0
     - ohs_version is defined
     - ohs_version_status.results | selectattr('rc', 'greaterthan', 0) | list | count > 0
 
