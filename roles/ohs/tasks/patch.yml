@@ -68,7 +68,7 @@
   when: opatch_version is defined and opatch_status.rc != 0
 
 - name: Patch OPatch tool
-  command: "{{ ohs_home }}/oracle_common/jdk/bin/java -jar {{ ohs_installer_loc }}/{{ opatch_folder }}/opatch_generic.jar -silent oracle_home={{ ohs_home }}"
+  command: "{{ ohs_home }}/oracle_common/jdk/bin/java -jar {{ ohs_installer_loc }}/{{ opatch_folder }}/opatch_generic.jar -ignoreSysPrereqs -silent oracle_home={{ ohs_home }}"
   become: yes
   become_user: "{{ ohs_user }}"
   when: opatch_version is defined and opatch_status.rc != 0

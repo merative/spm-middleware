@@ -1,6 +1,6 @@
 ---
 # OHS config
-ohs_version: 12.2.1.4.240115
+ohs_version: 12.2.1.4.240906
 ohs_user: oracle
 ohs_admin_password: Password1
 ohs_group: oinstall

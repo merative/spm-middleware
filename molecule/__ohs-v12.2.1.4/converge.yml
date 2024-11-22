@@ -32,7 +32,7 @@
         name: weblogic
       vars:
         ansible_python_interpreter: /usr/bin/python3
-        weblogic_version: "14.1.1.0.240328"
+        weblogic_version: "14.1.1.0.240922"
 
     - name: include ohs
       include_role:

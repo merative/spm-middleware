@@ -1,0 +1,69 @@
+---
+
+- name: Create 19cUpgrade zip directory
+  ansible.builtin.file:
+    path: "{{ ohs_installer_loc }}/19cUpgrade/"
+    state: directory
+    owner: "{{ ohs_user }}"
+    group: "{{ ohs_group }}"
+    mode: 0755
+
+- name: Check 19cUpgrade Installer File Exists
+  stat:
+    path: "{{ ohs_installer_loc }}/19cUpgrade/{{ upgrade19c_installer_zip }}"
+  register: installer
+
+- name: Download 19cUpgrade installer
+  get_url:
+    url: "{{ download_url }}/{{ upgrade19c_installer_path }}/{{ upgrade19c_installer_zip }}"
+    dest: "{{ ohs_installer_loc }}/19cUpgrade/"
+    owner: "{{ ohs_user }}"
+    group: "{{ ohs_group }}"
+    mode: 0755
+    force: no
+    headers: "{{ download_header }}"
+  when: not installer.stat.exists and download_url is defined
+
+- name: Create 19cUpgrade unzipped directory
+  ansible.builtin.file:
+    path: "{{ ohs_installer_loc }}/upgrade19cInstaller/"
+    state: directory
+    owner: "{{ ohs_user }}"
+    group: "{{ ohs_group }}"
+    mode: 0755
+
+- name: Unzip 19c Upgrade installer
+  ansible.builtin.unarchive:
+    src: "{{ ohs_installer_loc }}/19cUpgrade/{{ upgrade19c_installer_zip }}"
+    dest: "{{ ohs_installer_loc }}/upgrade19cInstaller/"
+    owner: "{{ ohs_user }}"
+    group: "{{ ohs_group }}"
+    mode: 0755
+    remote_src: yes
+  when: not installer.stat.exists
+
+- name: Update permissions for a directory and its contents
+  ansible.builtin.file:
+    path: "{{ ohs_installer_loc }}/upgrade19cInstaller/{{ upgrade19c_installer_folder }}"
+    mode: 0755
+    recurse: yes
+
+- name: Upgrade Prep Change Permissions
+  become: yes
+  become_user: "{{ ohs_user }}"
+  command: "{{ ohs_installer_loc }}/upgrade19cInstaller/{{ upgrade19c_installer_folder }}/changePerm.sh {{ ohs_home }}"
+
+- name: Execute 19c Upgrade 
+  become: yes
+  become_user: "{{ ohs_user }}"
+  command: "{{ ohs_installer_loc }}/upgrade19cInstaller/{{ upgrade19c_installer_folder }}/{{ upgrade19c_installer }} -ignoreSysPrereqs -invPtrLoc {{ ohs_home }}/oraInst.loc -silent ORACLE_HOME={{ ohs_home }}"
+
+- name: Cleanup
+  file:
+    path: "{{ ohs_installer_loc }}/upgrade19cInstaller"
+    state: absent
+
+- name: Cleanup
+  file:
+    path: "{{ ohs_installer_loc }}/19cUpgrade"
+    state: absent
