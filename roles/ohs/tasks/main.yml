@@ -15,7 +15,7 @@
 - name: "Include v{{ ohs_version }}.yml variables"
   include_vars: "v{{ ohs_version }}.yml"
 
-- name: check if OHS already installed
+- name: Check if OHS already installed
   shell: "grep {{ base_version }} {{ ohs_home }}/inventory/registry.xml"
   changed_when: False
   ignore_errors: True
@@ -24,6 +24,16 @@
 - name: Install Base version
   include_tasks: "base_install.yml"
   when: base_version is defined and base_installed.rc != 0
+
+- name: Check if OHS is upgraded to 19c
+  shell: "grep {{ upgrade19c_version }} {{ ohs_home }}/inventory/registry.xml"
+  changed_when: False
+  ignore_errors: True
+  register: base_upgraded
+
+- name: Upgrade to OHS 19c
+  include_tasks: "19cupgrade.yml"
+  when: upgrade19c_version is defined and base_upgraded.rc != 0
 
 - name: Check if Patch already applied
   become: yes
