@@ -17,6 +17,8 @@ ohs_version: 12.2.1.4.240906
 patches:
   - filename: "OHS/{{ ohs_version_folder }}/p37033394_122140_Linux-x86-64.zip"
     number: 37033394
+  - filename: "OHS/{{ ohs_version_folder }}/p35333510_122140_Linux-x86-64.zip"
+    number: 35037811
 
 # OPatch Information
 opatch_filename_path: "WLS/Patches/p28186730_1394217_Generic.zip"
