@@ -37,7 +37,7 @@ None
 - hosts: servers
   roles:
     - role: merative.spm_middleware.liberty
-      liberty_version: 24.0.0.9
+      liberty_version: 24.0.0.12
 ```
 
 ## License
