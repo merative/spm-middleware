@@ -1,0 +1,7 @@
+---
+liberty_fp_path: WLP/24.0.0.12-WS-LIBERTY-ND-FP.zip
+liberty_installers_path: WLP/was.repo.16002.liberty.nd.zip
+liberty_pid: 24.0.12.20241119_0657
+
+liberty_java_zip_path: Java/IBM/ibm-java-sdk-8.0-8.30-linux-x64-installmgr.zip
+liberty_java_pid: com.ibm.java.jdk.v8_8.0.8030.20240801_0349
