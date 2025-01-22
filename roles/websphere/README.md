@@ -4,14 +4,14 @@ The `websphere` role will install IBM WebSphere Application Server (ND).
 
 ## Requirements
 
-IBM Installation Manager (1.9.x) must already be installed in the target environment.
+IBM Installation Manager (1.9.x) or higher must already be installed in the target environment.
 
 ## Role Variables
 
 | Property Name            | Default value                                       |
 | ------------------------ | --------------------------------------------------- |
 | `websphere_install_path` | `/opt/IBM/WebSphere/AppServer`                      |
-| `websphere_version`      | `9.0.5.21`                                           |
+| `websphere_version`      | `9.0.5.22`                                           |
 | ------------------------ | --------------------------------------------------- |
 | `iim_install_path`       | `/opt/IBM/InstallationManager`                      |
 | `profiled_path`          | `/opt/profile.d`                                    |
@@ -35,7 +35,7 @@ merative.spm_middleware.iim
     - merative.spm_middleware
 
   vars:
-    websphere_version: 9.0.5.21
+    websphere_version: 9.0.5.22
     download_url: "https://myserver.com/was/repos"
     download_header: { 'Authorization': 'Basic EncodedString'}
 
