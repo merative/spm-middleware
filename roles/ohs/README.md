@@ -14,7 +14,7 @@ NOTE: Update these default usernames and passwords after the initial installatio
 
 | Property Name             | Default value                                       |
 | ------------------------- | --------------------------------------------------- |
-| `ohs_version`             | `12.2.1.4.240906`                                   |
+| `ohs_version`             | `12.2.1.4.250103`                                   |
 | `ohs_user`                | `oracle`                                            |
 | `ohs_admin_password`      | `password1`                                         |
 | `ohs_group`               | `oinstall`                                          |
@@ -41,7 +41,7 @@ Although the role can be used independently, it is expected that Weblogic is alr
 - hosts: all
   roles:
     - role: merative.spm_middleware.ohs
-      ohs_version: 12.2.1.4.240906
+      ohs_version: 12.2.1.4.250103
 ```
 ## License
 
