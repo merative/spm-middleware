@@ -33,7 +33,7 @@
     - "'Trial' in license_info.stdout"
 
 - name: List database directory
-  command: db2 list database directory
+  command: . ~/.bash_profile && db2 list database directory
   changed_when: false
   become: yes
   become_user: "{{ db2_db_username }}"
