@@ -35,10 +35,7 @@
 - name: List database directory
   command: db2 list database directory
   changed_when: false
-  become: yes
   become_user: "{{ db2_db_username }}"
-  become_method: sudo
-  #become_flags: "-i"
   ignore_errors: yes
   register: db_directory
 
