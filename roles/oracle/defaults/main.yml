@@ -7,7 +7,7 @@ travis_build: "{{ lookup('env', 'CI') }}"
 travis_flags: "{{'-force -ignoresysprereqs -ignoreprereq' if lookup('env', 'CI') is defined else ''}}"
 
 # Oracle config
-oracle_version: 19.25.0.0.0
+oracle_version: 19.26.0.0.0
 oracle_family: "{{ oracle_version.split('.') | first }}c"
 oracle_base: /opt/oracle
 oracle_home: "/opt/oracle/product/{{ oracle_family }}/dbhome_1"
