@@ -3,7 +3,7 @@ instance_id: inst1
 instance_port: 50000
 
 db2_install_path: /opt/IBM/db2
-db2_version: 11.5.9.0
+db2_version: 12.1.0.0
 db2_product: DB2_SERVER_EDITION
 db2_bypass_prereq_check: false
 db2_activate: True

@@ -32,6 +32,7 @@ jobs:
         scenario:
           - websphere-v90-rockylinux8
           - db21158
+          - db21210
           - oracle19c-rockylinux8
           - iim-191-rockylinux8
           - ihs-v90-rockylinux8
