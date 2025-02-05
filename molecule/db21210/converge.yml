@@ -5,20 +5,6 @@
   collections:
     - merative.spm_middleware
 
-  pre_tasks:
-    - name: Install sudo and PAM dependencies
-      yum:
-        name:
-          - sudo
-          - pam
-          - shadow-utils
-        state: present
-    - name: Fix PAM configuration for sudo
-      lineinfile:
-        path: /etc/pam.d/sudo
-        line: "auth sufficient pam_unix.so"
-        state: present
-
   roles:
     - db2
 
