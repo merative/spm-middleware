@@ -40,3 +40,9 @@
       - libstdc++.i686
     state: latest
   when: (ansible_distribution_major_version | int) == 7
+
+- name: Install libc.so.6
+  package:
+    name:
+      - libc.so.6
+    state: latest
