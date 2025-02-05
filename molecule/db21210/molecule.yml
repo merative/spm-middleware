@@ -16,7 +16,7 @@ platforms:
     privileged: true
     volume_mounts:
       - "/sys/fs/cgroup:/sys/fs/cgroup:rw"
-    command: "/usr/sbin/init"
+    command: /lib/systemd/systemd
     environment:
       container: docker
 
