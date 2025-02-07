@@ -94,4 +94,4 @@ jobs:
           export DEFAULT_MODULE_PATH=$(pwd)/plugins/modules
           echo "DEFAULT_MODULE_PATH: $DEFAULT_MODULE_PATH"
           ls -la
-          molecule -vvv test -s ${{ matrix.scenario }}
+          molecule test -s ${{ matrix.scenario }}
