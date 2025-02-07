@@ -25,12 +25,12 @@ jobs:
       ARTIFACTORY_URL: "${{ secrets.ARTIFACTORY_URL }}"
       CUSTOM_CHECKOUT_LOC: "repo"
       python_ver: "3.10"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
         scenario:
-          - db21158
+          - db21159
           - db21210
           - oracle19c-rockylinux8
           - iim-191-rockylinux8
