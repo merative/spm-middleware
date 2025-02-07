@@ -30,7 +30,7 @@ jobs:
       fail-fast: false
       matrix:
         scenario:
-          - db21159
+          - db21158
           - db21210
           - oracle19c-rockylinux8
           - iim-191-rockylinux8
