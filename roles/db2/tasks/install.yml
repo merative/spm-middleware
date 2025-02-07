@@ -80,11 +80,13 @@
 - name: Wait for DB2 libs to be extracted
   pause:
     seconds: 60
+  when: ansible_facts['distribution'] == "Rocky"
 
 - name: Check if AWS SDK libraries exist
   stat:
     path: "/opt/IBM/db2/lib64/awssdk/RHEL/8.1/libaws-cpp-sdk-core.so"
   register: aws_lib_check
+  when: ansible_facts['distribution'] == "Rocky"
 
 - name: Create missing symbolic links for AWS SDK libraries
   file:
@@ -96,7 +98,8 @@
     - libaws-cpp-sdk-kinesis.so
     - libaws-cpp-sdk-s3.so
     - libaws-cpp-sdk-transfer.so
-  when: aws_lib_check.stat.exists
+  when: aws_lib_check.stat.exists and ansible_facts['distribution'] == "Rocky"
+
   ignore_errors: yes
 
 - name: Check installer progress
