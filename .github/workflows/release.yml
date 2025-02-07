@@ -18,7 +18,7 @@ jobs:
   release:
     env:
       python_ver: "3.10"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: ansible_collections
