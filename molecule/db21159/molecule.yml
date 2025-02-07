@@ -9,8 +9,8 @@ lint: |
   yamllint .
 
 platforms:
-  - name: rockylinux9
-    image: rockylinux:9
+  - name: rockylinux8
+    image: rockylinux:8
     dockerfile: ../_resources/Dockerfile.j2
     pre_build_image: false
     privileged: true
