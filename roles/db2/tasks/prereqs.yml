@@ -37,11 +37,6 @@
   package:
     name:
       - compat-libstdc++-33.i686
-    state: latest
-  when: (ansible_distribution_major_version | int) == 7
-
-- name: Install libstdc++.i686
-  package:
-    name:
       - libstdc++.i686
     state: latest
+  when: (ansible_distribution_major_version | int) == 7

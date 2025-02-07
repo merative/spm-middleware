@@ -82,7 +82,7 @@
     jid: "{{ install_job.ansible_job_id }}"
   until: install_result.finished
   register: install_result
-  retries: 100
+  retries: 10
   delay: 30
 
 - name: Cleanup
