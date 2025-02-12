@@ -25,13 +25,14 @@ jobs:
       ARTIFACTORY_URL: "${{ secrets.ARTIFACTORY_URL }}"
       CUSTOM_CHECKOUT_LOC: "repo"
       python_ver: "3.10"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
         scenario:
-          - websphere-v90-rockylinux8
+          - websphere-v90-rockylinux8         
           - db21158
+          - db21159
           - oracle19c-rockylinux8
           - iim-191-rockylinux8
           - ihs-v90-rockylinux8
@@ -42,11 +43,11 @@ jobs:
           - weblogic-rockylinux8
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           path: ${{ env.CUSTOM_CHECKOUT_LOC }}
       - name: Setup Python v${{ env.python_ver }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ env.python_ver }}
           cache: 'pip'

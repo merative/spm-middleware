@@ -31,12 +31,13 @@
       - tzdata
       - unzip
       - wget
+      - libstdc++.i686
     state: latest
 
 - name: Install compat-libstdc++-33.i686
   package:
     name:
       - compat-libstdc++-33.i686
-      - libstdc++.i686
     state: latest
   when: (ansible_distribution_major_version | int) == 7
+
