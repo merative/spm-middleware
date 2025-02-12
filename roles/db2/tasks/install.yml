@@ -77,6 +77,8 @@
   async: 1800
   poll: 0
 
+# Workaround for Rocky where aws libs not in path
+
 - name: Wait for DB2 libs to be extracted
   pause:
     seconds: 60
@@ -99,8 +101,9 @@
     - libaws-cpp-sdk-s3.so
     - libaws-cpp-sdk-transfer.so
   when: aws_lib_check.stat.exists and ansible_facts['distribution'] == "Rocky"
+  ignore_errors: true
 
-  ignore_errors: yes
+# End Workaround for Rocky
 
 - name: Check installer progress
   async_status:
