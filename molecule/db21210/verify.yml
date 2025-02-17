@@ -20,3 +20,24 @@
         that:
           - db2level_cmd.rc == 0
           - "'v12.1.0' in db2level_cmd.stdout"
+
+- name: Install and start db2fmcd service
+  hosts: rockylinux9
+  # become: true
+
+  tasks:
+    - name: Install DB2 dependencies and DB2 server (if not installed already)
+      yum:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - db2-clients  
+        - db2fmcd
+      notify:
+        - start db2fmcd service
+
+    - name: Enable db2fmcd service
+      systemd:
+        name: db2fmcd
+        enabled: yes
+        state: started
