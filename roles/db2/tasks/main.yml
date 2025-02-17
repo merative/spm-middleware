@@ -3,7 +3,6 @@
   include_vars: "v{{ db2_version }}.yml"
 
 - name: Ensure db2level check and correct permissions
-  hosts: db2_servers
   become: yes
   tasks:
     - name: Check db2level
