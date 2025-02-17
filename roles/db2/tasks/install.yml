@@ -88,7 +88,7 @@
   stat:
     path: "/opt/IBM/db2/lib64/awssdk/RHEL/8.1/libaws-cpp-sdk-core.so"
   register: aws_lib_check
-  when: ansible_facts['distribution'] == "Rocky"
+  when: ansible_facts['distribution'] == "Rocky" and ansible_facts['distribution_version'] == "8"
 
 - name: Create missing symbolic links for AWS SDK libraries for RH 8
   file:
@@ -100,14 +100,14 @@
     - libaws-cpp-sdk-kinesis.so
     - libaws-cpp-sdk-s3.so
     - libaws-cpp-sdk-transfer.so
-  when: aws_lib_check.stat.exists and ansible_facts['distribution'] == "Rocky"
+  when: aws_lib_check.stat.exists and ansible_facts['distribution'] == "Rocky" and ansible_facts['distribution_version'] == "8"
   ignore_errors: true
 
 - name: Check if AWS SDK libraries exist for RH 9
   stat:
     path: "/opt/IBM/db2/lib64/awssdk/RHEL/9.2/libaws-cpp-sdk-core.so"
   register: aws_lib_check
-  when: ansible_facts['distribution'] == "Rocky"
+  when: ansible_facts['distribution'] == "Rocky" and ansible_facts['distribution_version'] == "9"
 
 - name: Create missing symbolic links for AWS SDK libraries for RH 9
   file:
@@ -119,7 +119,7 @@
     - libaws-cpp-sdk-kinesis.so
     - libaws-cpp-sdk-s3.so
     - libaws-cpp-sdk-transfer.so
-  when: aws_lib_check.stat.exists and ansible_facts['distribution'] == "Rocky"
+  when: aws_lib_check.stat.exists and ansible_facts['distribution'] == "Rocky" and ansible_facts['distribution_version'] == "9"
   ignore_errors: true
 
 # End Workaround for Rocky
