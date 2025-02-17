@@ -103,6 +103,28 @@
   when: aws_lib_check.stat.exists and ansible_facts['distribution'] == "Rocky"
   ignore_errors: true
 
+
+- name: Install and start db2fmcd service
+  hosts: rockylinux9
+  # become: true
+
+  tasks:
+    - name: Install DB2 dependencies and DB2 server (if not installed already)
+      yum:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - db2-clients  
+        - db2fmcd
+      notify:
+        - start db2fmcd service
+
+    - name: Enable db2fmcd service
+      systemd:
+        name: db2fmcd
+        enabled: yes
+        state: started
+
 # End Workaround for Rocky
 
 - name: Check installer progress
