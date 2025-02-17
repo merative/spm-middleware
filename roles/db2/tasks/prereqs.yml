@@ -47,3 +47,7 @@
       - libstdc++.i686
     state: latest
 
+- name: Install IBM DB2 packages
+  package:
+    name: db2fmcd
+    state: present
