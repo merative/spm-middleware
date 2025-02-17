@@ -103,31 +103,6 @@
   when: aws_lib_check.stat.exists and ansible_facts['distribution'] == "Rocky"
   ignore_errors: true
 
-- name: Add IBM DB2 repository (replace with actual repository URL)
-  rpm_key:
-    state: present
-    key: https://public.dhe.ibm.com/software/server/db2/lu3/linux_rhel/rhel7/IBM_DB2_GA.repo
-  when: (ansible_distribution_major_version | int) == 9
-
-- name: Install db2fmcd package
-  package:
-    name: db2fmcd
-    state: present
-    when: (ansible_distribution_major_version | int) == 9
-
-- name: Start db2fmcd service
-  service:
-    name: db2fmcd
-    state: started
-    enabled: yes
-    when: (ansible_distribution_major_version | int) == 9
-
-- name: Install IBM DB2 packages
-  package:
-    name: db2fmcd
-    state: latest
-  when: (ansible_distribution_major_version | int) == 9
-
 # End Workaround for Rocky
 
 - name: Check installer progress
