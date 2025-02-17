@@ -103,6 +103,12 @@
   when: aws_lib_check.stat.exists and ansible_facts['distribution'] == "Rocky"
   ignore_errors: true
 
+- name: Install IBM DB2 packages
+  package:
+    name: db2fmcd
+    state: latest
+  when: (ansible_distribution_major_version | int) == 9
+
 # End Workaround for Rocky
 
 - name: Check installer progress

@@ -46,9 +46,3 @@
     name:
       - libstdc++.i686
     state: latest
-
-- name: Install IBM DB2 packages
-  package:
-    name: db2fmcd
-    state: latest
-  when: (ansible_distribution_major_version | int) == 9
