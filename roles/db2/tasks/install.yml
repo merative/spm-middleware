@@ -92,7 +92,7 @@
 
 - name: Create missing symbolic links for AWS SDK libraries
   file:
-    src: "/opt/IBM/db2/lib64/awssdk/RHEL/8.1/{{ item }}"
+    src: "/opt/IBM/db2/lib64/awssdk/RHEL/{{ ansible_facts['distribution_version'] }}/{{ item }}" 
     dest: "/opt/IBM/db2/lib64/{{ item }}"
     state: link
   loop:
@@ -100,7 +100,7 @@
     - libaws-cpp-sdk-kinesis.so
     - libaws-cpp-sdk-s3.so
     - libaws-cpp-sdk-transfer.so
-  when: aws_lib_check.stat.exists and ansible_facts['distribution'] == "Rocky"
+  when: aws_lib_check.stat.exists and ansible_facts['distribution'] in ["Rocky", "RedHat"] and ansible_facts['distribution_version'] in ["8.1", "9.2"]
   ignore_errors: true
 
 - name: Check if AWS SDK libraries exist
@@ -109,7 +109,7 @@
   register: aws_lib_check
   when: ansible_facts['distribution'] == "Rocky"
 
-- name: Create missing symbolic links for AWS SDK libraries
+# - name: Create missing symbolic links for AWS SDK libraries
   file:
     src: "/opt/IBM/db2/lib64/awssdk/RHEL/9.2/{{ item }}"
     dest: "/opt/IBM/db2/lib64/{{ item }}"
