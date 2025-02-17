@@ -46,11 +46,3 @@
     name:
       - libstdc++.i686
     state: latest
-
-- name: Ensure db2level check and correct permissions
-  become: yes
-  tasks:
-    - name: Check db2level
-      command: db2level
-      become: yes
-      become_user: db2admin
