@@ -31,7 +31,6 @@
       - tzdata
       - unzip
       - wget
-      # - libstdc++.i686
     state: latest
 
 - name: Install compat-libstdc++-33.i686
@@ -46,3 +45,4 @@
     name:
       - libstdc++.i686
     state: latest
+    when: ansible_facts['distribution_version'] is match('^9.*')
