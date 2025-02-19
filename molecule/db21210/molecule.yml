@@ -22,13 +22,13 @@ platforms:
 
 provisioner:
   name: ansible
-  env:
-    ANSIBLE_VERBOSITY: 3
   log: true
   config_options:
     defaults:
       stderr_callback: debug
       stdout_callback: debug
+  env:
+    ANSIBLE_FORCE_COLOR: 'true'
   playbooks:
     converge: ./converge.yml
     verify: ./verify.yml
