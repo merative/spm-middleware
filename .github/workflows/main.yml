@@ -31,7 +31,7 @@ jobs:
       matrix:
         scenario:
           - websphere-v90-rockylinux8
-          - db21210
+          - db21211
           - db21159
           - oracle19c-rockylinux8
           - iim-191-rockylinux8
