@@ -107,6 +107,14 @@
     group: "{{ ohs_group }}"
   loop: "{{ patches }}"
 
+- name: Create missing symbolic links for OHS for RH 9
+  file:
+    src: "/usr/lib64/libc_nonshared.a"
+    dest: "/usr/lib64/libpthread_nonshared.a"
+    state: link
+  when: ansible_facts['distribution_version'] is match('^9.*')
+  ignore_errors: true
+
 - name: "Apply Patches"
   become: yes
   become_user: "{{ ohs_user }}"
