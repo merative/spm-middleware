@@ -34,6 +34,7 @@ jobs:
           - db21211
           - db21159
           - oracle19c-rockylinux8
+          - oracle19c-rockylinux9
           - iim-191-rockylinux8
           - ihs-v90-rockylinux8
           - ohs-v12.2.1.4-rockylinux8
