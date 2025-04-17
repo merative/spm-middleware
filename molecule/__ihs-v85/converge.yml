@@ -6,7 +6,7 @@
     - merative.spm_middleware
 
   vars:
-    ihs_version: 8.5.5.25
+    ihs_version: 8.5.5.27
     download_url: "{{ lookup('env', 'ARTIFACTORY_URL') }}/{{ lookup('env', 'ARTIFACTORY_REPO') }}/SoftwareInstallers"
     download_header: { 'X-JFrog-Art-Api': "{{ lookup('env', 'ARTIFACTORY_TOKEN') }}"}
 
