@@ -10,7 +10,7 @@ The `oracle` role will install Oracle Database EE Single Instance.
 
 | Property Name             | Default value                                       |
 | ------------------------- | --------------------------------------------------- |
-| `oracle_version`          | `19.26.0.0.0`                                       |
+| `oracle_version`          | `19.27.0.0.0`                                       |
 | `oracle_base`             | `/opt/oracle`                                       |
 | `oracle_home`             | `/opt/oracle/product/<oracle_family>/dbhome_1`                  |
 | `oracle_inventory`        | `/opt/Oracle/oraInventory`                          |
@@ -42,7 +42,7 @@ None
 - hosts: servers
   roles:
     - role: merative.spm_middleware.oracle
-      oracle_version: 19.26.0.0.0
+      oracle_version: 19.27.0.0.0
 
 ## License
 

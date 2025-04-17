@@ -6,7 +6,7 @@
     - merative.spm_middleware
 
   vars:
-    weblogic_version: "12.2.1.4.250107"
+    weblogic_version: "12.2.1.4.250317"
     # weblogic_installer_path: /opt/IBM/weblogic/WLS
     download_url: "{{ lookup('env','ARTIFACTORY_URL') }}/{{ lookup('env','ARTIFACTORY_REPO') }}/SoftwareInstallers"
     download_header: {'X-JFrog-Art-Api': "{{ lookup('env','ARTIFACTORY_TOKEN' )}}"}
