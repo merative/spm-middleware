@@ -4,7 +4,7 @@
 
   pre_tasks:
     - name: include vars
-      include_vars: "../../roles/ohs/vars/v12.2.1.4.250103.yml"
+      include_vars: "../../roles/ohs/vars/v12.2.1.4.250307.yml"
 
     - name: include default
       include_vars: "../../roles/ohs/defaults/main.yml"
