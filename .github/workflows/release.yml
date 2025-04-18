@@ -28,7 +28,7 @@ jobs:
         with:
           path: ansible_collections
       - name: Setup Python v${{ env.python_ver }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ env.python_ver }}
           cache: 'pip'
