@@ -11,7 +11,7 @@ IBM Installation Manager (1.9.x) must already be installed in the target environ
 | Property Name           | Default value                                       |
 | ----------------------- | --------------------------------------------------- |
 | `liberty_install_path`  | `/opt/IBM/WebSphere/Liberty`                        |
-| `liberty_version`       | `24.0.0.12`                                         |
+| `liberty_version`       | `25.0.0.3`                                         |
 | `liberty_default_heapsize`  | `1024m`                                         |
 | `liberty_enable_verbose_gc` | `false`                                         |
 | `liberty_extra_jvm_options` | `[]`                                            |
