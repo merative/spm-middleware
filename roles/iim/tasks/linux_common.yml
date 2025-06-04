@@ -11,6 +11,7 @@
   copy:
     src: "{{ iim_installer_path }}"
     dest: "{{ tmp_dir.path }}/"
+    remote_src: yes
   when: download_url is not defined or download_url == ''
   register: iim_zip
 
