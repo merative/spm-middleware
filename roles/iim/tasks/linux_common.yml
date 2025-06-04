@@ -10,10 +10,10 @@
 - name: Copy installer
   copy:
     src: "{{ iim_installer_path }}"
-    dest: "{{ tmp_dir.path }}/"
+    dest: "{{ tmp_dir.path }}"
     remote_src: yes
   when: download_url is not defined or download_url == ''
-  register: iim_zip
+  register: iim_zip_local
 
 - name: Download installer
   get_url:
@@ -22,6 +22,10 @@
     headers: "{{ download_header }}"
   when: download_url is defined and download_url != ''
   register: iim_zip
+
+- name: Set iim_zip fact
+  set_fact:
+    iim_zip: "{{ iim_zip_local if (download_url is not defined or download_url == '') else iim_zip }}"
 
 - name: Extract IIM installer
   unarchive:
