@@ -37,11 +37,11 @@
       - --strip-components=1
   when: db2_installer.changed
 
-# - name: Check prereqs
-#   command: "{{ installer_dir.path }}/db2prereqcheck -i -v {{ db2_version }}"
-#   when:
-#     - not db2_bypass_prereq_check
-#     - db2_installer.changed
+- name: Check prereqs
+  command: "{{ installer_dir.path }}/db2prereqcheck -i -v {{ db2_version }}"
+  when:
+    - not db2_bypass_prereq_check
+    - db2_installer.changed
 
 - name: Render response file
   template:
