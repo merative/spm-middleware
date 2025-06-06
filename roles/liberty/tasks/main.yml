@@ -29,7 +29,7 @@
   get_url:
     dest: /tmp/jdk.zip
     url: "{{ download_url }}/{{ liberty_java_zip_path }}"
-    headers: "{{ download_header | default({}) }}"
+    headers: "{{ download_header | default('') }}"
   when: (download_url is defined) and ( jdk_installation_way is defined )
 
 - name: Prepare Open JDK Folder (unzip way)

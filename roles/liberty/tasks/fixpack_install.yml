@@ -3,7 +3,7 @@
   get_url:
     dest: /tmp/repo.zip
     url: "{{ download_url }}/{{ liberty_fp_path }}"
-    headers: "{{ download_header | default({}) }}"
+    headers: "{{ download_header | default('') }}"
   when: download_url is defined
 
 - name: Create repo directory
