@@ -40,6 +40,8 @@ jobs:
           - ohs-v12.2.1.4-rockylinux9
           - weblogic-rockylinux8
           - weblogic-rockylinux9
+          - weblogic-1412-rockylinux8
+          - weblogic-1412-rockylinux9
           - oracle19c-rockylinux8
           - oracle19c-rockylinux9
           - iim-191-rockylinux8
