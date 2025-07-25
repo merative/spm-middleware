@@ -34,7 +34,7 @@ jobs:
           - ihs-v90-rockylinux9
           - websphere-v90-rockylinux8
           - websphere-v90-rockylinux9
-          - db21211
+          - db21212
           - db21159
           - ohs-v12.2.1.4-rockylinux8
           - ohs-v12.2.1.4-rockylinux9
