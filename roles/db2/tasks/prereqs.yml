@@ -40,10 +40,3 @@
       - libstdc++.i686
     state: latest
   when: (ansible_distribution_major_version | int) == 7
-
-- name: Install libstdc++.so.6
-  package:
-    name:
-      - libstdc++.so.6
-    state: latest
-  when: (ansible_distribution_major_version | int) == 9 and ansible_facts['distribution'] == "Rocky"
