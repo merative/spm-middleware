@@ -49,6 +49,13 @@
     dest: "{{ installer_dir.path }}/db2server.rsp"
     mode: 0644
 
+- name: Add ENABLE_SHARED_GROUP = NO to response file for DB2 12.1.2
+  lineinfile:
+    path: "{{ installer_dir.path }}/db2server.rsp"
+    line: "{{ instance_id }}.ENABLE_SHARED_GROUP       = NO"
+    insertafter: EOF
+  when: (ansible_distribution_major_version | int) == 9 and db2_version is version('12.1.2.0', '>=')
+
 - name: Create groups
   group:
     name: "{{ item }}"
