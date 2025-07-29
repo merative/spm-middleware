@@ -10,7 +10,7 @@ lint: |
 
 platforms:
   - name: rockylinux9
-    image: rockylinux:9
+    image: rockylinux/rockylinux:9
     dockerfile: ../_resources/Dockerfile.j2
     pre_build_image: false
     privileged: true
