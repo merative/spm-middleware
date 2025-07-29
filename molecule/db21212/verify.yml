@@ -19,4 +19,4 @@
       assert:
         that:
           - db2level_cmd.rc == 0
-          - "'v12.1.1' in db2level_cmd.stdout"
+          - "'v12.1.2' in db2level_cmd.stdout"
