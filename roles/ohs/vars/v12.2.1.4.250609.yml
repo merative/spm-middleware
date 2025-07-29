@@ -1,0 +1,33 @@
+---
+# Base Information
+ohs_version_folder: 12.2.1
+base_version: 12.2.1.4.0
+base_installer: fmw_12.2.1.4.0_ohs_linux64.bin
+base_installer_path: "OHS/12.2.1/fmw_12.2.1.4.0_ohs_linux64.bin"
+
+# Upgrade Information
+upgrade19c_version: 12.2.1.19.0
+upgrade19c_installer_path: "OHS/12.2.1/19cUpgrade"
+upgrade19c_installer_zip: "p34761383_122140_Linux-x86-64.zip"
+upgrade19c_installer: fmw_12.2.1.19.0_dbclient_linux64.bin
+upgrade19c_installer_folder: 34761383
+
+# Patch information
+ohs_version: 12.2.1.4.250609
+patches:
+  - filename: "OHS/{{ ohs_version_folder }}/p38051795_122140_Linux-x86-64.zip"
+    number: 38051795
+  - filename: "OHS/{{ ohs_version_folder }}/p35333510_122140_Linux-x86-64.zip"
+    number: 35037811
+
+# OPatch Information
+opatch_filename_path: "WLS/Patches/p28186730_1394220_Generic.zip"
+opatch_version: 13.9.4.2.20
+opatch_folder: 6880880
+
+# JDK Information
+java_zip_path: 'WLS/jdk-8u461-linux-x64.tar.gz'
+java_version_path: 'jdk1.8.0_461'
+jdk_folder: "{{ ohs_home }}/oracle_common/jdk"
+
+template_jar: "ohs_standalone_template.jar"
