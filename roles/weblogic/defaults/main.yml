@@ -5,7 +5,7 @@ weblogic_group: 'oinstall'
 weblogic_os_user_pass: 'oracle'
 weblogic_base: '/home/oracle'
 # If not passed in, use this default value
-weblogic_version: '14.1.1.0.250320'
+weblogic_version: '14.1.1.0.250630'
 inv_loc: '/opt/Oracle/oraInventory'
 jdk_folder: '/usr/java'
 # Common paths and names
