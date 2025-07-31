@@ -1,0 +1,11 @@
+---
+base_install_file: 'fmw_14.1.2.0.0_wls.jar'
+weblogic_version: 14.1.2
+opatch: 'p28186730_1394219_Generic.zip'
+opatch_version: 13.9.4.2.19
+patch: 'p37743913_141200_Generic.zip'
+patch_number: 37743913
+napply: False
+patch_folder: '37743913'
+java_archive_file: jdk-21.0.7_linux-x64_bin.tar.gz
+java_version_path: 'jdk-21.0.7'

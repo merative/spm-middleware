@@ -13,7 +13,7 @@ LoadModule weblogic_module   "${PRODUCT_HOME}/modules/mod_wl_ohs.so"
     WLProxySSL ON
     WLSSLWallet "${ORACLE_INSTANCE}/config/fmwconfig/components/${COMPONENT_TYPE}/instances/${COMPONENT_NAME}/keystores/pluginWallet"
     WebLogicSSLVersion TLSv1_2
-    <LocationMatch "^/(console|CitizenPortal|CPMExternalNS|CPMExternalS|Curam|CuramBIRTViewer|CuramWS|CuramWS2|Rest|swagger)">
+    <LocationMatch "^/(console|CitizenPortal|CPMExternalNS|CPMExternalS|Curam|CuramBIRTViewer|CuramWS|CuramWS2|Rest|swagger|MDTWorkspace|SamplePublicAccess|NavigatorS)">
         WLSRequest on
         WebLogicHost {{ ansible_fqdn }}
         WebLogicPort {{ ohs_port }}
