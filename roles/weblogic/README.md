@@ -4,7 +4,7 @@ The `weblogc` role will install Weblogic.
 
 ## Requirements
 
-* CentOS-7/8, Redhat 7.x/8.x
+* CentOS-7/8, Redhat 7.x/8.x/9.x
 
 ## Role Variables
 
@@ -19,16 +19,11 @@ The `weblogc` role will install Weblogic.
 | `weblogic_patch_path`     | Controller local path or relative to download_url |
 | `java_zip_path`           | Controller local path or relative to download_url |
 
-| ------------------------- | --------------------------------------------------- |
-| ** `weblogic_version` **  | `12.1.3.0.2`                                        |
-|                           | `12.1.3.0.210720`                                   |
-|                           | `12.2.1.4.210716`                                   |
-|                           | `14.1.1.0.220105`                                   |
-|                           | `14.1.1.0.240111`                                   |
-|                           | `14.1.1.0.240922`                                   |
-|                           | `14.1.1.0.250108`                                   |
-|                           | `14.1.1.0.250320`                                                    |
-| ------------------------- | --------------------------------------------------- |
+| ----------------------------------- | --------------------------------------------------- |
+| ** `weblogic_version - java8` **    | `12.2.1.4.250706`                                   |
+|                                     | `14.1.1.0.250630`                                   |
+|  ** `weblogic_version - java21` **  | `14.1.2.0.250629`                                   |
+| ----------------------------------- | --------------------------------------------------- |
 
 ...
 
@@ -54,13 +49,16 @@ The version of the OPatch tool itself is also handed by the above tasks file.
 - hosts: servers
   roles:
     - role: merative.spm_middleware.weblogic
-      weblogic_version: 14.1.1.0.250320
+      weblogic_version - java8: 12.2.1.4.250706
+      weblogic_version - java8: 14.1.1.0.250630
+      weblogic_version - java21: 14.1.2.0.250629
 ```
 
 ## Note
 
 1. Default JDK version is 1.8.0_251. Required by Dev Team.
 2. We keep 12.1.3.0.2. This is not the latest version. Required by Dev Team.
+3. WebLogic now supports both Java8 - v12.2 and v14.1.1 and Java21 - v14.1.2
 
 ## License
 
