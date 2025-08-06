@@ -1,8 +1,0 @@
----
-liberty_fp_path: WLP/24.0.0.9-WS-LIBERTY-ND-FP.zip
-liberty_installers_path: WLP/was.repo.16002.liberty.nd.zip
-liberty_pid: 24.0.9.20240827_1743
-jdk_version: 17.0
-
-liberty_java_zip_path: Java/IBM/ibm-semeru-certified-jdk_x64_linux_17.0.12.1-installmgr.zip
-liberty_java_pid: com.ibm.java.jdk.v17_17.0.12001.20240913_0245

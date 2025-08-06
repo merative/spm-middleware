@@ -36,19 +36,20 @@ jobs:
           - websphere-v90-rockylinux9
           - db21212
           - db21159
-          - ohs-v12.2.1.4-rockylinux8
-          - ohs-v12.2.1.4-rockylinux9
-          - weblogic-rockylinux8
-          - weblogic-rockylinux9
+          - ohs-12214-rockylinux8
+          - ohs-12214-rockylinux9
+          - weblogic-12214-rockylinux8
+          - weblogic-12214-rockylinux9
+          - weblogic-1411-rockylinux8
+          - weblogic-1411-rockylinux9
           - weblogic-1412-rockylinux8
           - weblogic-1412-rockylinux9
-          - oracle19c-rockylinux8
-          - oracle19c-rockylinux9
+          - oracle-19c-rockylinux8
+          - oracle-19c-rockylinux9
           - iim-191-rockylinux8
           - iim-191-rockylinux9
-          - liberty-rockylinux8
-          - liberty-rockylinux9
-          - liberty-jdk17-rockylinux8
+          - liberty-jdk8-rockylinux8
+          - liberty-jdk8-rockylinux9
           - liberty-jdk21-rockylinux8
           - liberty-jdk21-rockylinux9
     steps:
