@@ -3,7 +3,7 @@
 iim_install_path: /opt/IBM/InstallationManager
 # websphere
 websphere_install_path: /opt/IBM/WebSphere/AppServer
-websphere_version: 9.0.5.24
+websphere_version: 9.0.5.25
 security_username: websphere
 # use encrypted password
 security_password: dummypassword

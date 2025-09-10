@@ -6,7 +6,7 @@
     - merative.spm_middleware
 
   vars:
-    liberty_version: "25.0.0.7-JDK21"
+    liberty_version: "25.0.0.9-JDK21"
     download_url: "{{ lookup('env', 'ARTIFACTORY_URL') }}/{{ lookup('env', 'ARTIFACTORY_REPO') }}/SoftwareInstallers"
     download_header: { 'X-JFrog-Art-Api': "{{ lookup('env', 'ARTIFACTORY_TOKEN') }}"}
 
