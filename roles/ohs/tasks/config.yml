@@ -40,12 +40,23 @@
     owner: root
 
 # Ignore errors, this file may not exists
-- name: Modify launch file
+- name: Modify launch file (OHS 12214)
   file:
     path: "{{ ohs_home }}/ohs/bin/launch"
     mode: u=rwxs,g=rx
     owner: root
   ignore_errors: True
+  when: base_version|string != "14.1.2.0.0"
+
+# Ignore errors, this file may not exists
+- name: Modify launchs file (OHS 1412)
+  file:
+    path: "{{ ohs_home }}/ohs/bin/launchs"
+    mode: "4750"
+    owner: root
+    group: "{{ ohs_group }}"
+  ignore_errors: True
+  when: base_version|string == "14.1.2.0.0"
 
 # Ignore errors, this file may not exists
 - name: Modify hasbind file

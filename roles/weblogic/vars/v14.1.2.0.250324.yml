@@ -9,3 +9,4 @@ napply: False
 patch_folder: '37743913'
 java_archive_file: jdk-21.0.7_linux-x64_bin.tar.gz
 java_version_path: 'jdk-21.0.7'
+create_domain: true

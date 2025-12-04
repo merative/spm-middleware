@@ -33,7 +33,7 @@
 
 - name: Upgrade to OHS 19c
   include_tasks: "19cupgrade.yml"
-  when: upgrade19c_version is defined and base_upgraded.rc != 0
+  when: upgrade19c_version is defined and base_upgraded.rc != 0  and base_version|string != "14.1.2.0.0"
 
 - name: Check if Patch already applied
   become: yes

@@ -33,3 +33,14 @@
 
 - include_tasks: patch.yml
   when: (patch is defined) and (weblogic_version_status.rc != 0)
+
+- name: Check if domain already exists
+  stat:
+    path: "{{ weblogic_home }}/user_projects/domains/{{ domain_name }}"
+  register: domain_check
+
+- include_tasks: create_domain.yml
+  when: 
+    - create_domain is defined
+    - create_domain | bool
+    - not domain_check.stat.exists

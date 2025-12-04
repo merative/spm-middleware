@@ -1,0 +1,26 @@
+---
+# Base Information
+ohs_version_folder: 14.1.2
+base_version: "14.1.2.0.0"
+base_installer: fmw_14.1.2.0.0_ohs_linux64.bin
+base_installer_path: "OHS/14.1.2/fmw_14.1.2.0.0_ohs_linux64.bin"
+
+# Patch information
+ohs_version: 14.1.2.0.250707
+patches:
+  - filename: "OHS/{{ ohs_version_folder }}/p38158105_141200_Linux-x86-64.zip"
+    number: 38158105
+#  - filename: "OHS/{{ ohs_version_folder }}/p35333510_122140_Linux-x86-64.zip"
+#    number: 35037811
+
+# OPatch Information
+opatch_filename_path: "WLS/Patches/p28186730_1394220_Generic.zip"
+opatch_version: 13.9.4.2.20
+opatch_folder: 6880880
+
+# JDK Information
+java_zip_path: 'WLS/jdk-21.0.8_linux-x64_bin.tar.gz'
+java_version_path: 'jdk-21.0.8'
+jdk_folder: "{{ ohs_home }}/oracle_common/jdk"
+
+template_jar: "ohs_standalone_template.jar"

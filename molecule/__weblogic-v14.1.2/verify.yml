@@ -28,6 +28,11 @@
       shell: "{{ weblogic_home }}/OPatch/opatch lspatches | grep -i {{ patch_number }}"
       changed_when: False
       when: patch_number is defined
+    - name: Check if domain exists
+      stat:
+        path: "{{ weblogic_home }}/user_projects/domains/{{ domain_name }}"
+      register: domain_dir
+      when: create_domain is defined and create_domain | bool
   tasks:
     - name: Check that AppServer.properties exists
       assert:
@@ -42,3 +47,7 @@
       assert:
         that: opatch_version_flag.rc == 0
       when: opatch_version is defined
+    - name: Check that WebLogic domain was created
+      assert:
+        that: domain_dir.stat.exists and domain_dir.stat.isdir
+      when: create_domain is defined and create_domain | bool

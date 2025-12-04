@@ -13,8 +13,9 @@ domains_home: '{{ weblogic_base }}/config/Domains'
 applications_home: '{{ weblogic_base }}/config/applications'
 mw_installer_folder: '{{ weblogic_base }}/installer'
 domain_username: 'weblogic'
-domain_password: 'dummypassword'
-encrypted_password: 'dummypassword'
+domain_password: 'Password1'
+encrypted_password: 'Password1'
+domain_name: '{{ ansible_hostname }}'
 server_name: 'CuramServer'
 server_port: 7001
 
