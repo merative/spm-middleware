@@ -59,6 +59,26 @@
   when: base_version|string == "14.1.2.0.0"
 
 # Ignore errors, this file may not exists
+- name: Modify launch file (OHS 1412)
+  file:
+    path: "{{ ohs_home }}/ohs/bin/launch"
+    mode: "4750"
+    owner: root
+    group: "{{ ohs_group }}"
+  ignore_errors: True
+  when: base_version|string == "14.1.2.0.0"
+
+# Ignore errors, this file may not exists
+- name: Modify httpd file (OHS 1412)
+  file:
+    path: "{{ ohs_home }}/ohs/bin/httpd"
+    mode: "4750"
+    owner: root
+    group: "{{ ohs_group }}"
+  ignore_errors: True
+  when: base_version|string == "14.1.2.0.0"
+
+# Ignore errors, this file may not exists
 - name: Modify hasbind file
   file:
     path: "{{ ohs_home }}/oracle_common/bin/hasbind"
@@ -72,7 +92,6 @@
     state: directory
     owner: "{{ ohs_user }}"
     group: "{{ ohs_group }}"
-
 
 - name: Copy configOHS.py
   copy:
@@ -135,30 +154,13 @@
       pip:
         name: PyOpenSSL
         executable: pip3
-
+    
     - name: Check if CertGenCA exists
       stat:
         path: "{{ weblogic_home }}/wlserver/server/lib/CertGenCA.der"
       register: certgen
       when: weblogic_home is defined
-
-    - name: Execute create_back_wallet
-      become: yes
-      become_user: "{{ ohs_user }}"
-      command: "{{ ohs_home }}/oracle_common/bin/orapki wallet create -wallet {{ wallet_path }}/pluginWallet -auto_login -pwd {{ keystore_password }}"
-      environment:
-        ORACLE_HOME: "{{ ohs_home }}"
-
-    - name: Execute trust_wlsca
-      become: yes
-      become_user: "{{ ohs_user }}"
-      command: "./orapki wallet add -wallet {{ wallet_path }}/pluginWallet -trusted_cert -cert {{ weblogic_home }}/wlserver/server/lib/CertGenCA.der -pwd {{ keystore_password }}"
-      args:
-        chdir: "{{ ohs_home }}/oracle_common/bin"
-      environment:
-        ORACLE_HOME: "{{ ohs_home }}"
-      when: weblogic_home is defined
-
+    
     - name: Create ssl folder
       file:
         state: directory
@@ -166,6 +168,57 @@
         owner: "{{ ohs_user }}"
         group: "{{ ohs_group }}"
 
+    # Create BackEnd Wallet
+    - name: Execute create_back_wallet (OHS 12.2.1.4)
+      become: yes
+      become_user: "{{ ohs_user }}"
+      command: "{{ ohs_home }}/oracle_common/bin/orapki wallet create -wallet {{ wallet_path }}/pluginWallet -auto_login -pwd {{ keystore_password }}"
+      environment:
+        ORACLE_HOME: "{{ ohs_home }}"
+      when: base_version|string != "14.1.2.0.0"
+
+    - name: Execute create_back_wallet (OHS 14.1.2)
+      become: yes
+      become_user: "{{ ohs_user }}"
+      command: "{{ ohs_home }}/bin/orapki wallet create -wallet {{ wallet_path }}/pluginWallet -auto_login_only"
+      environment:
+        ORACLE_HOME: "{{ ohs_home }}"
+        JAVA_HOME: "{{ ohs_home }}/oracle_common/jdk"
+      when: base_version|string == "14.1.2.0.0"
+
+    - name: Add WebLogic domain's CA certificate (OHS 12.2.1.4)
+      become: yes
+      become_user: "{{ ohs_user }}"
+      command: "./orapki wallet add -wallet {{ wallet_path }}/pluginWallet -trusted_cert -cert {{ weblogic_home }}/wlserver/server/lib/CertGenCA.der -pwd {{ keystore_password }}"
+      args:
+        chdir: "{{ ohs_home }}/oracle_common/bin"
+      environment:
+        ORACLE_HOME: "{{ ohs_home }}"
+      when: weblogic_home is defined and base_version|string != "14.1.2.0.0"
+
+    #- name: Add WebLogic domain's CA certificate (OHS 14.1.2)
+    #  become: yes
+    #  become_user: "{{ ohs_user }}"
+    #  command: "./orapki wallet add -wallet {{ wallet_path }}/pluginWallet -trusted_cert -cert {{ weblogic_home }}/wlserver/server/lib/CertGenCA.der -auto_login_only"
+    #  args:
+    #    chdir: "{{ ohs_home }}/bin"
+    #  environment:
+    #    ORACLE_HOME: "{{ ohs_home }}"
+    #    JAVA_HOME: "{{ ohs_home }}/oracle_common/jdk"
+    #  when: weblogic_home is defined and base_version|string == "14.1.2.0.0"
+
+    - name: Add WebLogic domain's CA Demo Certificate (OHS 14.1.2)
+      become: yes
+      become_user: "{{ ohs_user }}"
+      command: "./orapki wallet add -wallet {{ wallet_path }}/pluginWallet -trusted_cert -cert {{ weblogic_home }}/user_projects/domains/{{ ansible_hostname }}/security/democacert.der -auto_login_only"
+      args:
+        chdir: "{{ ohs_home }}/bin"
+      environment:
+        ORACLE_HOME: "{{ ohs_home }}"
+        JAVA_HOME: "{{ ohs_home }}/oracle_common/jdk"
+      when: weblogic_home is defined and base_version|string == "14.1.2.0.0"
+        
+     # Create BackEnd Certs
     - name: Generate an OpenSSL private key
       openssl_privatekey:
         owner: "{{ ohs_user }}"
@@ -217,8 +270,9 @@
       environment:
         ORACLE_HOME: "{{ ohs_home }}"
       when: ansible_facts['distribution_version'] is match('^9.*')
-
-    - name: Import cert to backend wallet
+    
+     # Import to BackEnd Wallet
+    - name: Import cert to backend wallet (OHS 12.2.1.4)
       become: yes
       become_user: "{{ ohs_user }}"
       command: "./orapki wallet import_pkcs12 -wallet {{ wallet_path }}/pluginWallet -pkcs12file {{ ohs_base }}/scripts/ssl/WLSPlugin.p12 -pkcs12pwd {{ keystore_password }} -pwd {{ keystore_password }}"
@@ -226,6 +280,18 @@
         chdir: "{{ ohs_home }}/oracle_common/bin"
       environment:
         ORACLE_HOME: "{{ ohs_home }}"
+      when: base_version|string != "14.1.2.0.0"
+    
+    - name: Import cert to backend wallet (OHS 14.1.2)
+      become: yes
+      become_user: "{{ ohs_user }}"
+      command: "./orapki wallet import_pkcs12 -wallet {{ wallet_path }}/pluginWallet -pkcs12file {{ ohs_base }}/scripts/ssl/WLSPlugin.p12 -pkcs12pwd {{ keystore_password }} -auto_login_only"
+      args:
+        chdir: "{{ ohs_home }}/bin"
+      environment:
+        ORACLE_HOME: "{{ ohs_home }}"
+        JAVA_HOME: "{{ ohs_home }}/oracle_common/jdk"
+      when: base_version|string == "14.1.2.0.0"
 
     - name: Import cert to wls
       become: yes
@@ -237,7 +303,8 @@
         ORACLE_HOME: "{{ ohs_home }}"
       when: weblogic_home is defined
 
-    - name: Create front wallet
+    # Create FrontEnd Wallet
+    - name: Create front wallet (OHS 12.2.1.4)
       become: yes
       become_user: "{{ ohs_user }}"
       command: "./orapki wallet create -wallet {{ wallet_path }}/publicEndPoint -auto_login -pwd {{ keystore_password }}"
@@ -245,7 +312,21 @@
         chdir: "{{ ohs_home }}/oracle_common/bin"
       environment:
         ORACLE_HOME: "{{ ohs_home }}"
+        JAVA_HOME: "{{ ohs_home }}/oracle_common/jdk"
+      when: base_version|string != "14.1.2.0.0"
+    
+    - name: Create front wallet (OHS 14.1.2)
+      become: yes
+      become_user: "{{ ohs_user }}"
+      command: "./orapki wallet create -wallet {{ wallet_path }}/publicEndPoint -auto_login_only"
+      args:
+        chdir: "{{ ohs_home }}/bin"
+      environment:
+        ORACLE_HOME: "{{ ohs_home }}"
+        JAVA_HOME: "{{ ohs_home }}/oracle_common/jdk"
+      when: base_version|string == "14.1.2.0.0"
 
+    # Create FrontEnd Certs
     - name: Generate an OpenSSL private key
       openssl_privatekey:
         owner: "{{ ohs_user }}"
@@ -282,7 +363,7 @@
         privatekey_path: "{{ ohs_base }}/scripts/ssl/FrontCert.key"
         csr_path: "{{ ohs_base }}/scripts/ssl/FrontCert.csr"
 
-    - name: Create front end p12
+    - name: Create front end p12 [RH8]
       become: yes
       become_user: "{{ ohs_user }}"
       command: "openssl pkcs12 -export -in {{ ohs_scripts_loc }}/ssl/FrontCert.crt -inkey {{ ohs_scripts_loc }}/ssl/FrontCert.key -out {{ ohs_scripts_loc }}/ssl/FrontCert.p12 -name selfsigned -password pass:{{ keystore_password }}"
@@ -292,7 +373,7 @@
         ORACLE_HOME: "{{ ohs_home }}"
       when: ansible_facts['distribution_version'] is match('^8.*')
 
-    - name: Create front end p12
+    - name: Create front end p12 [RH9]
       become: yes
       become_user: "{{ ohs_user }}"
       command: "openssl pkcs12 -legacy -export -in {{ ohs_scripts_loc }}/ssl/FrontCert.crt -inkey {{ ohs_scripts_loc }}/ssl/FrontCert.key -out {{ ohs_scripts_loc }}/ssl/FrontCert.p12 -name selfsigned -password pass:{{ keystore_password }}"
@@ -301,8 +382,9 @@
       environment:
         ORACLE_HOME: "{{ ohs_home }}"
       when: ansible_facts['distribution_version'] is match('^9.*')
-
-    - name: Import cert to front end wallet
+    
+    # Import to FrontEnd Wallet
+    - name: Import cert to front end wallet (OHS 12.2.1.4)
       become: yes
       become_user: "{{ ohs_user }}"
       command: "./orapki wallet import_pkcs12 -wallet {{ wallet_path }}/publicEndPoint -pkcs12file  {{ ohs_scripts_loc }}/ssl/FrontCert.p12 -pkcs12pwd {{ keystore_password }} -pwd {{ keystore_password }}"
@@ -310,7 +392,27 @@
         chdir: "{{ ohs_home }}/oracle_common/bin"
       environment:
         ORACLE_HOME: "{{ ohs_home }}"
-
+      when: base_version|string != "14.1.2.0.0"
+    
+    # Add self-signed certificate to FrontEnd Wallet - OHS 14.1.2
+    - name: Add self-signed certificate to front wallet (OHS 14.1.2)
+      become: yes
+      become_user: "{{ ohs_user }}"
+      command: "./orapki wallet add -wallet {{ wallet_path }}/publicEndPoint -dn 'CN={{ ansible_fqdn }},OU={{ cert_organization_unit_name }},O={{ cert_organization_name }}' -keysize 2048 -self_signed -validity 3650 -auto_login_only"
+      args:
+        chdir: "{{ ohs_home }}/bin"
+      environment:
+        ORACLE_HOME: "{{ ohs_home }}"
+        JAVA_HOME: "{{ ohs_home }}/oracle_common/jdk"
+      register: cert_add_result
+      changed_when: "'added to wallet' in cert_add_result.stdout or 'executed successfully' in cert_add_result.stdout"
+      failed_when: 
+        - cert_add_result.rc != 0
+        - "'already exists' not in cert_add_result.stderr"
+        - "'executed successfully' not in cert_add_result.stdout"
+      when: base_version|string == "14.1.2.0.0"
+      
+    #Update SSL Conf
     - name: "Update {{ ohs_home }}/user_projects/domains/ohs_{{ ansible_hostname }}/config/fmwconfig/components/OHS/ohs1/ssl.conf"
       replace:
         path: "{{ ohs_home }}/user_projects/domains/ohs_{{ ansible_hostname }}/config/fmwconfig/components/OHS/ohs1/ssl.conf"
@@ -346,6 +448,7 @@
         name: ohsNM.service
         enabled: yes
         state: started
+    
     # Using shell as command did not wait
     - name: Start Component
       become: yes
