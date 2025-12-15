@@ -39,7 +39,7 @@
         name: ohs
       vars:
         ansible_python_interpreter: /usr/bin/python3
-        weblogic_home: "/home/oracle/Oracle/Middleware/Oracle_Home"
+        ohs_version: "14.1.2.0.250908"
   vars:
     download_url: "{{ lookup('env', 'ARTIFACTORY_URL') }}/{{ lookup('env', 'ARTIFACTORY_REPO') }}/SoftwareInstallers"
     download_header: { 'X-JFrog-Art-Api': "{{ lookup('env', 'ARTIFACTORY_TOKEN') }}"}
