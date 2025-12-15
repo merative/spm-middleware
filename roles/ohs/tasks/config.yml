@@ -196,27 +196,16 @@
         ORACLE_HOME: "{{ ohs_home }}"
       when: weblogic_home is defined and base_version|string != "14.1.2.0.0"
 
-    #- name: Add WebLogic domain's CA certificate (OHS 14.1.2)
+    #- name: Add WebLogic domain's CA Demo Certificate (OHS 14.1.2)
     #  become: yes
     #  become_user: "{{ ohs_user }}"
-    #  command: "./orapki wallet add -wallet {{ wallet_path }}/pluginWallet -trusted_cert -cert {{ weblogic_home }}/wlserver/server/lib/CertGenCA.der -auto_login_only"
+    #  command: "./orapki wallet add -wallet {{ wallet_path }}/pluginWallet -trusted_cert -cert {{ weblogic_home }}/user_projects/domains/{{ ansible_hostname }}/security/democacert.der -auto_login_only"
     #  args:
     #    chdir: "{{ ohs_home }}/bin"
     #  environment:
     #    ORACLE_HOME: "{{ ohs_home }}"
     #    JAVA_HOME: "{{ ohs_home }}/oracle_common/jdk"
     #  when: weblogic_home is defined and base_version|string == "14.1.2.0.0"
-
-    - name: Add WebLogic domain's CA Demo Certificate (OHS 14.1.2)
-      become: yes
-      become_user: "{{ ohs_user }}"
-      command: "./orapki wallet add -wallet {{ wallet_path }}/pluginWallet -trusted_cert -cert {{ weblogic_home }}/user_projects/domains/{{ ansible_hostname }}/security/democacert.der -auto_login_only"
-      args:
-        chdir: "{{ ohs_home }}/bin"
-      environment:
-        ORACLE_HOME: "{{ ohs_home }}"
-        JAVA_HOME: "{{ ohs_home }}/oracle_common/jdk"
-      when: weblogic_home is defined and base_version|string == "14.1.2.0.0"
         
      # Create BackEnd Certs
     - name: Generate an OpenSSL private key
