@@ -122,6 +122,14 @@
   retries: 30
   delay: 30
 
+- name: Cleanup
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /tmp//{{ patch_filename }}
+    - /tmp/{{ patch_number }}
+
 - name: Check listener status
   become: yes
   become_user: oracle
