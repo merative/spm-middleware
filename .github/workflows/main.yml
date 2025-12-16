@@ -38,6 +38,8 @@ jobs:
           - db21159
           - ohs-12214-rockylinux8
           - ohs-12214-rockylinux9
+          - ohs-1412-rockylinux8
+          - ohs-1412-rockylinux9
           - weblogic-12214-rockylinux8
           - weblogic-12214-rockylinux9
           - weblogic-1411-rockylinux8
