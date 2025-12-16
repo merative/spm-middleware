@@ -13,7 +13,7 @@ Ensure you update / override password variables prior to using the role.
 | Property Name             | Default value                                       |
 | ------------------------- | --------------------------------------------------- |
 | `db2_install_path`        | `/opt/IBM/db2`                                      |
-| `db2_version`             | `12.1.2.0`                                          |
+| `db2_version`             | `12.1.3.0`                                          |
 | `db2_product`             | `DB2_SERVER_EDITION`                                |
 | `db2_bypass_prereq_check` | `False`                                             |
 | ------------------------- | --------------------------------------------------- |
@@ -43,7 +43,7 @@ None
 - hosts: servers
   roles:
     - role: merative.spm_middleware.db2
-      db2_version: 12.1.2.0
+      db2_version: 12.1.3.0
 ```
 
 ## License

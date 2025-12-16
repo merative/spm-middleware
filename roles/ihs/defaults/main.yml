@@ -5,7 +5,7 @@ ihs_install_path: /opt/IBM/HTTPServer
 plg_install_path: /opt/IBM/WebSphere/Plugins
 wct_install_path: /opt/IBM/WebSphere/Toolbox
 
-ihs_version: 9.0.5.25
+ihs_version: 9.0.5.26
 
 ihs_config_type: local_distributed
 ihs_admin_user: wasadmin
