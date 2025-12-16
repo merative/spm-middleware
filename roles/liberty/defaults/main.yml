@@ -3,7 +3,7 @@ iim_install_path: /opt/IBM/InstallationManager
 
 liberty_install_path: /opt/IBM/WebSphere/Liberty
 
-liberty_version: 25.0.0.9
+liberty_version: 25.0.0.12
 
 jdk_version: 8.0
 

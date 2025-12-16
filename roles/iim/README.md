@@ -10,7 +10,7 @@ None
 
 | Property Name       | Default value                                         |
 | ------------------- | ----------------------------------------------------- |
-| `iim_agent_version` | `1.9.3003.20250821_0952`                              |
+| `iim_agent_version` | `1.9.3004.20251123_2122`                              |
 | `iim_install_path`  | `/opt/IBM/InstallationManager`                        |
 | `download_url`      | # Set this if license and installer is being downloaded from a http server|
 | `download_header`   | # Use this in conjunction with `download_url` |
