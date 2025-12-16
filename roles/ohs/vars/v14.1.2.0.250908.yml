@@ -6,7 +6,7 @@ base_installer: fmw_14.1.2.0.0_ohs_linux64.bin
 base_installer_path: "OHS/14.1.2/fmw_14.1.2.0.0_ohs_linux64.bin"
 
 # Patch information
-ohs_version: 14.1.2.0.250707
+ohs_version: 14.1.2.0.250908
 patches:
   - filename: "OHS/{{ ohs_version_folder }}/p38402346_141200_Linux-x86-64.zip"
     number: 38402346
