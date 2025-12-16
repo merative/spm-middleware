@@ -38,13 +38,23 @@
     group: oinstall
   when: opatch_version is defined and opatch_status.rc != 0
 
+- name: Check if patch already applied
+  become: yes
+  become_user: oracle
+  shell: "{{ oracle_home }}/OPatch/opatch lsinventory | grep -q {{ patch_number }}"
+  ignore_errors: true
+  register: patch_applied
+  changed_when: false
+  environment:
+    ORACLE_HOME: "{{ oracle_home }}"
+
 - name: "Copy Patch {{ oatch_filename }}"
   copy:
     src: "{{ oracle_installer_path }}/{{ patch_filename }}"
     dest: "/tmp//{{ patch_filename }}"
     owner: oracle
     group: oinstall
-  when: download_url is not defined
+  when: download_url is not defined and patch_applied.rc != 0
 
 - name: "Download Patch {{ patch_filename }}"
   get_url:
@@ -53,7 +63,7 @@
     owner: oracle
     group: oinstall
     headers: "{{ download_header }}"
-  when: download_url is defined
+  when: download_url is defined and patch_applied.rc != 0
 
 - name: "Extract Patch {{ patch_filename }}"
   unarchive:
@@ -110,6 +120,7 @@
   async: 900
   poll: 0
   register: patch_checker
+  when: patch_applied.rc != 0
 
 # Avoid travis timeout
 - name: 'Patch - check status'
@@ -121,6 +132,7 @@
   until: job_result.finished
   retries: 30
   delay: 30
+  when: patch_applied.rc != 0
 
 - name: Cleanup
   file:
