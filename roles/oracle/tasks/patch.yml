@@ -48,7 +48,7 @@
   environment:
     ORACLE_HOME: "{{ oracle_home }}"
 
-- name: "Copy Patch {{ oatch_filename }}"
+- name: "Copy Patch {{ patch_filename }}"
   copy:
     src: "{{ oracle_installer_path }}/{{ patch_filename }}"
     dest: "/tmp//{{ patch_filename }}"
@@ -59,7 +59,7 @@
 - name: "Download Patch {{ patch_filename }}"
   get_url:
     url: "{{ download_url }}/{{ oracle_installer_path }}/{{ patch_filename }}"
-    dest: "/tmp//{{ patch_filename }}"
+    dest: "/tmp/{{ patch_filename }}"
     owner: oracle
     group: oinstall
     headers: "{{ download_header }}"
@@ -139,7 +139,7 @@
     path: "{{ item }}"
     state: absent
   loop:
-    - /tmp//{{ patch_filename }}
+    - /tmp/{{ patch_filename }}
     - /tmp/{{ patch_number }}
 
 - name: Check listener status

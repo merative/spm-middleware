@@ -10,8 +10,6 @@ ohs_version: 14.1.2.0.250707
 patches:
   - filename: "OHS/{{ ohs_version_folder }}/p38158105_141200_Linux-x86-64.zip"
     number: 38158105
-#  - filename: "OHS/{{ ohs_version_folder }}/p35333510_122140_Linux-x86-64.zip"
-#    number: 35037811
 
 # OPatch Information
 opatch_filename_path: "WLS/Patches/p28186730_1394220_Generic.zip"
