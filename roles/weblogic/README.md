@@ -22,7 +22,7 @@ The `weblogc` role will install Weblogic.
 | ----------------------------------- | --------------------------------------------------- |
 | ** `weblogic_version - java8` **    | `12.2.1.4.250706`                                   |
 |                                     | `14.1.1.0.250630`                                   |
-|  ** `weblogic_version - java21` **  | `14.1.2.0.250629`                                   |
+|  ** `weblogic_version - java21` **  | `14.1.2.0.250911`                                   |
 | ----------------------------------- | --------------------------------------------------- |
 
 ...
@@ -49,9 +49,9 @@ The version of the OPatch tool itself is also handed by the above tasks file.
 - hosts: servers
   roles:
     - role: merative.spm_middleware.weblogic
-      weblogic_version - java8: 12.2.1.4.250706
-      weblogic_version - java8: 14.1.1.0.250630
-      weblogic_version - java21: 14.1.2.0.250629
+      weblogic_version - java8: 12.2.1.4.250910
+      weblogic_version - java8: 14.1.1.0.250910
+      weblogic_version - java21: 14.1.2.0.250911
 ```
 
 ## Note
