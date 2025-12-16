@@ -32,14 +32,14 @@
         name: weblogic
       vars:
         ansible_python_interpreter: /usr/bin/python3
-        weblogic_version: "14.1.1.0.250630"
+        weblogic_version: "14.1.2.0.250629"
 
     - name: include ohs
       include_role:
         name: ohs
       vars:
         ansible_python_interpreter: /usr/bin/python3
-        ohs_version: "12.2.1.4.250609"
+        ohs_version: "14.1.2.0.250908"
   vars:
     download_url: "{{ lookup('env', 'ARTIFACTORY_URL') }}/{{ lookup('env', 'ARTIFACTORY_REPO') }}/SoftwareInstallers"
     download_header: { 'X-JFrog-Art-Api': "{{ lookup('env', 'ARTIFACTORY_TOKEN') }}"}

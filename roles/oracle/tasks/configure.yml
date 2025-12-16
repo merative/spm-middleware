@@ -99,3 +99,8 @@
         name: oracle.service
         enabled: yes
         state: started
+        
+- name: Cleanup
+  file:
+    path: "/tmp/{{ base_installer }}"
+    state: absent

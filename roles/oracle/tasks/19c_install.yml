@@ -1,5 +1,10 @@
 ---
 
+- name: Check if Oracle Database is already installed
+  stat:
+    path: "{{ oracle_home }}/bin/sqlplus"
+  register: oracle_installed
+  
 - name: Download and install the Oracle Database Preinstallation rpm
   yum:
     name: "{{ prereqs_installer }}"
@@ -10,7 +15,7 @@
   copy:
     src: "{{ oracle_installer_path }}/{{ base_installer }}"
     dest: "/tmp/{{ base_installer }}"
-  when: download_url is not defined
+  when: download_url is not defined and not oracle_installed.stat.exists
 
 - name: Download .rpm file for RPM-based installation
   get_url:
@@ -18,10 +23,11 @@
     dest: "/tmp/{{ base_installer }}"
     force: no
     headers: "{{ download_header }}"
-  when: download_url is defined
+  when: download_url is defined and not oracle_installed.stat.exists
 
 - name: Install oracle software rpm
   yum:
     name: "/tmp/{{ base_installer }}"
     state: present
     disable_gpg_check: yes
+  when: not oracle_installed.stat.exists
