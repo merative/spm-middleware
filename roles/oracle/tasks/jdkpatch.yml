@@ -1,0 +1,70 @@
+---
+- name: Check if JDK patch already applied
+  become: yes
+  become_user: oracle
+  shell: "{{ oracle_home }}/OPatch/opatch lsinventory | grep -q {{ jdk_patch_number }}"
+  ignore_errors: true
+  register: jdk_patch_applied
+  changed_when: false
+  environment:
+    ORACLE_HOME: "{{ oracle_home }}"
+
+- name: "Copy JDK Patch {{ jdk_patch_filename }}"
+  copy:
+    src: "{{ oracle_installer_path }}/{{ jdk_patch_filename }}"
+    dest: "/tmp//{{ jdk_patch_filename }}"
+    owner: oracle
+    group: oinstall
+  when: download_url is not defined and jdk_patch_applied.rc != 0
+
+- name: "Download JDK Patch {{ jdk_patch_filename }}"
+  get_url:
+    url: "{{ download_url }}/{{ oracle_installer_path }}/JDKPatch/{{ jdk_patch_filename }}"
+    dest: "/tmp/{{ jdk_patch_filename }}"
+    owner: oracle
+    group: oinstall
+    headers: "{{ download_header }}"
+  when: download_url is defined and jdk_patch_applied.rc != 0
+
+- name: "Extract JDK Patch {{ jdk_patch_filename }}"
+  unarchive:
+    remote_src: yes
+    src: "/tmp/{{ jdk_patch_filename }}"
+    dest: /tmp/
+    owner: oracle
+    group: oinstall
+  when: jdk_patch_applied.rc != 0
+
+- name: "Apply JDK Patch {{ jdk_patch_number }}"
+  become: yes
+  become_user: oracle
+  command: $ORACLE_HOME/OPatch/opatch apply -silent
+  args:
+    chdir: "/tmp/{{ jdk_patch_number }}"
+  environment:
+    ORACLE_HOME: "{{ oracle_home }}"
+    ORACLE_SID: "{{ oracle_sid }}"
+  async: 900
+  poll: 0
+  register: patch_checker
+  when: jdk_patch_applied.rc != 0
+
+# Avoid travis timeout
+- name: 'JDK Patch - check status'
+  become: yes
+  become_user: oracle
+  async_status:
+    jid: "{{ patch_checker.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 30
+  delay: 30
+  when: jdk_patch_applied.rc != 0
+
+- name: Cleanup
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /tmp/{{ jdk_patch_filename }}
+    - /tmp/{{ jdk_patch_number }}
