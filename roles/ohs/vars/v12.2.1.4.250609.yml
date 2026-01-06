@@ -26,8 +26,8 @@ opatch_version: 13.9.4.2.20
 opatch_folder: 6880880
 
 # JDK Information
-java_zip_path: 'WLS/jdk-8u461-linux-x64.tar.gz'
-java_version_path: 'jdk1.8.0_461'
+java_zip_path: 'WLS/jdk-8u471-linux-x64.tar.gz'
+java_version_path: 'jdk1.8.0_471'
 jdk_folder: "{{ ohs_home }}/oracle_common/jdk"
 
 template_jar: "ohs_standalone_template.jar"
