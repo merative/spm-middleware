@@ -15,6 +15,7 @@
   copy:
     src: "{{ liberty_installers_path }}"
     dest: "/tmp/repo.zip"
+    remote_src: yes
   when: download_url is not defined
 
 - name: Extract Liberty installers
