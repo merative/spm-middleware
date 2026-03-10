@@ -70,7 +70,11 @@
         -datafileDestination $ORACLE_BASE/oradata \
         -characterSet AL32UTF8 \
         -memoryPercentage 40 \
-        -initParams processes=1500,open_cursors=1000
+        -initParams processes=1500,open_cursors=1000 \
+        -createAsContainerDatabase true \
+        -numberOfPDBs 1 \
+        -pdbName {{ oracle_sid }}pdb \
+        -pdbAdminPassword $ORACLE_ADMIN_PASSWORD
   environment:
     ORACLE_BASE: "{{ oracle_base }}"
     ORACLE_HOME: "{{ oracle_home }}"
@@ -92,7 +96,15 @@
 - name: Check if DB Configured
   become: yes
   become_user: oracle
-  shell: "echo 'SELECT USERNAME FROM DBA_USERS;' | $ORACLE_HOME/bin/sqlplus / as sysdba | grep CURAM"
+  shell: |
+    $ORACLE_HOME/bin/sqlplus -s / as sysdba <<'SQL' | grep -q '^CURAM$'
+    set pagesize 0 feedback off verify off heading off echo off
+    {% if oracle_family == '26ai' %}
+    alter session set container={{ oracle_sid }}pdb;
+    {% endif %}
+    select username from dba_users where username='CURAM';
+    exit;
+    SQL
   register: db_config_status
   changed_when: False
   ignore_errors: True
