@@ -48,6 +48,8 @@ jobs:
           - weblogic-1412-rockylinux9
           - oracle-19c-rockylinux8
           - oracle-19c-rockylinux9
+          - oracle-26ai-rockylinux8
+          - oracle-26ai-rockylinux9
           - iim-191-rockylinux8
           - iim-191-rockylinux9
           - liberty-jdk8-rockylinux8
