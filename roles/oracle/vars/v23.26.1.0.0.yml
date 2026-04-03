@@ -20,4 +20,4 @@ base_installer: oracle-ai-database-ee-26ai-1.0-1.el9.x86_64.rpm
 
 # 26ai specific configurations
 oracle_family: "26ai"
-#sql_username: c##curam
+sql_username: c##curam

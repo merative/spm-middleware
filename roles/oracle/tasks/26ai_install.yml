@@ -1,5 +1,10 @@
 ---
-
+- name: Install required packages for Database Client
+  package:
+    name:
+      - libnsl
+    state: present
+    
 - name: Check if Oracle Database is already installed
   stat:
     path: "{{ oracle_home }}/bin/sqlplus"
