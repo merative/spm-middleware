@@ -14,7 +14,7 @@ NOTE: Update these default usernames and passwords after the initial installatio
 
 | Property Name             | Default value                                       |
 | ------------------------- | --------------------------------------------------- |
-| `ohs_version`             | `12.2.1.4.260116`                                   |
+| `ohs_version`             | `12.2.1.4.260312`                                   |
 | `ohs_user`                | `oracle`                                            |
 | `ohs_admin_password`      | `password1`                                         |
 | `ohs_group`               | `oinstall`                                          |
@@ -31,6 +31,11 @@ NOTE: Update these default usernames and passwords after the initial installatio
 | `profiled_path`           | `/opt/profile.d`                                    |
 | ------------------------- | --------------------------------------------------- |
 
+| ----------------------------------- | --------------------------------------------------- |
+| ** `ohs_version - java8` **         | `12.2.1.4.260312`                                   |
+| ** `ohs_version - java21` **        | `14.1.2.0.260316`                                   |
+| ----------------------------------- | --------------------------------------------------- |
+
 ## Dependencies
 
 Although the role can be used independently, it is expected that Weblogic is already installed on the host and will not function correctly without it.
@@ -41,7 +46,8 @@ Although the role can be used independently, it is expected that Weblogic is alr
 - hosts: all
   roles:
     - role: merative.spm_middleware.ohs
-      ohs_version: 12.2.1.4.260116
+      ohs_version - java8: 12.2.1.4.260312
+      ohs_version - java21: 14.1.2.0.260316
 ```
 ## License
 
