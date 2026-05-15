@@ -34,10 +34,7 @@
     mode: 0644
     force: no
 
-- name: Cleanup
-  file:
-    path: "{{ item }}"
-    state: absent
-  loop:
-    - /tmp/repo
-    - /tmp/repo-zips
+- name: Cleanup installer files
+  include_tasks: cleanup.yml
+  tags:
+    - cleanup

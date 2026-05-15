@@ -60,3 +60,8 @@
 - name: Set up properties file
   include_tasks: "config.yml"
   when: base_version is defined
+
+- name: Cleanup installer files
+  include_tasks: cleanup.yml
+  tags:
+    - cleanup

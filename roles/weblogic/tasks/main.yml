@@ -33,3 +33,8 @@
 
 - include_tasks: patch.yml
   when: (patch is defined) and (weblogic_version_status.rc != 0)
+
+- name: Cleanup installer files
+  include_tasks: cleanup.yml
+  tags:
+    - cleanup

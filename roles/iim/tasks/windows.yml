@@ -30,8 +30,3 @@
   win_command: installc.exe -acceptLicense -iD {{ iim_install_path }}
   args:
     chdir: "{{ tmp_dir.path }}"
-
-- name: Delete temporary directory
-  win_file:
-    path: "{{ tmp_dir.path }}"
-    state: absent

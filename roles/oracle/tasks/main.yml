@@ -53,3 +53,8 @@
     regexp: '^(.*):N$'
     replace: '\1:Y'
     backup: yes
+
+- name: Cleanup installer files
+  include_tasks: "cleanup.yml"
+  tags:
+    - cleanup

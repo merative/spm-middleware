@@ -36,9 +36,3 @@
     chdir: "{{ tmp_dir.path }}"
     creates: "{{ iim_install_path }}"
   become: yes
-
-- name: Delete temporary directory
-  file:
-    path: "{{ tmp_dir.path }}"
-    state: absent
-  become: yes
