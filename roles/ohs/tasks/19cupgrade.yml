@@ -57,13 +57,3 @@
   become: yes
   become_user: "{{ ohs_user }}"
   command: "{{ ohs_installer_loc }}/upgrade19cInstaller/{{ upgrade19c_installer_folder }}/{{ upgrade19c_installer }} -ignoreSysPrereqs -invPtrLoc {{ ohs_home }}/oraInst.loc -silent ORACLE_HOME={{ ohs_home }}"
-
-- name: Cleanup
-  file:
-    path: "{{ ohs_installer_loc }}/upgrade19cInstaller"
-    state: absent
-
-- name: Cleanup
-  file:
-    path: "{{ ohs_installer_loc }}/19cUpgrade"
-    state: absent

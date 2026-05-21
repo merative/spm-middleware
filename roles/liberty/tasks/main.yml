@@ -19,18 +19,27 @@
   when: not iim_info.exact_installed
 
 - name: Install Java (iim way)
-  include_tasks: fixpack_install.yml
+  include_tasks: jdk_install.yml
   vars:
-    liberty_fp_path: "{{ liberty_java_zip_path }}"
+    liberty_java_path: "{{ liberty_java_zip_path }}"
     pack_id: "{{ liberty_java_pid }}"
   when: (not iim_info.exact_installed) and ( jdk_installation_way is undefined )
+
+- name: Check if JDK already installed (unzip way)
+  stat:
+    path: "{{ liberty_install_path }}/java/{{ jdk_version }}/bin/java"
+  register: jdk_unzip_installed
+  when: jdk_installation_way is defined
 
 - name: Download JDK (unzip way)
   get_url:
     dest: /tmp/jdk.zip
     url: "{{ download_url }}/{{ liberty_java_zip_path }}"
     headers: "{{ download_header }}"
-  when: (download_url is defined) and ( jdk_installation_way is defined )
+  when:
+    - download_url is defined
+    - jdk_installation_way is defined
+    - not (jdk_unzip_installed.stat is defined and jdk_unzip_installed.stat.exists)
 
 - name: Prepare Open JDK Folder (unzip way)
   file:
@@ -38,16 +47,20 @@
     state: directory
     owner: root
     group: root
-  when: jdk_installation_way is defined
+  when:
+    - jdk_installation_way is defined
+    - not (jdk_unzip_installed.stat is defined and jdk_unzip_installed.stat.exists)
 
 - name: Install Java (unzip way)
   unarchive:
     src: /tmp/jdk.zip
     dest: "{{ liberty_install_path }}/java/{{ jdk_version }}"
-    creates: "{{ liberty_install_path }}/java/{{ jdk_version }}/repository.config"
+    creates: "{{ liberty_install_path }}/java/{{ jdk_version }}/bin/java"
     extra_opts: [--strip-components=1]
     remote_src: yes
-  when: jdk_installation_way is defined
+  when:
+    - jdk_installation_way is defined
+    - not (jdk_unzip_installed.stat is defined and jdk_unzip_installed.stat.exists)
 
 - name: Create /opt/Props
   file:
@@ -71,3 +84,8 @@
     src: jvm.options.j2
     dest: "{{ liberty_install_path }}/usr/shared/jvm.options"
     mode: 0644
+
+- name: Cleanup installer files
+  include_tasks: cleanup.yml
+  tags:
+    - cleanup

@@ -1,0 +1,15 @@
+---
+# Cleanup all installer files and extracted directories after installation
+
+- name: Cleanup iim temporary directory (Linux/MacOS)
+  file:
+    path: /tmp/iim
+    state: absent
+  ignore_errors: yes
+  when: ansible_os_family != "Windows"
+
+- name: Cleanup iim temporary directory (Windows)
+  win_file:
+    path: C:\Temp\iim
+    state: absent
+  when: ansible_os_family == "Windows"

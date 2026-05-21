@@ -60,11 +60,3 @@
   retries: 30
   delay: 30
   when: jdk_patch_applied.rc != 0
-
-- name: Cleanup
-  file:
-    path: "{{ item }}"
-    state: absent
-  loop:
-    - /tmp/{{ jdk_patch_filename }}
-    - /tmp/{{ jdk_patch_number }}

@@ -148,10 +148,4 @@
   retries: 50
   delay: 30
 
-- name: Cleanup
-  file:
-    path: "{{ item }}"
-    state: absent
-  loop:
-    - "{{ installer_dir.path }}"
-    - "{{ db2_installer.dest }}"
+

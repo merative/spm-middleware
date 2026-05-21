@@ -1,0 +1,43 @@
+---
+# Cleanup all installer files and extracted directories after installation
+
+- name: Cleanup base installer files
+  file:
+    path: "/tmp/{{ item }}"
+    state: absent
+  loop: "{{ base_installer if base_installer is iterable and base_installer is not string else [base_installer] }}"
+  when: base_installer is defined
+  ignore_errors: yes
+
+- name: Cleanup OracleInstaller directory
+  file:
+    path: /tmp/OracleInstaller
+    state: absent
+  ignore_errors: yes
+
+- name: Cleanup OPatch file
+  file:
+    path: "/tmp/{{ opatch_filename }}"
+    state: absent
+  when: opatch_filename is defined
+  ignore_errors: yes
+
+- name: Cleanup patch files
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - "/tmp/{{ patch_filename }}"
+    - "/tmp/{{ patch_number }}"
+  when: patch_filename is defined and patch_number is defined
+  ignore_errors: yes
+
+- name: Cleanup JDK patch files
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - "/tmp/{{ jdk_patch_filename }}"
+    - "/tmp/{{ jdk_patch_number }}"
+  when: jdk_patch_filename is defined and jdk_patch_number is defined
+  ignore_errors: yes

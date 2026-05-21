@@ -122,11 +122,3 @@
   args:
     chdir: "/tmp/{{ item.number }}"
   loop: "{{ patches }}"
-
-- name: Cleanup
-  file:
-    path: "{{ item }}"
-    state: absent
-  loop:
-    - /tmp/OHS
-    - /tmp/repo.zip
