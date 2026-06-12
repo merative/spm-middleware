@@ -33,4 +33,6 @@ INSTANCE       = {{ instance_id }}
 LANG       = EN
 {% if db2_version is version('11.5.8.0', '>=') %}
 INSTALL_PCMK       = NO
+{% else %}
+INSTALL_TSAMP      = NO
 {% endif %}
