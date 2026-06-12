@@ -79,7 +79,7 @@
     - { group: "{{ db2_fenced_groupname }}", name: "{{ db2_fenced_username }}" }
 
 - name: Run installer
-  command: "{{ installer_dir.path }}/db2setup -r {{ installer_dir.path }}/db2server.rsp"
+  command: "{{ installer_dir.path }}/db2setup -r {{ installer_dir.path }}/db2server.rsp -f NOPCMK"
   register: install_job
   async: 1800
   poll: 0
