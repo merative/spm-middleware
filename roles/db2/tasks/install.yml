@@ -43,6 +43,10 @@
     - not db2_bypass_prereq_check
     - db2_installer.changed
 
+- name: Debug INSTALL_PCMK value
+  debug:
+    msg: "INSTALL_PCMK = {{ 'NO' if db2_version is version('11.5.8.0', '>=') else '(not set)' }}"
+
 - name: Render response file
   template:
     src: db2server.rsp.j2
