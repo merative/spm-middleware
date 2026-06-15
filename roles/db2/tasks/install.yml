@@ -47,7 +47,7 @@
   debug:
     msg:
       - "INSTALL_PCMK = {{ 'NO' if db2_version is version('11.5.8.0', '>=') else '(not set)' }}"
-      - "INSTALL_TSAMP = {{ 'NO' if db2_version is version('11.5.8.0', '>=') else '(not set)' }}"
+      - "INSTALL_TSAMP = {{ 'NO' if (db2_version is version('11.5.8.0', '>=') and db2_version is version('12.0.0.0', '<')) else '(not set)' }}"
 
 - name: Render response file
   template:
