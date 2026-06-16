@@ -43,12 +43,6 @@
     - not db2_bypass_prereq_check
     - db2_installer.changed
 
-- name: Debug INSTALL_PCMK and INSTALL_TSAMP values
-  debug:
-    msg:
-      - "INSTALL_PCMK = {{ 'NO' if db2_version is version('11.5.8.0', '>=') else '(not set)' }}"
-      - "INSTALL_TSAMP = {{ 'NO' if (db2_version is version('11.5.8.0', '>=') and db2_version is version('12.0.0.0', '<')) else '(not set)' }}"
-
 - name: Render response file
   template:
     src: db2server.rsp.j2
