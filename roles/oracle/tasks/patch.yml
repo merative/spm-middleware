@@ -98,6 +98,14 @@
     ORACLE_HOME: "{{ oracle_home }}"
     ORACLE_SID: "{{ oracle_sid }}"
 
+- name: Create missing symbolic links for Oracle for RH 9
+  file:
+    src: "/usr/lib64/libc_nonshared.a"
+    dest: "/usr/lib64/libpthread_nonshared.a"
+    state: link
+  when: ansible_facts['distribution_version'] is match('^9.*')
+  ignore_errors: true
+
 - name: "Apply Patch {{ patch_number }}"
   become: yes
   become_user: oracle
