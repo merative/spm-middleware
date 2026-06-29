@@ -1,0 +1,14 @@
+---
+# Cleanup all installer files and extracted directories after installation
+
+- name: Cleanup repo-zips directory
+  file:
+    path: /tmp/repo-zips
+    state: absent
+  ignore_errors: yes
+
+- name: Cleanup repo directory
+  file:
+    path: /tmp/repo
+    state: absent
+  ignore_errors: yes

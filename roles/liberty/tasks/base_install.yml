@@ -31,11 +31,3 @@
     path: "{{ liberty_install_path }}"
     repo: /tmp/repo
     state: present
-
-- name: Cleanup
-  file:
-    path: "{{ item }}"
-    state: absent
-  loop:
-    - /tmp/repo
-    - /tmp/repo.zip

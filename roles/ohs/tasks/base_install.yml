@@ -113,8 +113,3 @@
   become: yes
   become_user: "{{ ohs_user }}"
   command: "{{ ohs_installer_loc }}/baseInstaller -ignoreSysPrereqs -silent -responseFile {{ ohs_installer_loc }}/ohs_install.rsp"
-
-- name: Cleanup
-  file:
-    path: "{{ ohs_installer_loc }}/baseInstaller"
-    state: absent

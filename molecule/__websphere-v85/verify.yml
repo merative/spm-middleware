@@ -27,7 +27,7 @@
     - name: Check that JspBatchCompiler has been patched
       assert:
         that:
-          - "{{ '-Xmx1024m' in (jsp_compiler_sh['content'] | b64decode) }}"
+          - "{{ '-Xmx1600m' in (jsp_compiler_sh['content'] | b64decode) }}"
 
     - name: Check that environment file has been created correctly
       assert:

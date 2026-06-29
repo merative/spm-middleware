@@ -1,0 +1,20 @@
+---
+# Cleanup all installer files and extracted directories after installation
+
+- name: Cleanup DB2Installer directory
+  file:
+    path: /tmp/DB2Installer
+    state: absent
+  ignore_errors: yes
+
+- name: Cleanup db2 directory
+  file:
+    path: /tmp/db2
+    state: absent
+  ignore_errors: yes
+
+- name: Cleanup db2server license file
+  file:
+    path: /tmp/db2server.lic
+    state: absent
+  ignore_errors: yes

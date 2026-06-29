@@ -1,0 +1,76 @@
+---
+# Cleanup all installer files and extracted directories after installation
+
+- name: Cleanup base installer
+  file:
+    path: "{{ ohs_installer_loc }}/baseInstaller"
+    state: absent
+  ignore_errors: yes
+
+- name: Cleanup 19c upgrade installer directory
+  file:
+    path: "{{ ohs_installer_loc }}/19cUpgrade"
+    state: absent
+  when: upgrade19c_version is defined
+  ignore_errors: yes
+
+- name: Cleanup 19c upgrade extracted directory
+  file:
+    path: "{{ ohs_installer_loc }}/upgrade19cInstaller"
+    state: absent
+  when: upgrade19c_version is defined
+  ignore_errors: yes
+
+- name: Cleanup Java installer
+  file:
+    path: "{{ ohs_installer_loc }}/java-repo.zip"
+    state: absent
+  ignore_errors: yes
+
+- name: Cleanup OPatch file
+  file:
+    path: "/tmp/patch-repo.zip"
+    state: absent
+  when: opatch_filename_path is defined
+  ignore_errors: yes
+
+- name: Cleanup extracted OPatch folder
+  file:
+    path: "{{ ohs_installer_loc }}/{{ opatch_folder }}"
+    state: absent
+  when: opatch_folder is defined
+  ignore_errors: yes
+
+- name: Cleanup patch zip files
+  file:
+    path: "/tmp/{{ item.filename }}"
+    state: absent
+  loop: "{{ patches }}"
+  when: patches is defined
+  ignore_errors: yes
+
+- name: Cleanup extracted patch directories
+  file:
+    path: "/tmp/{{ item.number }}"
+    state: absent
+  loop: "{{ patches }}"
+  when: patches is defined
+  ignore_errors: yes
+
+- name: Cleanup OHS patches directory
+  file:
+    path: /tmp/ohsPatches
+    state: absent
+  ignore_errors: yes
+
+- name: Cleanup OHS temp directory
+  file:
+    path: /tmp/OHS
+    state: absent
+  ignore_errors: yes
+
+- name: Cleanup repo.zip (if exists)
+  file:
+    path: /tmp/repo.zip
+    state: absent
+  ignore_errors: yes

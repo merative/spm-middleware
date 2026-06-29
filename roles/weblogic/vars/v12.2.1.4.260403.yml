@@ -1,0 +1,15 @@
+---
+# base install file
+base_install_file: 'fmw_12.2.1.4.0_wls.jar'
+weblogic_version: 12.2
+# opatch version - 13.9.4.2.23
+opatch: 'p28186730_1394223_Generic.zip'
+opatch_version: 13.9.4.2.23
+# wls version - 12.2.1.4.260403
+patch: 'p39163907_122140_Generic.zip'
+patch_number: 39163907
+napply: false
+patch_folder: '39163907'
+# jdk version - 1.8.0_491
+java_archive_file: jdk-8u491-linux-x64.tar.gz
+java_version_path: 'jdk1.8.0_491'

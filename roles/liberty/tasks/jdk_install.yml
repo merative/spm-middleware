@@ -1,0 +1,33 @@
+---
+- name: Download repo
+  get_url:
+    dest: /tmp/jdkrepo.zip
+    url: "{{ download_url }}/{{ liberty_java_path }}"
+    headers: "{{ download_header }}"
+  when: download_url is defined
+
+- name: Create repo directory
+  file:
+    path: /tmp/jdkrepo
+    state: directory
+
+- name: Copy Liberty fixpack repo
+  copy:
+    src: "{{ liberty_java_path }}"
+    dest: "/tmp/jdkrepo.zip"
+  when: download_url is not defined
+
+- name: Extract repo
+  unarchive:
+    src: /tmp/jdkrepo.zip
+    dest: /tmp/jdkrepo
+    remote_src: yes
+    creates: /tmp/jdkrepo/repository.config
+
+- name: Install package
+  iim_package:
+    iim_path: "{{ iim_install_path }}"
+    product_id: "{{ pack_id }}"
+    path: "{{ liberty_install_path }}"
+    repo: /tmp/jdkrepo
+    state: present

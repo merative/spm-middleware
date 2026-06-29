@@ -1,0 +1,61 @@
+---
+# Cleanup all installer files and extracted directories after installation
+
+- name: Cleanup base installer file
+  file:
+    path: "{{ mw_installer_folder }}/{{ base_install_file }}"
+    state: absent
+  when: base_install_file is defined
+  ignore_errors: yes
+
+- name: Cleanup Java installer
+  file:
+    path: "{{ mw_installer_folder }}/java-repo.zip"
+    state: absent
+  ignore_errors: yes
+
+- name: Cleanup OPatch file
+  file:
+    path: "{{ mw_installer_folder }}/{{ opatch }}"
+    state: absent
+  when: opatch is defined
+  ignore_errors: yes
+
+- name: Cleanup OPatch extracted directory
+  file:
+    path: "{{ mw_installer_folder }}/6880880"
+    state: absent
+  ignore_errors: yes
+
+- name: Cleanup patch file
+  file:
+    path: "{{ mw_installer_folder }}/{{ weblogic_patch_path }}/{{ patch }}"
+    state: absent
+  when: patch is defined and weblogic_patch_path is defined
+  ignore_errors: yes
+
+- name: Cleanup extracted patch folder
+  file:
+    path: "{{ mw_installer_folder }}/{{ weblogic_patch_path }}/{{ patch_folder }}"
+    state: absent
+  when: patch_folder is defined and weblogic_patch_path is defined
+  ignore_errors: yes
+
+- name: Cleanup patch directory
+  file:
+    path: "{{ mw_installer_folder }}/patch"
+    state: absent
+  ignore_errors: yes
+
+- name: Cleanup Patches directory
+  file:
+    path: "{{ mw_installer_folder }}/Patches"
+    state: absent
+  ignore_errors: yes
+
+- name: Cleanup entire weblogic patch path directory
+  file:
+    path: "{{ mw_installer_folder }}/{{ weblogic_patch_path }}"
+    state: absent
+  when: weblogic_patch_path is defined
+  ignore_errors: yes

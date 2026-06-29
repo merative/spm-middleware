@@ -50,3 +50,8 @@
 
 - name: Setup profile
   include_tasks: dot_profile.yml
+
+- name: Cleanup installer files
+  include_tasks: cleanup.yml
+  tags:
+    - cleanup

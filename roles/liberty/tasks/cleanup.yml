@@ -1,0 +1,44 @@
+---
+# Cleanup all installer files and extracted directories after installation
+
+- name: Cleanup repo directory
+  file:
+    path: /tmp/repo
+    state: absent
+  ignore_errors: yes
+
+- name: Cleanup repo zip file
+  file:
+    path: /tmp/repo.zip
+    state: absent
+  ignore_errors: yes
+
+- name: Cleanup fprepo directory
+  file:
+    path: /tmp/fprepo
+    state: absent
+  ignore_errors: yes
+
+- name: Cleanup fprepo zip file
+  file:
+    path: /tmp/fprepo.zip
+    state: absent
+  ignore_errors: yes
+
+- name: Cleanup jdkrepo directory
+  file:
+    path: /tmp/jdkrepo
+    state: absent
+  ignore_errors: yes
+
+- name: Cleanup jdkrepo zip file
+  file:
+    path: /tmp/jdkrepo.zip
+    state: absent
+  ignore_errors: yes
+
+- name: Cleanup JDK zip file
+  file:
+    path: /tmp/jdk.zip
+    state: absent
+  ignore_errors: yes

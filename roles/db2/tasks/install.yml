@@ -49,6 +49,13 @@
     dest: "{{ installer_dir.path }}/db2server.rsp"
     mode: 0644
 
+- name: Add ENABLE_SHARED_GROUP = NO to response file for DB2 12.1.2
+  lineinfile:
+    path: "{{ installer_dir.path }}/db2server.rsp"
+    line: "{{ instance_id }}.ENABLE_SHARED_GROUP       = NO"
+    insertafter: EOF
+  when: (ansible_distribution_major_version | int) == 9 and db2_version is version('12.1.2.0', '>=')
+
 - name: Create groups
   group:
     name: "{{ item }}"
@@ -134,17 +141,27 @@
 # End Workaround for Rocky
 
 - name: Check installer progress
-  async_status:
-    jid: "{{ install_job.ansible_job_id }}"
-  until: install_result.finished
-  register: install_result
-  retries: 50
-  delay: 30
+  block:
+    - name: Wait for installer to complete
+      async_status:
+        jid: "{{ install_job.ansible_job_id }}"
+      until: install_result.finished
+      register: install_result
+      retries: 50
+      delay: 30
+  rescue:
+    - name: Read DB2 installation log
+      command: cat /tmp/db2setup.log
+      register: db2_install_log
+      ignore_errors: true
 
-- name: Cleanup
-  file:
-    path: "{{ item }}"
-    state: absent
-  loop:
-    - "{{ installer_dir.path }}"
-    - "{{ db2_installer.dest }}"
+    - name: Show DB2 installation log
+      debug:
+        msg: "{{ db2_install_log.stdout_lines }}"
+
+    - name: Fail after showing log
+      fail:
+        msg: "DB2 installation failed. See db2setup.log output above."
+
+
+
