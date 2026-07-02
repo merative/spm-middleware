@@ -140,9 +140,11 @@
       OPatch failed with exit code 73 (make re-link failure).
       This typically means the Oracle static libraries (e.g. libserver19.a) are
       incompatible with the system's glibc version.
-      On RHEL/OL 9 (glibc >= 2.34), Oracle 19c base (19.3) cannot relink due to
-      removed versioned stat/fstat symbols. Oracle 19c on RHEL 9 requires a
-      minimum of 19.17 RU or a glibc compatibility workaround per MOS Note 2926468.1.
+      On RHEL/OL 9 (glibc >= 2.34), Oracle 19c requires a minimum of RU 19.19
+      (Oracle only certifies 19c for RHEL 9 from RU 19.19 onwards — see Oracle
+      Database 19c Client Installation Guide for Linux). Ensure the
+      oracle-database-preinstall-19c el9 RPM is installed before patching, which
+      provides compat-openssl11 and libxcrypt-compat required at relink time.
       OPatch restore log: {{ oracle_home }}/.patch_storage/NApply/
   when:
     - patch_applied.rc != 0
