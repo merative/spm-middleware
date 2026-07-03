@@ -30,7 +30,7 @@
     mode: 0755
     creates: "{{ tmp_dir.path }}/installc"
 
-- name: Run IIM installer
+- name: Run IIM installer for Installation Manager {{ iim_agent_version}}
   command:
     cmd: ./installc -acceptLicense -iD {{ iim_install_path }}
     chdir: "{{ tmp_dir.path }}"

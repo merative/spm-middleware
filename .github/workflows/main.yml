@@ -58,11 +58,11 @@ jobs:
           - liberty-jdk21-rockylinux9
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7.0.0
         with:
           path: ${{ env.CUSTOM_CHECKOUT_LOC }}
       - name: Setup Python v${{ env.python_ver }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6.3.0
         with:
           python-version: ${{ env.python_ver }}
           cache: 'pip'
