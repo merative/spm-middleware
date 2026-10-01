@@ -7,6 +7,13 @@ liberty_version: 26.0.0.9
 
 jdk_version: 8.0
 
+# JDK used to run the IBM Installation Manager. Leave unset to use the JRE bundled with IIM.
+java_home: ""
+
+# The WebSphere OS prerequisite check rejects RHEL rebuilds such as Rocky Linux.
+liberty_iim_vmargs:
+  - "-DdisableOSPrereqChecking=true"
+
 # Default JVM Options
 liberty_default_heapsize: 1024m
 liberty_enable_verbose_gc: false

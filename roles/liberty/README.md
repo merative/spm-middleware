@@ -15,6 +15,8 @@ IBM Installation Manager (1.10.x) must already be installed in the target enviro
 | `liberty_default_heapsize`  | `1024m`                                         |
 | `liberty_enable_verbose_gc` | `false`                                         |
 | `liberty_extra_jvm_options` | `[]`                                            |
+| `java_home`             | `""` # JDK used to run Installation Manager; empty uses the JRE bundled with IIM |
+| `liberty_iim_vmargs`    | `["-DdisableOSPrereqChecking=true"]` # JVM args passed to `imcl`   |
 | ----------------------- | --------------------------------------------------- |
 | `iim_install_path`      | `/opt/IBM/InstallationManager`                      |
 | `profiled_path`         | `/opt/profile.d`                                    |

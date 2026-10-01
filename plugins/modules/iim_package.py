@@ -45,6 +45,12 @@ options:
         type: dict
         description:
             - A dictionary to be passed to the installer as properties flag
+    vmargs:
+        type: list
+        elements: str
+        description:
+            - Arguments appended to the C(imcl) command as C(-vmargs), passed to the JVM that runs Installation Manager.
+            - Required for offering checks driven by JVM system properties, for example C(-DdisableOSPrereqChecking=true).
     state:
         type: str
         description:
@@ -102,6 +108,7 @@ def main():
             path=dict(type='path'),
             preferences=dict(type='dict'),
             properties=dict(type='dict'),
+            vmargs=dict(type='list', elements='str'),
             state=dict(default='present', choices=['absent', 'present'])
         ),
         supports_check_mode=False

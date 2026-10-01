@@ -31,7 +31,4 @@
     path: "{{ liberty_install_path }}"
     repo: /tmp/jdkrepo
     state: present
-  environment:
-    JAVA_HOME: "{{ java_home }}"
-    PATH: "{{ java_home }}/bin:{{ ansible_env.PATH }}"
-
+  environment: "{{ liberty_iim_environment }}"

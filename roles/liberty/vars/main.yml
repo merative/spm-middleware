@@ -1,0 +1,16 @@
+---
+# Empty when java_home is unset, so iim_package uses the JRE bundled with Installation Manager.
+liberty_iim_environment: >-
+  {{
+    {'JAVA_HOME': java_home, 'PATH': java_home ~ '/bin:' ~ ansible_env.PATH}
+    if (java_home | default('', true) | length > 0) else {}
+  }}
+
+# The JDK offering is only installed through IIM when the archive (unzip) method is not selected.
+liberty_repo_dirs: "{{ ['/tmp/repo', '/tmp/fprepo'] + (['/tmp/jdkrepo'] if jdk_installation_way is undefined else []) }}"
+
+liberty_product_ids: >-
+  {{
+    ['com.ibm.websphere.liberty.ND_' ~ liberty_pid]
+    + ([liberty_java_pid] if jdk_installation_way is undefined else [])
+  }}

@@ -77,6 +77,11 @@ class IIMAgent(object):
             props_string += ','.join(['{0}={1}'.format(key, value) for key, value in properties.items()])
             command += props_string
 
+        # -vmargs must stay last; the Eclipse launcher passes everything after it to the JVM.
+        vmargs = self.module.params.get('vmargs')
+        if vmargs:
+            command += ' -vmargs ' + ' '.join(vmargs)
+
         self.module.run_command(command, check_rc=True)
 
         result = dict(
