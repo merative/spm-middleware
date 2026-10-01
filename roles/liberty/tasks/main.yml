@@ -8,28 +8,16 @@
     product_id: "com.ibm.websphere.liberty.ND_{{ liberty_pid }}"
   register: iim_info
 
-- name: Install Base version
-  include_tasks: base_install.yml
-  when: not iim_info.base_installed
-
-- name: Install Fixpack version
-  include_tasks: fixpack_install.yml
-  vars:
-    pack_id: "com.ibm.websphere.liberty.ND_{{ liberty_pid }}"
+- name: Install Liberty
+  include_tasks: install.yml
   when: not iim_info.exact_installed
-
-- name: Install Java (iim way)
-  include_tasks: jdk_install.yml
-  vars:
-    liberty_java_path: "{{ liberty_java_zip_path }}"
-    pack_id: "{{ liberty_java_pid }}"
-  when: (not iim_info.exact_installed) and ( jdk_installation_way is undefined )
 
 - name: Check if JDK already installed (unzip way)
   stat:
     path: "{{ liberty_install_path }}/java/{{ jdk_version }}/bin/java"
   register: jdk_unzip_installed
   when: jdk_installation_way is defined
+
 
 - name: Download JDK (unzip way)
   get_url:

@@ -24,10 +24,11 @@
     remote_src: yes
     creates: /tmp/fprepo/repository.config
 
-- name: Install package
+- name: Install Liberty fixpack
   iim_package:
     iim_path: "{{ iim_install_path }}"
     product_id: "{{ pack_id }}"
     path: "{{ liberty_install_path }}"
     repo: /tmp/fprepo
     state: present
+  environment: "{{ liberty_iim_environment }}"

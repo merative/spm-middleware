@@ -4,17 +4,19 @@ The `liberty` role will install IBM WebSphere Liberty.
 
 ## Requirements
 
-IBM Installation Manager (1.9.x) must already be installed in the target environment.
+IBM Installation Manager (1.10.x) must already be installed in the target environment.
 
 ## Role Variables
 
 | Property Name           | Default value                                       |
 | ----------------------- | --------------------------------------------------- |
 | `liberty_install_path`  | `/opt/IBM/WebSphere/Liberty`                        |
-| `liberty_version`       | `26.0.0.6`                                         |
+| `liberty_version`       | `26.0.0.9`                                         |
 | `liberty_default_heapsize`  | `1024m`                                         |
 | `liberty_enable_verbose_gc` | `false`                                         |
 | `liberty_extra_jvm_options` | `[]`                                            |
+| `java_home`             | `""` # JDK used to run Installation Manager; empty uses the JRE bundled with IIM |
+| `liberty_iim_vmargs`    | `["-DdisableOSPrereqChecking=true"]` # JVM args passed to `imcl`   |
 | ----------------------- | --------------------------------------------------- |
 | `iim_install_path`      | `/opt/IBM/InstallationManager`                      |
 | `profiled_path`         | `/opt/profile.d`                                    |
@@ -37,7 +39,7 @@ None
 - hosts: servers
   roles:
     - role: merative.spm_middleware.liberty
-      liberty_version: 26.0.0.6
+      liberty_version: 26.0.0.9
 ```
 
 ## License

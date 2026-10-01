@@ -54,18 +54,15 @@ ARTIFACTORY_REPO=[repo contains software installer]
 ARTIFACTORY_TOKEN=[token of artifactory]
 LOCAL_PATH=/workspaces/spm-middleware
 ```
-2. After the dev container startup, you need to:
-    
-    a. install python packages
-    ```
-    pip install -r requirements.txt
-    ```
+2. After the dev container starts, `postCreateCommand` automatically installs the Python packages from `requirements.txt` into a virtual environment at `/home/vscode/.venv` (which is on the `PATH`) and copies the ansible plugins for molecule tests. To redo this manually:
 
-    b. copy ansible plugins for molecule test
     ```
     mkdir -p /home/vscode/.ansible/plugins/
     cp -r plugins/* /home/vscode/.ansible/plugins/
+    /home/vscode/.venv/bin/pip install -r requirements.txt
     ```
+
+    Note: the system Python is externally managed (PEP 668), so always install into the venv rather than running `pip install` directly.
 
 3. Then you can test if molecule works correctly:
 

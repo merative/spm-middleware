@@ -14,11 +14,23 @@
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	"features": {
 	  "ghcr.io/devcontainers/features/docker-in-docker:2": {},
-	  "ghcr.io/devcontainers-contrib/features/curl-apt-get:1": {},
 	  "ghcr.io/devcontainers/features/python:1": {}
 	},
-	"postCreateCommand": "mkdir -p /home/vscode/.ansible/plugins/ && cp -r plugins/* /home/vscode/.ansible/plugins/ && pip install -r requirements.txt",
-  
+	// The system Python is externally managed (PEP 668), so install into a venv.
+	"postCreateCommand": "mkdir -p /home/vscode/.ansible/plugins/ && cp -r plugins/* /home/vscode/.ansible/plugins/ && python3 -m venv /home/vscode/.venv && /home/vscode/.venv/bin/pip install --upgrade pip && /home/vscode/.venv/bin/pip install -r requirements.txt",
+
+	"remoteEnv": {
+	  "PATH": "/home/vscode/.venv/bin:${containerEnv:PATH}"
+	},
+
+	"customizations": {
+	  "vscode": {
+		"settings": {
+		  "python.defaultInterpreterPath": "/home/vscode/.venv/bin/python"
+		}
+	  }
+	},
+
 	"overrideFeatureInstallOrder": [
 	  "ghcr.io/devcontainers/features/common-utils",
 	  "ghcr.io/devcontainers/features/git",

@@ -1,0 +1,83 @@
+---
+# Base, fix pack and JDK are installed in a single imcl transaction so that the post-install
+# configure phase runs the fix pack's install kernel. See IBM doc 7277251.
+- name: Create Liberty repo directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop: "{{ liberty_repo_dirs }}"
+
+- name: Download Liberty base repo
+  get_url:
+    dest: /tmp/repo.zip
+    url: "{{ download_url }}/{{ liberty_installers_path }}"
+    headers: "{{ download_header }}"
+  when: download_url is defined
+
+- name: Copy Liberty base repo
+  copy:
+    src: "{{ liberty_installers_path }}"
+    dest: /tmp/repo.zip
+  when: download_url is not defined
+
+- name: Extract Liberty base repo
+  unarchive:
+    src: /tmp/repo.zip
+    dest: /tmp/repo
+    remote_src: yes
+    creates: /tmp/repo/repository.config
+
+- name: Download Liberty fixpack repo
+  get_url:
+    dest: /tmp/fprepo.zip
+    url: "{{ download_url }}/{{ liberty_fp_path }}"
+    headers: "{{ download_header }}"
+  when: download_url is defined
+
+- name: Copy Liberty fixpack repo
+  copy:
+    src: "{{ liberty_fp_path }}"
+    dest: /tmp/fprepo.zip
+  when: download_url is not defined
+
+- name: Extract Liberty fixpack repo
+  unarchive:
+    src: /tmp/fprepo.zip
+    dest: /tmp/fprepo
+    remote_src: yes
+    creates: /tmp/fprepo/repository.config
+
+- name: Download Liberty Java repo
+  get_url:
+    dest: /tmp/jdkrepo.zip
+    url: "{{ download_url }}/{{ liberty_java_zip_path }}"
+    headers: "{{ download_header }}"
+  when:
+    - download_url is defined
+    - jdk_installation_way is undefined
+
+- name: Copy Liberty Java repo
+  copy:
+    src: "{{ liberty_java_zip_path }}"
+    dest: /tmp/jdkrepo.zip
+  when:
+    - download_url is not defined
+    - jdk_installation_way is undefined
+
+- name: Extract Liberty Java repo
+  unarchive:
+    src: /tmp/jdkrepo.zip
+    dest: /tmp/jdkrepo
+    remote_src: yes
+    creates: /tmp/jdkrepo/repository.config
+  when: jdk_installation_way is undefined
+
+- name: Install Liberty
+  iim_package:
+    iim_path: "{{ iim_install_path }}"
+    product_id: "{{ liberty_product_ids }}"
+    path: "{{ liberty_install_path }}"
+    repo: "{{ liberty_repo_dirs }}"
+    vmargs: "{{ liberty_iim_vmargs }}"
+    state: present
+  environment: "{{ liberty_iim_environment }}"

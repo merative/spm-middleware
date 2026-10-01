@@ -1,5 +1,5 @@
 # [Choice] Debian OS version (use bullseye on local arm64/Apple Silicon): bookworm, buster, bullseye
-ARG VARIANT="bullseye"
+ARG VARIANT="bookworm"
 # FROM --platform=linux/amd64 mcr.microsoft.com/devcontainers/base:${VARIANT}
 FROM mcr.microsoft.com/devcontainers/base:${VARIANT}
 
