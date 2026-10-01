@@ -75,10 +75,16 @@ jobs:
           sudo rm -rf /usr/local/lib/android
           sudo rm -rf /usr/share/dotnet
           df -h
-      - name: Install Java 11 for IBM Installation Manager
+      - name: Install Java 8 for IBM Installation Manager
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '8'
+
+      - name: Verify Java used by IBM Installation Manager
         run: |
-          sudo apt-get update
-          sudo apt-get install -y openjdk-11-jdk
+          java -version
+          echo "JAVA_HOME=$JAVA_HOME"
       - name: Install dependencies
         run: |
           cd ${{ env.CUSTOM_CHECKOUT_LOC }}
