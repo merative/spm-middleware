@@ -24,10 +24,13 @@
     remote_src: yes
     creates: /tmp/fprepo/repository.config
 
-- name: Install package
+- name: Install Liberty
   iim_package:
     iim_path: "{{ iim_install_path }}"
-    product_id: "{{ pack_id }}"
+    product_id: com.ibm.websphere.liberty.ND
     path: "{{ liberty_install_path }}"
-    repo: /tmp/fprepo
+    repo: /tmp/repo
     state: present
+  environment:
+    JAVA_HOME: /usr/lib/jvm/java-11-openjdk-amd64
+    PATH: "/usr/lib/jvm/java-11-openjdk-amd64/bin:{{ ansible_env.PATH }}"

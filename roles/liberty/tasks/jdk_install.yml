@@ -31,3 +31,7 @@
     path: "{{ liberty_install_path }}"
     repo: /tmp/jdkrepo
     state: present
+  environment:
+    JAVA_HOME: /usr/lib/jvm/java-11-openjdk-amd64
+    PATH: "/usr/lib/jvm/java-11-openjdk-amd64/bin:{{ ansible_env.PATH }}"
+
