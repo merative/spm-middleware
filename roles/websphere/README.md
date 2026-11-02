@@ -12,6 +12,7 @@ IBM Installation Manager (1.10.x) or higher must already be installed in the tar
 | ------------------------ | --------------------------------------------------- |
 | `websphere_install_path` | `/opt/IBM/WebSphere/AppServer`                      |
 | `websphere_version`      | `9.0.5.29`                                           |
+|                          | `8.5.5.31`                                           |
 | ------------------------ | --------------------------------------------------- |
 | `iim_install_path`       | `/opt/IBM/InstallationManager`                      |
 | `profiled_path`          | `/opt/profile.d`                                    |
