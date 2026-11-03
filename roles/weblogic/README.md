@@ -20,9 +20,9 @@ The `weblogc` role will install Weblogic.
 | `java_zip_path`           | Controller local path or relative to download_url |
 
 | ----------------------------------- | --------------------------------------------------- |
-| ** `weblogic_version - java8` **    | `12.2.1.4.260403`                                   |
-|                                     | `14.1.1.0.260403`                                   |
-|  ** `weblogic_version - java21` **  | `14.1.2.0.260403`                                   |
+| ** `weblogic_version - java8` **    | `12.2.1.4.260924`                                   |
+|                                     | `14.1.1.0.260924`                                   |
+|  ** `weblogic_version - java21` **  | `14.1.2.0.260922`                                   |
 | ----------------------------------- | --------------------------------------------------- |
 
 ...
@@ -35,7 +35,7 @@ Download WebLogic Server Installation packages and patch packages, and upload it
 
 The following explains the structure of this role.
 tasks/main.yml
- - defaults/main.yml vars file is included (default weblogic_version is '14.1.1.0.240922' if no alternative is passed in with your ansible-playbook command)
+ - defaults/main.yml vars file is included (default weblogic_version is '14.1.1.0.260924' if no alternative is passed in with your ansible-playbook command)
  - runs: prereqs.yml
  - runs: install.yml
  - runs: patch.yml
@@ -49,9 +49,9 @@ The version of the OPatch tool itself is also handed by the above tasks file.
 - hosts: servers
   roles:
     - role: merative.spm_middleware.weblogic
-      weblogic_version - java8: 12.2.1.4.260403
-      weblogic_version - java8: 14.1.1.0.260403
-      weblogic_version - java21: 14.1.2.0.260403
+      weblogic_version - java8: 12.2.1.4.260924
+      weblogic_version - java8: 14.1.1.0.260924
+      weblogic_version - java21: 14.1.2.0.260922
 ```
 
 ## Note
