@@ -14,6 +14,7 @@ NOTE: ihs_admin_pass should be changed after first installation.
 | `plg_install_path`      | `/opt/IBM/WebSphere/Plugins`                        |
 | `wct_install_path`      | `/opt/IBM/WebSphere/Toolbox`                        |
 | `ihs_version`           | `9.0.5.29`                                           |
+|                         | `8.5.5.31`                                           |
 | `ihs_config_type`       | `local_distributed`                                 |
 | `ihs_admin_user`        | `wasadmin`                                          |
 | `ihs_admin_pass`        | `wasadmin`                                          |
