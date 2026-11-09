@@ -8,7 +8,7 @@
   vars:
     iim_agent_version: 1.10.1004.20260506_0701
     iim_install_path: /opt/IBM/InstallationManager
-    websphere_version: 9.0.5.28
+    websphere_version: 9.0.5.29
     download_url: "{{ lookup('env', 'ARTIFACTORY_URL') }}/{{ lookup('env', 'ARTIFACTORY_REPO') }}/SoftwareInstallers"
     download_header: { 'X-JFrog-Art-Api': "{{ lookup('env', 'ARTIFACTORY_TOKEN') }}"}
 
