@@ -30,31 +30,19 @@ jobs:
       fail-fast: false
       matrix:
         scenario:
-          - ihs-v90-rockylinux8
           - ihs-v90-rockylinux9
-          - websphere-v90-rockylinux8
           - websphere-v90-rockylinux9
           - db2-121
           - db2-115
-          - ohs-12214-rockylinux8
           - ohs-12214-rockylinux9
-          - ohs-1412-rockylinux8
           - ohs-1412-rockylinux9
-          - weblogic-12214-rockylinux8
           - weblogic-12214-rockylinux9
-          - weblogic-1411-rockylinux8
           - weblogic-1411-rockylinux9
-          - weblogic-1412-rockylinux8
           - weblogic-1412-rockylinux9
-          - oracle-19c-rockylinux8
           - oracle-19c-rockylinux9
-          - oracle-26ai-rockylinux8
           - oracle-26ai-rockylinux9
-          - iim-191-rockylinux8
-          - iim-191-rockylinux9
-          - liberty-jdk8-rockylinux8
+          - iim-110-rockylinux9
           - liberty-jdk8-rockylinux9
-          - liberty-jdk21-rockylinux8
           - liberty-jdk21-rockylinux9
     steps:
       - name: Checkout
